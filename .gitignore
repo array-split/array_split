@@ -1,0 +1,7 @@
+.project
+.settings
+.pydevproject
+array_split/git_describe.txt
+*.pyc
+*/build/*
+*/source/*/generated
