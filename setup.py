@@ -55,6 +55,8 @@ setup(
     package_data={
         "array_split":"version.txt",
         "array_split":"git_describe.txt",
+        "array_split":"copyright.txt",
+        "array_split":"license.txt",
     },
     # could also include long_description, download_url, etc.
 )

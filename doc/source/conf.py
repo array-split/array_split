@@ -55,7 +55,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'array_split'
-copyright = u'2016, Shane J. Latham'
+copyright = file(os.path.join("..", "..", "array_split", "copyright.txt"), "rt").read()
 author = u'Shane J. Latham'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -367,9 +367,6 @@ epub_exclude_files = ['search.html']
 intersphinx_mapping = {
     'python'    : ('http://docs.python.org/2', None),
     'numpy'     : ('http://docs.scipy.org/doc/numpy/', None),
-    'scipy'     : ('http://docs.scipy.org/doc/scipy/reference/', None),
-    'matplotlib': ('http://matplotlib.sourceforge.net/', None),
-    'mpi4py'    : ('http://pythonhosted.org/mpi4py/usrman', None)
 }
 
 # -----------------------------------------------------------------------------

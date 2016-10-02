@@ -8,4 +8,6 @@ API Reference
    :maxdepth: 1
 
    array_split
+   
+   array_split_license
 
