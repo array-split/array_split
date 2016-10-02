@@ -1,6 +1,6 @@
-#####################
-pygimage documenation
-#####################
+########################
+array_split documenation
+########################
 
 .. sectionauthor:: Shane J. Latham
 
