@@ -2,6 +2,7 @@
 from setuptools import setup, find_packages
 import os
 
+# Write the git describe to text file
 (sin, sout) = os.popen2("git describe")
 file("array_split/git_describe.txt", "wt").write(sout.read())
 
@@ -50,5 +51,10 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
-    # could also include long_description, download_url, classifiers, etc.
+    install_requires=["numpy",],
+    package_data={
+        "array_split":"version.txt",
+        "array_split":"git_describe.txt",
+    },
+    # could also include long_description, download_url, etc.
 )
