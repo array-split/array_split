@@ -51,7 +51,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
-    install_requires=["numpy", ],
+    install_requires=["numpy>=1.6", ],
     package_data={
         "array_split": "version.txt",
         "array_split": "git_describe.txt",
