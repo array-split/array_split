@@ -8,6 +8,7 @@ Execute as::
 
    python -m array_split.tests
 
+.. currentmodule:: array_split.tests
 
 """
 from __future__ import absolute_import

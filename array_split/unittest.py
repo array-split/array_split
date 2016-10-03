@@ -26,7 +26,7 @@ from unittest import *
 import array_split.logging
 
 
-def main(module_name, log_level=array_split.logging.INFO, init_logger_names=None):
+def main(module_name, log_level=array_split.logging.DEBUG, init_logger_names=None):
     """
     Small wrapper for :func:`unittest.main` which initialises :mod:`logging.Logger` objects.
     Loads a set of tests from module and runs them;

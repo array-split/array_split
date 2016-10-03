@@ -40,6 +40,7 @@ The :mod:`array_split.license` Module
 
 License and copyright info.
 
+.. currentmodule:: array_split.license
 
 License
 =======

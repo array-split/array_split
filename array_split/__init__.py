@@ -3,6 +3,7 @@
 The :mod:`array_split` Package
 ==============================
 
+.. currentmodule:: array_split
 
 """
 from __future__ import absolute_import
