@@ -51,7 +51,56 @@ class SplitTest(_unittest.TestCase):
         self.logger.info("split =\n%s", split)
         self.assertTrue(_np.all(_np.array(split.shape) == [4, 1]))
         self.assertEqual(slice(0, 2), split[0, 0][0])  # axis 0 slice
+        self.assertEqual(slice(2, 6), split[1, 0][0])  # axis 0 slice
+        self.assertEqual(slice(6, 8), split[2, 0][0])  # axis 0 slice
+        self.assertEqual(slice(8,10), split[3, 0][0])  # axis 0 slice
         self.assertEqual(slice(0, 4), split[0, 0][1])  # axis 1 slice
+        self.assertEqual(slice(0, 4), split[1, 0][1])  # axis 1 slice
+        self.assertEqual(slice(0, 4), split[2, 0][1])  # axis 1 slice
+        self.assertEqual(slice(0, 4), split[3, 0][1])  # axis 1 slice
+
+        splitter = ArraySplitter((10,13), [None, [2, 5, 8], ])
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertTrue(_np.all(_np.array(split.shape) == [1, 4]))
+        self.assertEqual(slice(0,10), split[0, 0][0])  # axis 0 slice
+        self.assertEqual(slice(0,10), split[0, 1][0])  # axis 0 slice
+        self.assertEqual(slice(0,10), split[0, 2][0])  # axis 0 slice
+        self.assertEqual(slice(0,10), split[0, 3][0])  # axis 0 slice
+        self.assertEqual(slice(0, 2), split[0, 0][1])  # axis 1 slice
+        self.assertEqual(slice(2, 5), split[0, 1][1])  # axis 1 slice
+        self.assertEqual(slice(5, 8), split[0, 2][1])  # axis 1 slice
+        self.assertEqual(slice(8,13), split[0, 3][1])  # axis 1 slice
+
+        splitter = ArraySplitter((10, 4), [[2, 6], [2,]])
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertTrue(_np.all(_np.array(split.shape) == [3, 2]))
+        self.assertEqual(slice(0, 2), split[0, 0][0])  # axis 0 slice
+        self.assertEqual(slice(2, 6), split[1, 0][0])  # axis 0 slice
+        self.assertEqual(slice(6,10), split[2, 0][0])  # axis 0 slice
+        self.assertEqual(slice(0, 2), split[0, 1][0])  # axis 0 slice
+        self.assertEqual(slice(2, 6), split[1, 1][0])  # axis 0 slice
+        self.assertEqual(slice(6,10), split[2, 1][0])  # axis 0 slice
+
+        self.assertEqual(slice(0, 2), split[0, 0][1])  # axis 1 slice
+        self.assertEqual(slice(0, 2), split[1, 0][1])  # axis 1 slice
+        self.assertEqual(slice(0, 2), split[2, 0][1])  # axis 1 slice
+        self.assertEqual(slice(2, 4), split[0, 1][1])  # axis 1 slice
+        self.assertEqual(slice(2, 4), split[1, 1][1])  # axis 1 slice
+        self.assertEqual(slice(2, 4), split[2, 1][1])  # axis 1 slice
+
+        splitter = ArraySplitter((10,), [[2, 6, 8], ])
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertTrue(_np.all(_np.array(split.shape) == [4,]))
+        self.assertEqual(slice(0, 2), split[0][0])  # axis 0 slice
+        self.assertEqual(slice(2, 6), split[1][0])  # axis 0 slice
+        self.assertEqual(slice(6, 8), split[2][0])  # axis 0 slice
+        self.assertEqual(slice(8,10), split[3][0])  # axis 0 slice
 
 __all__ = [s for s in dir() if not s.startswith('_')]
 
