@@ -11,19 +11,21 @@ __license__ = (
 )
 __author__ = "Shane J. Latham"
 
+
 def license():
     """
     Returns the :mod:`array_split` license string.
-    
+
     :rtype: :obj:`str`
     :return: License string.
     """
     return __license__
 
+
 def copyright():
     """
     Returns the :mod:`array_split` copyright string.
-    
+
     :rtype: :obj:`str`
     :return: Copyright string.
     """
@@ -31,18 +33,12 @@ def copyright():
 
 
 __doc__ = \
-"""
+    """
 =====================================
 The :mod:`array_split.license` Module
 =====================================
 
 License and copyright info.
-
-.. autosummary::
-   :toctree: generated/
-
-   license - Function which returns :mod:`array_split` license string.
-   copyright - Function which returns :mod:`array_split` copyright string.
 
 
 License
@@ -54,6 +50,16 @@ Copyright
 =========
 
 %s
+
+Functions
+=========
+
+.. autosummary::
+   :toctree: generated/
+
+   license - Function which returns :mod:`array_split` license string.
+   copyright - Function which returns :mod:`array_split` copyright string.
+
 
 """ % (license(), copyright())
 
