@@ -26,7 +26,7 @@ from unittest import *
 import array_split.logging
 
 
-def main(module_name, log_level=array_split.logging.DEBUG, init_logger_names=None):
+def main(module_name, loglinesevel=array_split.logging.DEBUG, initlinesogger_names=None):
     """
     Small wrapper for :func:`unittest.main` which initialises :mod:`logging.Logger` objects.
     Loads a set of tests from module and runs them;
@@ -51,21 +51,68 @@ def main(module_name, log_level=array_split.logging.DEBUG, init_logger_names=Non
     :type module_name: :obj:`str`
     :param module_name: If :samp:`{module_name} == __main__` then unit-tests
        are *discovered* and run.
-    :type log_level: :obj:`int`
-    :param log_level: The default logging level for all
+    :type loglinesevel: :obj:`int`
+    :param loglinesevel: The default logging level for all
        :obj:`array_split.logging.Logger` objects.
-    :type init_logger_names: sequence of :obj:`str`
-    :param init_logger_names: List of logger names to initialise
-       (using :func:`array_split.logging.initialise_loggers`). If :samp:`None`,
+    :type initlinesogger_names: sequence of :obj:`str`
+    :param initlinesogger_names: List of logger names to initialise
+       (using :func:`array_split.logging.initialiselinesoggers`). If :samp:`None`,
        then the list defaults to :samp:`[{module_name}, "array_split"]`. If list
        is empty no loggers are initialised.
 
     """
     if module_name == "__main__":
-        if (init_logger_names is None):
-            init_logger_names = [module_name, "array_split"]
+        if (initlinesogger_names is None):
+            initlinesogger_names = [module_name, "array_split"]
 
-        if (len(init_logger_names) > 0):
-            array_split.logging.initialise_loggers(init_logger_names, log_level=log_level)
+        if (len(initlinesogger_names) > 0):
+            array_split.logging.initialiselinesoggers(initlinesogger_names, loglinesevel=loglinesevel)
 
         _builtin_unittest.main()
+
+def _fix_docstring_for_sphinx(docstr):
+    lines = docstr.split("\n")
+    for i in range(len(lines)):
+        if lines[i].find(" "*8) == 0:
+            lines[i] = lines[i][8:]
+    return "\n".join(lines)
+
+class TestCase(_builtin_unittest.TestCase):
+    __doc__ = _builtin_unittest.TestCase.__doc__
+    
+    def assertItemsEqual(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertItemsEqual`.
+        """
+        _builtin_unittest.TestCase.assertItemsEqual(self, *args, **kwargs)
+        
+    def assertListEqual(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertListEqual`.
+        """
+        _builtin_unittest.TestCase.assertListEqual(self, *args, **kwargs)
+        
+    def assertRaisesRegexp(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertRaisesRegexp`.
+        """
+        _builtin_unittest.TestCase.assertRaisesRegexp(self, *args, **kwargs)
+        
+    def assertSequenceEqual(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertSequenceEqual`.
+        """
+        _builtin_unittest.TestCase.assertSequenceEqual(self, *args, **kwargs)
+        
+    def assertSetEqual(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertSetEqual`.
+        """
+        _builtin_unittest.TestCase.assertSetEqual(self, *args, **kwargs)
+        
+    def assertTupleEqual(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertTupleEqual`.
+        """
+        _builtin_unittest.TestCase.assertTupleEqual(self, *args, **kwargs)
+        
