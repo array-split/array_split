@@ -3,12 +3,14 @@
 The :mod:`array_split.split_test` Module
 ========================================
 
+.. currentmodule:: array_split.split_test
+
 Module defining :mod:`array_split.split` unit-tests.
 Execute as::
 
    python -m array_split.split_tests
 
-.. currentmodule:: array_split.split_test
+
 
 Classes
 =======
@@ -106,7 +108,8 @@ class SplitTest(_unittest.TestCase):
 
     def test_split_by_per_axis_indices(self):
         """
-        Test for case for splitting by specified indices::
+        Test for case for splitting by specified
+        indices::
 
            ArraySplitter(array_shape=(10, 4), indices_or_sections=[[2, 6, 8], ]).calculate_split()
 
@@ -171,7 +174,8 @@ class SplitTest(_unittest.TestCase):
 
     def test_split_by_num_slices(self):
         """
-        Test for case for splitting by number of slice elements::
+        Test for case for splitting by number of
+        slice elements::
 
            ArraySplitter(array_shape=(10, 13), indices_or_sections=3).calculate_split()
            ArraySplitter(array_shape=(10, 13), axis=[2, 3]).calculate_split()

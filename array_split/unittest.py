@@ -66,53 +66,55 @@ def main(module_name, loglinesevel=array_split.logging.DEBUG, initlinesogger_nam
             initlinesogger_names = [module_name, "array_split"]
 
         if (len(initlinesogger_names) > 0):
-            array_split.logging.initialiselinesoggers(initlinesogger_names, loglinesevel=loglinesevel)
+            array_split.logging.initialiselinesoggers(
+                initlinesogger_names, loglinesevel=loglinesevel)
 
         _builtin_unittest.main()
+
 
 def _fix_docstring_for_sphinx(docstr):
     lines = docstr.split("\n")
     for i in range(len(lines)):
-        if lines[i].find(" "*8) == 0:
+        if lines[i].find(" " * 8) == 0:
             lines[i] = lines[i][8:]
     return "\n".join(lines)
 
+
 class TestCase(_builtin_unittest.TestCase):
     __doc__ = _builtin_unittest.TestCase.__doc__
-    
+
     def assertItemsEqual(self, *args, **kwargs):
         """
         See :obj:`unittest.TestCase.assertItemsEqual`.
         """
         _builtin_unittest.TestCase.assertItemsEqual(self, *args, **kwargs)
-        
+
     def assertListEqual(self, *args, **kwargs):
         """
         See :obj:`unittest.TestCase.assertListEqual`.
         """
         _builtin_unittest.TestCase.assertListEqual(self, *args, **kwargs)
-        
+
     def assertRaisesRegexp(self, *args, **kwargs):
         """
         See :obj:`unittest.TestCase.assertRaisesRegexp`.
         """
         _builtin_unittest.TestCase.assertRaisesRegexp(self, *args, **kwargs)
-        
+
     def assertSequenceEqual(self, *args, **kwargs):
         """
         See :obj:`unittest.TestCase.assertSequenceEqual`.
         """
         _builtin_unittest.TestCase.assertSequenceEqual(self, *args, **kwargs)
-        
+
     def assertSetEqual(self, *args, **kwargs):
         """
         See :obj:`unittest.TestCase.assertSetEqual`.
         """
         _builtin_unittest.TestCase.assertSetEqual(self, *args, **kwargs)
-        
+
     def assertTupleEqual(self, *args, **kwargs):
         """
         See :obj:`unittest.TestCase.assertTupleEqual`.
         """
         _builtin_unittest.TestCase.assertTupleEqual(self, *args, **kwargs)
-        
