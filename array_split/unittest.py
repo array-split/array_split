@@ -89,12 +89,12 @@ class TestCase(_builtin_unittest.TestCase):
 
     def assertArraySplitEqual(self, splt1, splt2):
         """
-        Compares :obj`list` of :obj:`numpy.ndarray` results returned by :func:`numpy.array_split`
+        Compares :obj:`list` of :obj:`numpy.ndarray` results returned by :func:`numpy.array_split`
         and :func:`array_split.split.array_split` functions.
 
-        :type splt1: :obj`list` of :obj:`numpy.ndarray`
+        :type splt1: :obj:`list` of :obj:`numpy.ndarray`
         :param splt1: First object in equality comparison.
-        :type splt2: :obj`list` of :obj:`numpy.ndarray`
+        :type splt2: :obj:`list` of :obj:`numpy.ndarray`
         :param splt2: Second object in equality comparison.
         :raises unittest.AssertionError: If any element of :samp:`{splt1}` is not equal to
             the corresponding element of :samp:`splt2`.
