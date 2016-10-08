@@ -114,6 +114,9 @@ class TestCase(_builtin_unittest.TestCase):
                 )
             )
 
+    #
+    # Method over-rides below are just to avoid sphinx warnings
+    #
     def assertItemsEqual(self, *args, **kwargs):
         """
         See :obj:`unittest.TestCase.assertItemsEqual`.
