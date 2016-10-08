@@ -16,7 +16,7 @@ Classes and Functions
    shape_factors - Compute *largest* factors of a given integer.
    calculate_num_slices_per_axis - Computes per-axis divisions for a multi-dimensional shape.
    ArraySplitter - Implements array splitting akin to :func:`numpy.array_split`.
-
+   array_split - Equivalent to :func:`numpy.array_split`.
 
 """
 from __future__ import absolute_import
@@ -25,11 +25,20 @@ from .license import license as _license, copyright as _copyright
 import array_split as _array_split
 import array_split.logging as _logging
 import numpy as _np
+from numpy.distutils.misc_util import is_sequence
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
 __copyright__ = _copyright()
 __version__ = _array_split.__version__
+
+
+def is_scalar(obj):
+    """
+    Returns :samp:`True` if argument :samp:`{obj}` is
+    an integer type.
+    """
+    return hasattr(obj, "__int__") or hasattr(obj, "__long__")
 
 
 def is_sequence(obj):
@@ -226,6 +235,8 @@ class ArraySplitter(object):
         if is_indices(indices_or_sections):
             num_subarrays = None
             indices_per_axis = indices_or_sections
+            if is_scalar(axis) and (not _np.any([is_sequence(_e) for _e in indices_or_sections])):
+                indices_per_axis = [indices_or_sections, ]
         else:
             indices_per_axis = None
             num_subarrays = indices_or_sections
@@ -353,15 +364,20 @@ class ArraySplitter(object):
 
         """
         section_size = size // num_sections
-        begs = _np.arange(0, size, section_size)
-        rem = size % section_size
-        if rem > 0:
-            begs = begs[0:-1]
-            for i in range(rem):
-                begs[i + 1:] += 1
-        ends = _np.zeros_like(begs)
-        ends[0:-1] = begs[1:]
-        ends[-1] = size
+        if section_size >= 1:
+            begs = _np.arange(0, section_size * num_sections, section_size)
+            rem = size - section_size * num_sections
+            if rem > 0:
+                for i in range(rem):
+                    begs[i + 1:] += 1
+            ends = _np.zeros_like(begs)
+            ends[0:-1] = begs[1:]
+            ends[-1] = size
+        else:
+            begs = _np.arange(0, num_sections)
+            begs[size:] = size
+            ends = begs.copy()
+            ends[0:-1] = begs[1:]
 
         return begs, ends
 
@@ -445,6 +461,61 @@ class ArraySplitter(object):
             split = self.calculate_split_by_split_size()
 
         return split
+
+
+def array_split(ary, indices_or_sections, axis=0):
+    """
+        Equivalent of :func:`numpy.array_split`, split an array into multiple sub-arrays.
+
+        :type ary: :obj:`numpy.ndarray`
+        :param ary: Array to be divided into sub-arrays.
+        :type indices_or_sections: :obj:`int` or 1-D array
+        :param indices_or_sections: If :samp:`{indices_or_sections}`
+           is an integer, :samp:`N`, the array will be divided into :samp:`N`
+           (approximately) equal arrays along :samp:`{axis}`.
+           If :samp:`{indices_or_sections}` is a 1-D array of sorted integers,
+           the entries indicate where along axis the array is split.
+           For example, :samp:`indices_or_sections=[2, 3]` would, for :samp:`{axis}=0`,
+           result in::
+
+              ary[:2]
+              ary[2:3]
+              ary[3:]
+
+           If an index exceeds the dimension of the array along axis, an empty sub-array
+           is returned correspondingly.
+        :type axis: :obj:`int`
+        :param axis: The axis along which to split, default is :samp:`0`.
+        :rtype: :obj:`list` of :obj:`numpy.ndarray`
+        :return: A list of sub-arrays.
+
+        Examples::
+
+           >>> import numpy as np
+           >>> from array_split import array_split
+           >>> x = np.arange(9.0)
+           >>> array_split(x, 3)
+           [array([ 0.,  1.,  2.]), array([ 3.,  4.,  5.]), array([ 6.,  7.,  8.])]
+           >>> array_split(x, 4)
+           [array([ 0.,  1.,  2.]), array([ 3.,  4.]), array([ 5.,  6.]), array([ 7.,  8.])]
+           >>> array_split(x, [3, 5, 6, 10])
+           [array([ 0.,  1.,  2.]),
+            array([ 3.,  4.]),
+            array([ 5.]),
+            array([ 6.,  7.]),
+            array([], dtype=float64)]
+
+
+    """
+    return [
+        ary[slyce]
+        for slyce in
+        ArraySplitter(
+            array_shape=ary.shape,
+            indices_or_sections=indices_or_sections,
+            axis=axis
+        ).calculate_split().flatten()
+    ]
 
 __all__ = [s for s in dir() if not s.startswith('_')]
 

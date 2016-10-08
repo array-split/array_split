@@ -30,7 +30,7 @@ import array_split as _array_split
 
 import numpy as _np
 
-from .split import ArraySplitter, calculate_num_slices_per_axis, shape_factors
+from .split import ArraySplitter, calculate_num_slices_per_axis, shape_factors, array_split
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
@@ -105,6 +105,51 @@ class SplitTest(_unittest.TestCase):
         spa = calculate_num_slices_per_axis([0, 1, 0], 15, [1, _np.inf, _np.inf])
         self.assertEqual(3, len(spa))
         self.assertTrue(_np.all(spa == [1, 1, 15]))
+
+    def test_array_split(self):
+        """
+        Test for case for :func:`array_split.split.array_split`.
+        """
+        x = _np.arange(9.0)
+        self.assertArraySplitEqual(
+            _np.array_split(x, 3),
+            array_split(x, 3)
+        )
+        self.assertArraySplitEqual(
+            _np.array_split(x, 4),
+            array_split(x, 4)
+        )
+        idx = [2, 3, 5, ]
+        self.assertArraySplitEqual(
+            _np.array_split(x, idx),
+            array_split(x, idx)
+        )
+
+        x = _np.arange(32)
+        x = x.reshape((4, 8))
+        self.logger.info("_np.array_split(x, 3, axis=0) = \n%s", _np.array_split(x, 3, axis=0))
+        self.logger.info(
+            "array_split.split.array_split(x, 3, axis=0) = \n%s", array_split(x, 3, axis=0)
+        )
+        self.assertArraySplitEqual(
+            _np.array_split(x, 3, axis=0),
+            array_split(x, 3, axis=0)
+        )
+
+        self.logger.info("_np.array_split(x, 3, axis=1) = \n%s", _np.array_split(x, 3, axis=1))
+        self.logger.info(
+            "array_split.split.array_split(x, 3, axis=1) = \n%s", array_split(x, 3, axis=1)
+        )
+        self.assertArraySplitEqual(
+            _np.array_split(x, 3, axis=1),
+            array_split(x, 3, axis=1)
+        )
+
+        self.logger.info("_np.array_split(x, 8, axis=0) = \n%s", _np.array_split(x, 8, axis=0))
+        self.assertArraySplitEqual(
+            _np.array_split(x, 8, axis=0),
+            array_split(x, 8, axis=0)
+        )
 
     def test_split_by_per_axis_indices(self):
         """

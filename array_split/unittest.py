@@ -8,13 +8,14 @@ for :mod:`array_split` unit-tests.
 
 .. currentmodule:: array_split.unittest
 
-Functions
-=========
+Classes and Functions
+=====================
 
 .. autosummary::
    :toctree: generated/
 
    main - Convenience command-line test-case *search and run* function.
+   TestCase - Extends :obj:`unittest.TestCase` with :obj:`TestCase.assertArraySplitEqual`.
 
 """
 from __future__ import absolute_import
@@ -24,9 +25,10 @@ import tempfile
 import unittest as _builtin_unittest
 from unittest import *
 import array_split.logging
+import numpy as _np
 
 
-def main(module_name, loglinesevel=array_split.logging.DEBUG, initlinesogger_names=None):
+def main(module_name, log_level=array_split.logging.DEBUG, init_logger_names=None):
     """
     Small wrapper for :func:`unittest.main` which initialises :mod:`logging.Logger` objects.
     Loads a set of tests from module and runs them;
@@ -51,23 +53,23 @@ def main(module_name, loglinesevel=array_split.logging.DEBUG, initlinesogger_nam
     :type module_name: :obj:`str`
     :param module_name: If :samp:`{module_name} == __main__` then unit-tests
        are *discovered* and run.
-    :type loglinesevel: :obj:`int`
-    :param loglinesevel: The default logging level for all
+    :type log_level: :obj:`int`
+    :param log_level: The default logging level for all
        :obj:`array_split.logging.Logger` objects.
-    :type initlinesogger_names: sequence of :obj:`str`
-    :param initlinesogger_names: List of logger names to initialise
-       (using :func:`array_split.logging.initialiselinesoggers`). If :samp:`None`,
+    :type init_logger_names: sequence of :obj:`str`
+    :param init_logger_names: List of logger names to initialise
+       (using :func:`array_split.logging.initialise_loggers`). If :samp:`None`,
        then the list defaults to :samp:`[{module_name}, "array_split"]`. If list
        is empty no loggers are initialised.
 
     """
     if module_name == "__main__":
-        if (initlinesogger_names is None):
-            initlinesogger_names = [module_name, "array_split"]
+        if (init_logger_names is None):
+            init_logger_names = [module_name, "array_split"]
 
-        if (len(initlinesogger_names) > 0):
-            array_split.logging.initialiselinesoggers(
-                initlinesogger_names, loglinesevel=loglinesevel)
+        if (len(init_logger_names) > 0):
+            array_split.logging.initialise_loggers(
+                init_logger_names, log_level=log_level)
 
         _builtin_unittest.main()
 
@@ -81,7 +83,36 @@ def _fix_docstring_for_sphinx(docstr):
 
 
 class TestCase(_builtin_unittest.TestCase):
-    __doc__ = _builtin_unittest.TestCase.__doc__
+    """
+    Extends :obj:`unittest.TestCase` with the :meth:`assertArraySplitEqual`.
+    """
+
+    def assertArraySplitEqual(self, splt1, splt2):
+        """
+        Compares :obj`list` of :obj:`numpy.ndarray` results returned by :func:`numpy.array_split`
+        and :func:`array_split.split.array_split` functions.
+
+        :type splt1: :obj`list` of :obj:`numpy.ndarray`
+        :param splt1: First object in equality comparison.
+        :type splt2: :obj`list` of :obj:`numpy.ndarray`
+        :param splt2: Second object in equality comparison.
+        :raises unittest.AssertionError: If any element of :samp:`{splt1}` is not equal to
+            the corresponding element of :samp:`splt2`.
+        """
+        self.assertEqual(len(splt1), len(splt2))
+        for i in range(len(splt1)):
+            self.assertTrue(
+                (
+                    _np.all(_np.array(splt1[i]) == _np.array(splt2[i]))
+                    or
+                    ((_np.array(splt1[i]).size == 0) and (_np.array(splt2[i]).size == 0))
+                ),
+                msg=(
+                    "element %d of split is not equal %s != %s"
+                    %
+                    (i, _np.array(splt1[i]), _np.array(splt2[i]))
+                )
+            )
 
     def assertItemsEqual(self, *args, **kwargs):
         """
