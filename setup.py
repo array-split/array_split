@@ -13,13 +13,15 @@ try:
         )
     p.wait()
     if p.returncode != 0:
-        e = subprocess.CalledProcessError()
-        e.returncode = p.returncode
-        e.cmd = cmd
-        e.output = " ".join(p.communicate())
+        e = \
+            subprocess.CalledProcessError(
+                returncode=p.returncode,
+                cmd=cmd,
+                output=" ".join(p.communicate())
+            )
         raise e
     # Write the git describe to text file
-    file("array_split/git_describe.txt", "wt").write(p.communicate()[0])
+    open("array_split/git_describe.txt", "wt").write(p.communicate()[0])
 except (Exception ,) as e:
     print("Problem with '%s': %s" % (" ".join(cmd), e))
     file("array_split/git_describe.txt", "wt").write(
