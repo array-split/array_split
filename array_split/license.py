@@ -2,13 +2,13 @@ from __future__ import absolute_import
 import os as _os
 import pkg_resources as _pkg_resources
 
-__copyright__ = _pkg_resources.resource_string("array_split", "copyright.txt")
+__copyright__ = _pkg_resources.resource_string("array_split", "copyright.txt").decode()
 __license__ = (
     __copyright__
     +
     "\n\n"
     +
-    _pkg_resources.resource_string("array_split", "license.txt")
+    _pkg_resources.resource_string("array_split", "license.txt").decode()
 )
 __author__ = "Shane J. Latham"
 
