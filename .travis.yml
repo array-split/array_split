@@ -7,7 +7,9 @@ python:
 # command to install dependencies
 install:
   - export PYTHONVERSION=`python -c 'import sys;print("%s.%s"%(sys.version_info.major,sys.version_info.minor))'`
+  - "echo PYTHONVERSION=${PYTHONVERSION}"
   - export PYTHONPATH=$HOME/.local/lib/python${PYTHONVERSION}/site-packages:$PYTHONPATH
+  - "echo PYTHONPATH=${PYTHONPATH}"
   - "python ./setup.py install --user"
 # command to run tests
 script: python -m array_split.tests
