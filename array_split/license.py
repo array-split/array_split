@@ -1,13 +1,14 @@
 from __future__ import absolute_import
 import os as _os
+import pkg_resources as _pkg_resources
 
-__copyright__ = file(_os.path.join(_os.path.split(__file__)[0], "copyright.txt"), "rt").read()
+__copyright__ = _pkg_resources.resource_string("array_split", "copyright.txt")
 __license__ = (
     __copyright__
     +
     "\n\n"
     +
-    file(_os.path.join(_os.path.split(__file__)[0], "license.txt"), "rt").read()
+    _pkg_resources.resource_string("array_split", "license.txt")
 )
 __author__ = "Shane J. Latham"
 

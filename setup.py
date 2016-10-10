@@ -4,15 +4,27 @@ import os
 import subprocess
 
 try:
-    sout = \
-        subprocess.check_output(
-            "git describe",
-            stderr=subprocess.STDOUT,
+    cmd = ["/usr/bin/env", "git", "describe"]
+    p = \
+        subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
         )
+    p.wait()
+    if p.returncode != 0:
+        e = subprocess.CalledProcessError()
+        e.returncode = p.returncode
+        e.cmd = cmd
+        e.output = " ".join(p.communicate())
+        raise e
     # Write the git describe to text file
-    file("array_split/git_describe.txt", "wt").write(sout)
+    file("array_split/git_describe.txt", "wt").write(p.communicate()[0])
 except (Exception ,) as e:
-    print("Problem with 'git describe': %s" % e)
+    print("Problem with '%s': %s" % (" ".join(cmd), e))
+    file("array_split/git_describe.txt", "wt").write(
+        file("array_split/version.txt", "rt").read().strip()
+    )
 
 setup(
     name="array_split",
@@ -61,10 +73,7 @@ setup(
     ],
     install_requires=["numpy>=1.6", ],
     package_data={
-        "array_split": "version.txt",
-        "array_split": "git_describe.txt",
-        "array_split": "copyright.txt",
-        "array_split": "license.txt",
+        "array_split": ["version.txt", "git_describe.txt", "copyright.txt", "license.txt"]
     },
     # could also include long_description, download_url, etc.
 )
