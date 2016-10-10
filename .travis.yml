@@ -4,12 +4,13 @@ python:
   - "2.7"
   - "3.3"
   - "3.4"
+  - "3.5"
 # command to install dependencies
 install:
   - export PYTHONVERSION=`python -c 'import sys;print("%s.%s"%(sys.version_info[0],sys.version_info[1]))'`
-  - echo PYTHONVERSION=${PYTHONVERSION}
+  - python -c 'import os;print("PYTHONVERSION=%s" % os.environ[PYTHONVERSION])'
   - export PYTHONPATH=$HOME/.local/lib/python${PYTHONVERSION}/site-packages:$PYTHONPATH
-  - echo PYTHONPATH=${PYTHONPATH}
+  - python -c 'import os;print("PYTHONPATH=%s" % os.environ[PYTHONPATH])'
   - "python ./setup.py install --user"
 # command to run tests
 script: python -m array_split.tests
