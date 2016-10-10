@@ -15,7 +15,8 @@ Classes and Functions
 
    shape_factors - Compute *largest* factors of a given integer.
    calculate_num_slices_per_axis - Computes per-axis divisions for a multi-dimensional shape.
-   ArraySplitter - Implements array splitting akin to :func:`numpy.array_split`.
+   calculate_tile_shape_for_max_bytes - Calculate a tile shape subject to max bytes restriction.
+   ArraySplitter - Array shape splitting akin to :func:`numpy.array_split`.
    array_split - Equivalent to :func:`numpy.array_split`.
 
 """
@@ -25,7 +26,7 @@ from .license import license as _license, copyright as _copyright
 import array_split as _array_split
 import array_split.logging as _logging
 import numpy as _np
-from numpy.distutils.misc_util import is_sequence
+
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
@@ -36,7 +37,7 @@ __version__ = _array_split.__version__
 def is_scalar(obj):
     """
     Returns :samp:`True` if argument :samp:`{obj}` is
-    an integer type.
+    a numeric type.
     """
     return hasattr(obj, "__int__") or hasattr(obj, "__long__")
 
@@ -122,6 +123,125 @@ def shape_factors(n, dim=2):
 
     factors.sort()
     return _np.array(factors)
+
+
+def calculate_tile_shape_for_max_bytes(
+    array_shape,
+    array_itemsize,
+    max_tile_bytes,
+    max_shape=None,
+    sub_tile_shape=None,
+    halo=None
+):
+    """
+    Returns a tile shape :samp:`tile_shape`
+    such that :samp:`numpy.product(tile_shape)*numpy.sum({array_itemsize}) <= {max_tile_bytes}`.
+    Also, if :samp:`{max_shape} is not None`
+    then :samp:`numpy.all(tile_shape <= {max_shape}) is True` and
+    if :samp:`{sub_tile_shape} is not None`
+    the :samp:`numpy.all((tile_shape % {sub_tile_shape}) == 0) is True`.
+
+    :type array_shape: sequence of integers
+    :param array_shape: Shape of the array which is to be split into tiles.
+    :type array_itemsize: :obj:`int`
+    :param array_itemsize: The number of bytes per element of the array to be tiled.
+    :type max_tile_bytes: :obj:`int`
+    :param max_tile_bytes: The maximum number of bytes for the returned :samp:`tile_shape`.
+    :type max_shape: sequence of integers
+    :param max_shape: Per axis maximum shapes for the returned :samp:`tile_shape`.
+    :type sub_tile_shape: sequence of integers
+    :param sub_tile_shape: The returned :samp:`tile_shape` will be an even multiple
+       of this sub-tile shape.
+    :type halo: sequence of integers
+    :param halo: Width of halo voxels in each axis direction.
+    """
+    array_shape = _np.array(array_shape, dtype="int64")
+    array_itemsize = _np.sum(array_itemsize, dtype="int64")
+
+    if max_shape is None:
+        max_shape = _np.array(array_shape, copy=True)
+
+    if sub_tile_shape is None:
+        sub_tile_shape = _np.ones((len(array_shape),), dtype="int64")
+
+    sub_tile_shape = _np.array(sub_tile_shape, dtype="int64")
+
+    if halo is None:
+        halo = _np.zeros((len(array_shape), 2), dtype="int64")
+    elif is_scalar(halo):
+        halo = _np.zeros((len(array_shape), 2), dtype="int64") + halo
+    elif len(_np.array(halo).shape) == 1:
+        halo = _np.array([halo, halo]).T.copy()
+
+    if _np.any(array_shape < sub_tile_shape):
+        raise ValueError(
+            "Got array_shape=%s element less than corresponding sub_tile_shape=%s element."
+            %
+            (
+                array_shape,
+                sub_tile_shape
+            )
+        )
+
+    logger = _logging.getLogger(__name__ + ".calculate_tile_shape_for_max_bytes")
+    logger.debug("max_shape=%s", max_shape)
+    logger.debug("sub_tile_shape=%s", sub_tile_shape)
+    logger.debug("halo=%s", halo)
+    array_sub_tile_split_shape = ((array_shape - 1) // sub_tile_shape) + 1
+    num_sub_tiles_per_max_bytes = max_tile_bytes // (_np.product(sub_tile_shape) * array_itemsize)
+    tile_sub_tile_split_shape = array_sub_tile_split_shape.copy()
+    logger.debug("tile_sub_tile_split_shape=%s", tile_sub_tile_split_shape)
+    tile_sub_tile_split_shape = \
+        _np.minimum(
+            tile_sub_tile_split_shape,
+            max_shape // sub_tile_shape
+        )
+    current_axis = 0
+    while (
+        (current_axis < len(tile_sub_tile_split_shape.shape))
+        and
+        (
+            (
+                _np.product(tile_sub_tile_split_shape * sub_tile_shape + _np.sum(halo, axis=1))
+                *
+                array_itemsize
+            )
+            >
+            max_tile_bytes
+        )
+    ):
+        if current_axis > 1:
+            tile_sub_tile_split_shape[current_axis] = 1
+            tile_sub_tile_split_shape[current_axis] = \
+                (
+                    max_tile_bytes
+                    //
+                    (
+                        _np.product(
+                            tile_sub_tile_split_shape *
+                            sub_tile_shape +
+                            _np.sum(
+                                halo,
+                                axis=1))
+                        *
+                        array_itemsize
+                    )
+            )
+            if tile_sub_tile_split_shape[current_axis] <= 0:
+                tile_sub_tile_split_shape[current_axis] = 1
+            current_axis += 1
+        else:
+            tile_sub_tile_split_shape[current_axis] //= 2
+            if tile_sub_tile_split_shape[current_axis] <= 0:
+                tile_sub_tile_split_shape[current_axis] = 1
+                current_axis += 1
+    tile_shape = _np.minimum(array_shape, tile_sub_tile_split_shape * sub_tile_shape)
+
+    tile_split_shape = ((array_shape - 1) // tile_shape) + 1
+
+    tile_shape = (array_sub_tile_split_shape // tile_split_shape) * sub_tile_shape
+
+    return tile_shape
 
 
 def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_per_axis=None):

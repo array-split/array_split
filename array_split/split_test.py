@@ -31,6 +31,7 @@ import array_split as _array_split
 import numpy as _np
 
 from .split import ArraySplitter, calculate_num_slices_per_axis, shape_factors, array_split
+from .split import calculate_tile_shape_for_max_bytes
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
@@ -105,6 +106,170 @@ class SplitTest(_unittest.TestCase):
         spa = calculate_num_slices_per_axis([0, 1, 0], 15, [1, _np.inf, _np.inf])
         self.assertEqual(3, len(spa))
         self.assertTrue(_np.all(spa == [1, 1, 15]))
+
+    def test_calculate_tile_shape_for_max_bytes_1d(self):
+        """
+        Test case for :func:`array_split.split.calculate_tile_shape_for_max_bytes`,
+        where :samp:`array_shape` parameter is 1D, i.e. of the form :samp:`(N,)`.
+        """
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512,),
+                array_itemsize=1,
+                max_tile_bytes=1024
+            )
+        self.assertSequenceEqual((512,), tile_shape)
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512,),
+                array_itemsize=1,
+                max_tile_bytes=1024,
+                sub_tile_shape=[64,]
+            )
+        self.assertSequenceEqual((512,), tile_shape)
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512,),
+                array_itemsize=1,
+                max_tile_bytes=1024,
+                sub_tile_shape=[26,]
+            )
+        self.assertSequenceEqual((260,), tile_shape)
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512,),
+                array_itemsize=1,
+                max_tile_bytes=512
+            )
+        self.assertSequenceEqual((512,), tile_shape)
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512,),
+                array_itemsize=2,
+                max_tile_bytes=512,
+            )
+        self.assertSequenceEqual((256,), tile_shape)
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512,),
+                array_itemsize=2,
+                max_tile_bytes=512,
+                sub_tile_shape=[32,]
+            )
+        self.assertSequenceEqual((256,), tile_shape)
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512,),
+                array_itemsize=2,
+                max_tile_bytes=512,
+                sub_tile_shape=[60,]
+            )
+        self.assertSequenceEqual((180,), tile_shape)
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512,),
+                array_itemsize=1,
+                max_tile_bytes=512,
+                halo=1
+            )
+        self.assertSequenceEqual((256,), tile_shape)
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512,),
+                array_itemsize=1,
+                max_tile_bytes=514,
+                halo=1
+            )
+        self.assertSequenceEqual((512,), tile_shape)
+
+    def test_calculate_tile_shape_for_max_bytes_2d(self):
+        """
+        Test case for :func:`array_split.split.calculate_tile_shape_for_max_bytes`,
+        where :samp:`array_shape` parameter is 2D, i.e. of the form :samp:`(H,W)`.
+        """
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512, 512),
+                array_itemsize=1,
+                max_tile_bytes=512**2
+            )
+        self.assertSequenceEqual((512, 512), tile_shape.tolist())
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512, 512),
+                array_itemsize=1,
+                max_tile_bytes=512**2 - 1
+            )
+        self.assertSequenceEqual((256, 512), tile_shape.tolist())
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(513, 512),
+                array_itemsize=1,
+                max_tile_bytes=512**2 - 1
+            )
+        self.assertSequenceEqual((513 // 3, 512), tile_shape.tolist())
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512, 512),
+                array_itemsize=1,
+                max_tile_bytes=512**2//2
+            )
+        self.assertSequenceEqual((256, 512), tile_shape.tolist())
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512, 512),
+                array_itemsize=2,
+                max_tile_bytes=512**2//2
+            )
+        self.assertSequenceEqual((128, 512), tile_shape.tolist())
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512, 512),
+                array_itemsize=2,
+                max_tile_bytes=512**2//2,
+                sub_tile_shape=(32, 64)
+            )
+        self.assertSequenceEqual((128, 512), tile_shape.tolist())
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512, 512),
+                array_itemsize=1,
+                max_tile_bytes=512**2//2,
+                sub_tile_shape=(30, 64)
+            )
+        self.assertSequenceEqual((180, 512), tile_shape.tolist())
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512, 512),
+                array_itemsize=2,
+                max_tile_bytes=512**2//2,
+                sub_tile_shape=(30, 64)
+            )
+        self.assertSequenceEqual((90, 512), tile_shape.tolist())
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512, 1024),
+                array_itemsize=1,
+                max_tile_bytes=512**2,
+                sub_tile_shape=(30, 60)
+            )
+        self.assertSequenceEqual((180, 540), tile_shape.tolist())
 
     def test_array_split(self):
         """
