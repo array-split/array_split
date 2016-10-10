@@ -6,7 +6,7 @@ python:
   - "3.4"
 # command to install dependencies
 install:
-  - export PYTHONVERSION=`python -c 'import sys;print("%s.%s"%(sys.version_info.major,sys.version_info.minor))'`
+  - export PYTHONVERSION=`python -c 'import sys;print("%s.%s"%(sys.version_info[0],sys.version_info[1]))'`
   - echo PYTHONVERSION=${PYTHONVERSION}
   - export PYTHONPATH=$HOME/.local/lib/python${PYTHONVERSION}/site-packages:$PYTHONPATH
   - echo PYTHONPATH=${PYTHONPATH}

@@ -25,7 +25,7 @@ try:
     # Write the git describe to text file
     open("array_split/git_describe.txt", "wt").write(p.communicate()[0].decode())
 except (Exception ,) as e:
-    if (sys.version_info.major == 2) and (sys.version_info.minor <= 6):
+    if (sys.version_info[0] == 2) and (sys.version_info[1] <= 6):
         print("Problem with '%s': %s: %s" % (" ".join(cmd), e, e.output))
     else:
         print("Problem with '%s': %s" % (" ".join(cmd), e))
@@ -35,7 +35,7 @@ except (Exception ,) as e:
 
 setup(
     name="array_split",
-    version=file("array_split/version.txt", "rt").read().strip(),
+    version=open("array_split/version.txt", "rt").read().strip(),
     packages=find_packages(),
     # metadata for upload to PyPI
     author="Shane J. Latham",
