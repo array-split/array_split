@@ -1,10 +1,18 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 import os
+import subprocess
 
-# Write the git describe to text file
-(sin, sout) = os.popen2("git describe")
-file("array_split/git_describe.txt", "wt").write(sout.read())
+try:
+    sout = \
+        subprocess.check_output(
+            "git describe",
+            stderr=subprocess.STDOUT,
+        )
+    # Write the git describe to text file
+    file("array_split/git_describe.txt", "wt").write(sout)
+except (Exception ,) as e:
+    print("Problem with 'git describe': %s" % e)
 
 setup(
     name="array_split",
