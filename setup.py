@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 import os
+import sys
 import subprocess
 
 try:
@@ -18,13 +19,16 @@ try:
                 returncode=p.returncode,
                 cmd=cmd
             )
-        setattr(e, "output", " ".join([i.encode() for i in p.communicate()]))
+        setattr(e, "output", " ".join([i.decode() for i in p.communicate()]))
         
         raise e
     # Write the git describe to text file
-    open("array_split/git_describe.txt", "wt").write(p.communicate()[0].encode())
+    open("array_split/git_describe.txt", "wt").write(p.communicate()[0].decode())
 except (Exception ,) as e:
-    print("Problem with '%s': %s" % (" ".join(cmd), e))
+    if (sys.version_info.major == 2) and (sys.version_info.minor <= 6):
+        print("Problem with '%s': %s: %s" % (" ".join(cmd), e, e.output))
+    else:
+        print("Problem with '%s': %s" % (" ".join(cmd), e))
     open("array_split/git_describe.txt", "wt").write(
         open("array_split/version.txt", "rt").read().strip()
     )
