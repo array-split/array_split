@@ -16,16 +16,17 @@ try:
         e = \
             subprocess.CalledProcessError(
                 returncode=p.returncode,
-                cmd=cmd,
-                output=" ".join(p.communicate())
+                cmd=cmd
             )
+        setattr(e, "output", " ".join([i.encode() for i in p.communicate()]))
+        
         raise e
     # Write the git describe to text file
-    open("array_split/git_describe.txt", "wt").write(p.communicate()[0])
+    open("array_split/git_describe.txt", "wt").write(p.communicate()[0].encode())
 except (Exception ,) as e:
     print("Problem with '%s': %s" % (" ".join(cmd), e))
-    file("array_split/git_describe.txt", "wt").write(
-        file("array_split/version.txt", "rt").read().strip()
+    open("array_split/git_describe.txt", "wt").write(
+        open("array_split/version.txt", "rt").read().strip()
     )
 
 setup(
