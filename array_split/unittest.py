@@ -158,3 +158,9 @@ class TestCase(_builtin_unittest.TestCase):
         See :obj:`unittest.TestCase.assertTupleEqual`.
         """
         _builtin_unittest.TestCase.assertTupleEqual(self, *args, **kwargs)
+
+    def assertWarnsRegex(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertWarnsRegex`.
+        """
+        _builtin_unittest.TestCase.assertWarnsRegex(self, *args, **kwargs)
