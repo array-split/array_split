@@ -19,6 +19,10 @@ install:
  
 # command to run tests
 script:
+    - cd docs
     - python -m array_split.tests
+    - cd ..
     - travis-sphinx build
 
+after_success:
+    - travis-sphinx --branches=dev deploy

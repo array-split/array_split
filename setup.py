@@ -4,34 +4,41 @@ import os
 import sys
 import subprocess
 
-try:
-    cmd = ["/usr/bin/env", "git", "describe"]
-    p = \
-        subprocess.Popen(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-    p.wait()
-    if p.returncode != 0:
-        e = \
-            subprocess.CalledProcessError(
-                returncode=p.returncode,
-                cmd=cmd
+def create_git_describe():
+    try:
+        cmd = ["/usr/bin/env", "git", "describe"]
+        p = \
+            subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
             )
-        setattr(e, "output", " ".join([i.decode() for i in p.communicate()]))
-        
-        raise e
-    # Write the git describe to text file
-    open("array_split/git_describe.txt", "wt").write(p.communicate()[0].decode())
-except (Exception ,) as e:
-    if (sys.version_info[0] == 2) and (sys.version_info[1] <= 6):
+        p.wait()
+        if p.returncode != 0:
+            e = \
+                subprocess.CalledProcessError(
+                    returncode=p.returncode,
+                    cmd=cmd
+                )
+            setattr(e, "output", " ".join([i.decode() for i in p.communicate()]))
+            
+            raise e
+        # Write the git describe to text file
+        open("array_split/git_describe.txt", "wt").write(p.communicate()[0].decode())
+    except (Exception ,) as e:
+        # Try and make up a git-describe like string.
         print("Problem with '%s': %s: %s" % (" ".join(cmd), e, e.output))
-    else:
-        print("Problem with '%s': %s" % (" ".join(cmd), e))
-    open("array_split/git_describe.txt", "wt").write(
-        open("array_split/version.txt", "rt").read().strip()
-    )
+        version_str = open("array_split/version.txt", "rt").read().strip()
+        if ("TRAVIS_TAG" in os.environ.keys()) and (len(os.environ["TRAVIS_TAG"]) > 0):
+            version_str = os.environ["TRAVIS_TAG"]
+        else:
+            if ("TRAVIS_BRANCH" in os.environ.keys()) and (len(os.environ["TRAVIS_BRANCH"]) > 0):
+                version_str += os.environ["TRAVIS_BRANCH"]
+            if ("TRAVIS_COMMIT" in os.environ.keys()) and (len(os.environ["TRAVIS_COMMIT"]) > 0):
+                version_str += "-" + os.environ["TRAVIS_COMMIT"][0:min([7, len(os.environ["TRAVIS_COMMIT"])])]
+        open("array_split/git_describe.txt", "wt").write(version_str)
+
+create_git_describe()
 
 setup(
     name="array_split",
