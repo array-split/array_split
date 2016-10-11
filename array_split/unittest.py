@@ -135,6 +135,12 @@ class TestCase(_builtin_unittest.TestCase):
         """
         _builtin_unittest.TestCase.assertRaisesRegexp(self, *args, **kwargs)
 
+    def assertRaisesRegex(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertRaisesRegex`.
+        """
+        _builtin_unittest.TestCase.assertRaisesRegex(self, *args, **kwargs)
+
     def assertSequenceEqual(self, *args, **kwargs):
         """
         See :obj:`unittest.TestCase.assertSequenceEqual`.
