@@ -5,13 +5,20 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
+
 # command to install dependencies
 install:
   - export PYTHONVERSION=`python -c 'import sys;print("%s.%s"%(sys.version_info[0],sys.version_info[1]))'`
   - python -c 'import os;print("PYTHONVERSION=%s" % os.environ["PYTHONVERSION"])'
   - export PYTHONPATH=$HOME/.local/lib/python${PYTHONVERSION}/site-packages:$PYTHONPATH
   - python -c 'import os;print("PYTHONPATH=%s" % os.environ["PYTHONPATH"])'
+  - pwd
+  - ls -al `pwd`/*
+  - pip install --user travis-sphinx
   - "python ./setup.py install --user"
+ 
 # command to run tests
-script: python -m array_split.tests
+script:
+    - python -m array_split.tests
+    - travis-sphinx build
 
