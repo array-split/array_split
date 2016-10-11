@@ -14,8 +14,8 @@ install:
   - python -c 'import os;print("PYTHONPATH=%s" % os.environ["PYTHONPATH"])'
   - pwd
   - ls -al `pwd`/*
-  - pip install --user travis-sphinx
-  - "python ./setup.py install --user"
+  - pip install travis-sphinx
+  - "python ./setup.py install"
  
 # command to run tests
 script:
