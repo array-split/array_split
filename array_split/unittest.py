@@ -141,12 +141,6 @@ class TestCase(_builtin_unittest.TestCase):
         """
         _builtin_unittest.TestCase.assertRaisesRegex(self, *args, **kwargs)
 
-    def assertSequenceEqual(self, *args, **kwargs):
-        """
-        See :obj:`unittest.TestCase.assertSequenceEqual`.
-        """
-        _builtin_unittest.TestCase.assertSequenceEqual(self, *args, **kwargs)
-
     def assertSetEqual(self, *args, **kwargs):
         """
         See :obj:`unittest.TestCase.assertSetEqual`.
@@ -322,3 +316,13 @@ if not hasattr(TestCase, "assertSequenceEqual"):
     setattr(TestCase, "_truncateMessage", _truncateMessage)
     setattr(TestCase, "_formatMessage", _formatMessage)
     setattr(TestCase, "assertSequenceEqual", assertSequenceEqual)
+else:
+
+    def assertSequenceEqual(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertSequenceEqual`.
+        """
+        _builtin_unittest.TestCase.assertSequenceEqual(self, *args, **kwargs)
+    
+    setattr(TestCase, "assertSequenceEqual", assertSequenceEqual)
+
