@@ -16,7 +16,8 @@ Classes and Functions
    shape_factors - Compute *largest* factors of a given integer.
    calculate_num_slices_per_axis - Computes per-axis divisions for a multi-dimensional shape.
    calculate_tile_shape_for_max_bytes - Calculate a tile shape subject to max bytes restriction.
-   ArraySplitter - Array shape splitting akin to :func:`numpy.array_split`.
+   ShapeSplitter - Array shape splitting akin to :func:`numpy.array_split`.
+   shape_split - Splits a specified shape and returns :obj:`numpy.ndarray` of :obj:`slice` elements.
    array_split - Equivalent to :func:`numpy.array_split`.
 
 """
@@ -304,7 +305,7 @@ def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_pe
     return ret_array
 
 
-class ArraySplitter(object):
+class ShapeSplitter(object):
     """
     Implements array splitting akin to :func:`numpy.array_split` but
     with more options for specifying the sub-array (slice) shape.
@@ -313,7 +314,7 @@ class ArraySplitter(object):
     """
 
     #: Class attribute for :obj:`logging.Logger` logging.
-    logger = _logging.getLogger(__name__ + ".ArraySplitter")
+    logger = _logging.getLogger(__name__ + ".ShapeSplitter")
 
     def __init__(
         self,
@@ -582,6 +583,16 @@ class ArraySplitter(object):
 
         return split
 
+def shape_split(array_shape, *args, **kwargs):
+    """
+    """
+    return \
+        ShapeSplitter(
+            array_shape,
+            *args,
+            **kwargs
+        ).calculate_split()
+
 
 def array_split(ary, indices_or_sections, axis=0):
     """
@@ -630,7 +641,7 @@ def array_split(ary, indices_or_sections, axis=0):
     return [
         ary[slyce]
         for slyce in
-        ArraySplitter(
+        ShapeSplitter(
             array_shape=ary.shape,
             indices_or_sections=indices_or_sections,
             axis=axis

@@ -30,7 +30,7 @@ import array_split as _array_split
 
 import numpy as _np
 
-from .split import ArraySplitter, calculate_num_slices_per_axis, shape_factors, array_split
+from .split import ShapeSplitter, calculate_num_slices_per_axis, shape_factors, array_split
 from .split import calculate_tile_shape_for_max_bytes
 
 __author__ = "Shane J. Latham"
@@ -321,11 +321,11 @@ class SplitTest(_unittest.TestCase):
         Test for case for splitting by specified
         indices::
 
-           ArraySplitter(array_shape=(10, 4), indices_or_sections=[[2, 6, 8], ]).calculate_split()
+           ShapeSplitter(array_shape=(10, 4), indices_or_sections=[[2, 6, 8], ]).calculate_split()
 
 
         """
-        splitter = ArraySplitter((10, 4), [[2, 6, 8], ])
+        splitter = ShapeSplitter((10, 4), [[2, 6, 8], ])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -339,7 +339,7 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(0, 4), split[2, 0][1])  # axis 1 slice
         self.assertEqual(slice(0, 4), split[3, 0][1])  # axis 1 slice
 
-        splitter = ArraySplitter((10, 13), [None, [2, 5, 8], ])
+        splitter = ShapeSplitter((10, 13), [None, [2, 5, 8], ])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -353,7 +353,7 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(5, 8), split[0, 2][1])  # axis 1 slice
         self.assertEqual(slice(8, 13), split[0, 3][1])  # axis 1 slice
 
-        splitter = ArraySplitter((10, 4), [[2, 6], [2, ]])
+        splitter = ShapeSplitter((10, 4), [[2, 6], [2, ]])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -372,7 +372,7 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(2, 4), split[1, 1][1])  # axis 1 slice
         self.assertEqual(slice(2, 4), split[2, 1][1])  # axis 1 slice
 
-        splitter = ArraySplitter((10,), [[2, 6, 8], ])
+        splitter = ShapeSplitter((10,), [[2, 6, 8], ])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -387,12 +387,12 @@ class SplitTest(_unittest.TestCase):
         Test for case for splitting by number of
         slice elements::
 
-           ArraySplitter(array_shape=(10, 13), indices_or_sections=3).calculate_split()
-           ArraySplitter(array_shape=(10, 13), axis=[2, 3]).calculate_split()
+           ShapeSplitter(array_shape=(10, 13), indices_or_sections=3).calculate_split()
+           ShapeSplitter(array_shape=(10, 13), axis=[2, 3]).calculate_split()
 
 
         """
-        splitter = ArraySplitter((10,), 3)
+        splitter = ShapeSplitter((10,), 3)
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -401,7 +401,7 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(4, 7), split[1][0])  # axis 0 slice
         self.assertEqual(slice(7, 10), split[2][0])  # axis 0 slice
 
-        splitter = ArraySplitter((10,), axis=[3, ])
+        splitter = ShapeSplitter((10,), axis=[3, ])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -410,7 +410,7 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(4, 7), split[1][0])  # axis 0 slice
         self.assertEqual(slice(7, 10), split[2][0])  # axis 0 slice
 
-        splitter = ArraySplitter((10,), 3, axis=[3, ])
+        splitter = ShapeSplitter((10,), 3, axis=[3, ])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -419,7 +419,7 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(4, 7), split[1][0])  # axis 0 slice
         self.assertEqual(slice(7, 10), split[2][0])  # axis 0 slice
 
-        splitter = ArraySplitter((10,), 3, axis=[0, ])
+        splitter = ShapeSplitter((10,), 3, axis=[0, ])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -428,7 +428,7 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(4, 7), split[1][0])  # axis 0 slice
         self.assertEqual(slice(7, 10), split[2][0])  # axis 0 slice
 
-        splitter = ArraySplitter((10,), 2, axis=[0, ])
+        splitter = ShapeSplitter((10,), 2, axis=[0, ])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -436,7 +436,7 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(0, 5), split[0][0])  # axis 0 slice
         self.assertEqual(slice(5, 10), split[1][0])  # axis 0 slice
 
-        splitter = ArraySplitter((10, 13), 4, axis=[1, 0])
+        splitter = ShapeSplitter((10, 13), 4, axis=[1, 0])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -450,7 +450,7 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(7, 10), split[0, 2][1])  # axis 1 slice
         self.assertEqual(slice(10, 13), split[0, 3][1])  # axis 1 slice
 
-        splitter = ArraySplitter((10, 13), axis=[2, 2])
+        splitter = ShapeSplitter((10, 13), axis=[2, 2])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -464,7 +464,7 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(0, 7), split[1, 0][1])  # axis 1 slice
         self.assertEqual(slice(7, 13), split[1, 1][1])  # axis 1 slice
 
-        splitter = ArraySplitter((10, 13), 4, axis=[2, 2])
+        splitter = ShapeSplitter((10, 13), 4, axis=[2, 2])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -478,7 +478,7 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(0, 7), split[1, 0][1])  # axis 1 slice
         self.assertEqual(slice(7, 13), split[1, 1][1])  # axis 1 slice
 
-        splitter = ArraySplitter((10, 13), 4, axis=[0, 2])
+        splitter = ShapeSplitter((10, 13), 4, axis=[0, 2])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -492,7 +492,7 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(0, 7), split[1, 0][1])  # axis 1 slice
         self.assertEqual(slice(7, 13), split[1, 1][1])  # axis 1 slice
 
-        splitter = ArraySplitter((10, 13), 4, axis=[2, 0])
+        splitter = ShapeSplitter((10, 13), 4, axis=[2, 0])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
@@ -506,7 +506,7 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(0, 7), split[1, 0][1])  # axis 1 slice
         self.assertEqual(slice(7, 13), split[1, 1][1])  # axis 1 slice
 
-        splitter = ArraySplitter((10, 13), 4, axis=[0, 0])
+        splitter = ShapeSplitter((10, 13), 4, axis=[0, 0])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)

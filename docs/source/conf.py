@@ -376,7 +376,7 @@ intersphinx_mapping = {
 # Autosummary
 # -----------------------------------------------------------------------------
 import glob
-autosummary_generate = glob.glob("*.rst") + glob.glob("reference/*.rst") + glob.glob("tutorial/*.rst")
+autosummary_generate = glob.glob("*.rst") + glob.glob("reference/*.rst") + glob.glob("examples/*.rst")
 
 autodoc_default_flags = [ ]
 
