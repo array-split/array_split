@@ -23,7 +23,9 @@ script:
     - cd docs
     - python -m array_split.tests
     - cd ..
-    - travis-sphinx build
+    - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx build; fi
 
 after_success:
-    - travis-sphinx --branches=dev deploy
+     # Can only build docs with sphinx for python 2.6, 2.7, 3.3, 3.4, ...
+    - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx --branches=dev deploy; fi
+
