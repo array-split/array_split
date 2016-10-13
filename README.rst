@@ -66,6 +66,9 @@ Run unit tests using::
 
    python -m array_split.tests
 
+Travis CI at::
+
+   https://travis-ci.org/array-split/array_split/
 
 Documentation
 =============
