@@ -158,8 +158,8 @@ def calculate_tile_shape_for_max_bytes(
     :rtype: :obj:`numpy.ndarray`
     :return: A 1D array of shape :samp:`(len(array_shape),)` indicating a *tile shape*
        which will (approximately) uniformly divide the given :samp:`{array_shape}` into
-       tiles (sub-arrays). 
-    
+       tiles (sub-arrays).
+
     Examples::
 
        >>> from array_split.split import calculate_tile_shape_for_max_bytes

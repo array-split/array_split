@@ -26,7 +26,7 @@ from __future__ import absolute_import
 
 import sys
 import logging as _builtin_logging
-from logging import *  # noqa: F401
+from logging import *  # noqa: F401,F403
 
 
 class _Python2SplitStreamHandler(_builtin_logging.Handler):
