@@ -26,7 +26,7 @@ from __future__ import absolute_import
 
 import sys
 import logging as _builtin_logging
-from logging import *
+from logging import *  # noqa: F401
 
 
 class _Python2SplitStreamHandler(_builtin_logging.Handler):
@@ -184,7 +184,7 @@ def get_formatter(prefix_string="ARRSPLT| "):
     return formatter
 
 
-def initialise_loggers(names, log_level=WARNING, handler_class=SplitStreamHandler):
+def initialise_loggers(names, log_level=_builtin_logging.WARNING, handler_class=SplitStreamHandler):
     """
     Initialises specified loggers to generate output at the
     specified logging level. If the specified named loggers do not exist,

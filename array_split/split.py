@@ -155,6 +155,33 @@ def calculate_tile_shape_for_max_bytes(
        of this sub-tile shape.
     :type halo: sequence of integers
     :param halo: Width of halo voxels in each axis direction.
+    :rtype: :obj:`numpy.ndarray`
+    :return: A 1D array of shape :samp:`(len(array_shape),)` indicating a *tile shape*
+       which will (approximately) uniformly divide the given :samp:`{array_shape}` into
+       tiles (sub-arrays). 
+    
+    Examples::
+
+       >>> from array_split.split import calculate_tile_shape_for_max_bytes
+       >>> calculate_tile_shape_for_max_bytes(
+       ... array_shape=[512,],
+       ... array_itemsize=1,
+       ... max_tile_bytes=512
+       ...)
+       array([512])
+       >>> calculate_tile_shape_for_max_bytes(
+       ... array_shape=[512,],
+       ... array_itemsize=2,  # Doubling the itemsize halves the tile size.
+       ... max_tile_bytes=512
+       ...)
+       array([256])
+       >>> calculate_tile_shape_for_max_bytes(
+       ... array_shape=[512,],
+       ... array_itemsize=1,
+       ... max_tile_bytes=512-1  # tile shape will now halved
+       ...)
+       array([256])
+
     """
     array_shape = _np.array(array_shape, dtype="int64")
     array_itemsize = _np.sum(array_itemsize, dtype="int64")
@@ -171,8 +198,17 @@ def calculate_tile_shape_for_max_bytes(
         halo = _np.zeros((len(array_shape), 2), dtype="int64")
     elif is_scalar(halo):
         halo = _np.zeros((len(array_shape), 2), dtype="int64") + halo
-    elif len(_np.array(halo).shape) == 1:
-        halo = _np.array([halo, halo]).T.copy()
+    else:
+        halo = _np.array(halo, copy=True)
+        if len(halo.shape) == 1:
+            halo = _np.array([halo, halo]).T.copy()
+
+    if halo.shape[0] != len(array_shape):
+        raise ValueError(
+            "Got halo.shape=%s, expecting halo.shape=(%s, 2)"
+            %
+            (halo.shape, array_shape.shape[0])
+        )
 
     if _np.any(array_shape < sub_tile_shape):
         raise ValueError(
@@ -189,7 +225,6 @@ def calculate_tile_shape_for_max_bytes(
     logger.debug("sub_tile_shape=%s", sub_tile_shape)
     logger.debug("halo=%s", halo)
     array_sub_tile_split_shape = ((array_shape - 1) // sub_tile_shape) + 1
-    num_sub_tiles_per_max_bytes = max_tile_bytes // (_np.product(sub_tile_shape) * array_itemsize)
     tile_sub_tile_split_shape = array_sub_tile_split_shape.copy()
     logger.debug("tile_sub_tile_split_shape=%s", tile_sub_tile_split_shape)
     tile_sub_tile_split_shape = \
@@ -259,9 +294,35 @@ def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_pe
        ) is True
 
 
+    :type num_slices_per_axis: sequence of integers
+    :param num_slices_per_axis: Constraint for per-axis sub-divisions.
+       Non-positive elements indicate values to be replaced in the
+       returned array. Positive values are identical to the corresponding
+       element in the returned array.
+    :type num_slices: integer
+    :param num_slices: Indicates the number of slices (rectangular sub-arrays)
+       formed by performing sub-divisions per axis. The returned array :samp:`return_array`
+       has elements assigned such that :samp:`numpy.product(return_array) == {num_slices}`.
+    :type max_slices_per_axis: sequence of integers (or :samp:`None`)
+    :param max_slices_per_axis: Constraint specifying maximum number of per-axis sub-divisions.
+       If :samp:`None` defaults to :samp:`numpy.array([numpy.inf,]*len({num_slices_per_axis}))`.
     :rtype: :obj:`numpy.ndarray`
     :return: An array :samp:`return_array`
        such that :samp:`numpy.product(return_array) == num_slices`.
+
+
+    Examples::
+
+       >>> from array_split.split import calculate_num_slices_per_axis
+       >>>
+       >>> calculate_num_slices_per_axis([0, 0, 0], 16)
+       array([4, 2, 2])
+       >>> calculate_num_slices_per_axis([1, 0, 0], 16)
+       array([1, 4, 4])
+       >>> calculate_num_slices_per_axis([1, 0, 0], 16, [2, 2, 16])
+       array([1, 2, 8])
+
+
     """
     logger = _logging.getLogger(__name__)
 
@@ -461,7 +522,8 @@ class ShapeSplitter(object):
         from :samp:`{self}.indices_per_axis`.
 
         :rtype: :obj:`numpy.ndarray`
-        :return: :mod:`numpy` `structured array <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_
+        :return:
+           A :mod:`numpy` `structured array <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_
            where each element is a :obj:`tuple` of :obj:`slice` objects.
         """
         self.set_split_extents_by_indices_per_axis()
@@ -555,7 +617,8 @@ class ShapeSplitter(object):
         from :samp:`{self}.split_size` and :samp:`{self}.axis`.
 
         :rtype: :obj:`numpy.ndarray`
-        :return: :mod:`numpy` `structured array <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_
+        :return:
+           A :mod:`numpy` `structured array <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_
            where each element is a :obj:`tuple` of :obj:`slice` objects.
         """
         self.set_split_extents_by_split_size()
@@ -566,13 +629,14 @@ class ShapeSplitter(object):
         Computes the split.
 
         :rtype: :obj:`numpy.ndarray`
-        :return: :mod:`numpy` `structured array <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_
-            of dimension :samp:`len(self.array_shape)`.
-            Each element of the returned array is a :obj:`tuple`
-            containing :samp:`len(self.array_shape)` elements, with each element
-            being a :obj:`slice` object. Each :obj:`tuple` defines a slice within
-            the original bounds of :samp:`self.array_start`
-            to :samp:`self.array_start + self.array_shape`.
+        :return:
+           A :mod:`numpy` `structured array <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_
+           of dimension :samp:`len(self.array_shape)`.
+           Each element of the returned array is a :obj:`tuple`
+           containing :samp:`len(self.array_shape)` elements, with each element
+           being a :obj:`slice` object. Each :obj:`tuple` defines a slice within
+           the original bounds of :samp:`self.array_start`
+           to :samp:`self.array_start + self.array_shape`.
         """
         split = None
 
@@ -582,6 +646,7 @@ class ShapeSplitter(object):
             split = self.calculate_split_by_split_size()
 
         return split
+
 
 def shape_split(array_shape, *args, **kwargs):
     """
@@ -649,6 +714,3 @@ def array_split(ary, indices_or_sections, axis=0):
     ]
 
 __all__ = [s for s in dir() if not s.startswith('_')]
-
-if __name__ == "__main__":
-    _unittest.main()

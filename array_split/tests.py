@@ -15,13 +15,11 @@ from __future__ import absolute_import
 from .license import license as _license, copyright as _copyright
 import unittest as _unittest
 import array_split as _array_split
-from .split_test import *
+from .split_test import *  # noqa: F401,F403
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
 __copyright__ = _copyright()
-
-import os as _os
 
 __version__ = _array_split.__version__
 

@@ -1,5 +1,4 @@
 from __future__ import absolute_import
-import os as _os
 import pkg_resources as _pkg_resources
 
 __copyright__ = _pkg_resources.resource_string("array_split", "copyright.txt").decode()

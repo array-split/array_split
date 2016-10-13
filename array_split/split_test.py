@@ -125,7 +125,7 @@ class SplitTest(_unittest.TestCase):
                 array_shape=(512,),
                 array_itemsize=1,
                 max_tile_bytes=1024,
-                sub_tile_shape=[64,]
+                sub_tile_shape=[64, ]
             )
         self.assertSequenceEqual((512,), tile_shape)
 
@@ -134,7 +134,7 @@ class SplitTest(_unittest.TestCase):
                 array_shape=(512,),
                 array_itemsize=1,
                 max_tile_bytes=1024,
-                sub_tile_shape=[26,]
+                sub_tile_shape=[26, ]
             )
         self.assertSequenceEqual((260,), tile_shape)
 
@@ -159,7 +159,7 @@ class SplitTest(_unittest.TestCase):
                 array_shape=(512,),
                 array_itemsize=2,
                 max_tile_bytes=512,
-                sub_tile_shape=[32,]
+                sub_tile_shape=[32, ]
             )
         self.assertSequenceEqual((256,), tile_shape)
 
@@ -168,7 +168,7 @@ class SplitTest(_unittest.TestCase):
                 array_shape=(512,),
                 array_itemsize=2,
                 max_tile_bytes=512,
-                sub_tile_shape=[60,]
+                sub_tile_shape=[60, ]
             )
         self.assertSequenceEqual((180,), tile_shape)
 
@@ -223,7 +223,7 @@ class SplitTest(_unittest.TestCase):
             calculate_tile_shape_for_max_bytes(
                 array_shape=(512, 512),
                 array_itemsize=1,
-                max_tile_bytes=512**2//2
+                max_tile_bytes=512**2 // 2
             )
         self.assertSequenceEqual((256, 512), tile_shape.tolist())
 
@@ -231,7 +231,7 @@ class SplitTest(_unittest.TestCase):
             calculate_tile_shape_for_max_bytes(
                 array_shape=(512, 512),
                 array_itemsize=2,
-                max_tile_bytes=512**2//2
+                max_tile_bytes=512**2 // 2
             )
         self.assertSequenceEqual((128, 512), tile_shape.tolist())
 
@@ -239,7 +239,7 @@ class SplitTest(_unittest.TestCase):
             calculate_tile_shape_for_max_bytes(
                 array_shape=(512, 512),
                 array_itemsize=2,
-                max_tile_bytes=512**2//2,
+                max_tile_bytes=512**2 // 2,
                 sub_tile_shape=(32, 64)
             )
         self.assertSequenceEqual((128, 512), tile_shape.tolist())
@@ -248,7 +248,7 @@ class SplitTest(_unittest.TestCase):
             calculate_tile_shape_for_max_bytes(
                 array_shape=(512, 512),
                 array_itemsize=1,
-                max_tile_bytes=512**2//2,
+                max_tile_bytes=512**2 // 2,
                 sub_tile_shape=(30, 64)
             )
         self.assertSequenceEqual((180, 512), tile_shape.tolist())
@@ -257,7 +257,7 @@ class SplitTest(_unittest.TestCase):
             calculate_tile_shape_for_max_bytes(
                 array_shape=(512, 512),
                 array_itemsize=2,
-                max_tile_bytes=512**2//2,
+                max_tile_bytes=512**2 // 2,
                 sub_tile_shape=(30, 64)
             )
         self.assertSequenceEqual((90, 512), tile_shape.tolist())

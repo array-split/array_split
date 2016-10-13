@@ -20,10 +20,7 @@ Classes and Functions
 """
 from __future__ import absolute_import
 
-import os
-import tempfile
 import unittest as _builtin_unittest
-from unittest import *
 import array_split.logging
 import numpy as _np
 
@@ -162,7 +159,7 @@ class TestCase(_builtin_unittest.TestCase):
 if not hasattr(TestCase, "assertSequenceEqual"):
     # code from python-2.7 unitest.case.TestCase
     _MAX_LENGTH = 80
-    
+
     def safe_repr(obj, short=False):
         try:
             result = repr(obj)
@@ -171,8 +168,7 @@ if not hasattr(TestCase, "assertSequenceEqual"):
         if not short or len(result) < _MAX_LENGTH:
             return result
         return result[:_MAX_LENGTH] + ' [truncated]...'
-    
-    
+
     def strclass(cls):
         return "%s.%s" % (cls.__module__, cls.__name__)
 
@@ -190,14 +186,16 @@ if not hasattr(TestCase, "assertSequenceEqual"):
                     differences.
         """
 
+        import pprint
+        import difflib
         if seq_type is not None:
             seq_type_name = seq_type.__name__
             if not isinstance(seq1, seq_type):
                 raise self.failureException('First sequence is not a %s: %s'
-                                        % (seq_type_name, safe_repr(seq1)))
+                                            % (seq_type_name, safe_repr(seq1)))
             if not isinstance(seq2, seq_type):
                 raise self.failureException('Second sequence is not a %s: %s'
-                                        % (seq_type_name, safe_repr(seq2)))
+                                            % (seq_type_name, safe_repr(seq2)))
         else:
             seq_type_name = "sequence"
 
@@ -206,14 +204,14 @@ if not hasattr(TestCase, "assertSequenceEqual"):
             len1 = len(seq1)
         except (TypeError, NotImplementedError):
             differing = 'First %s has no length.    Non-sequence?' % (
-                    seq_type_name)
+                seq_type_name)
 
         if differing is None:
             try:
                 len2 = len(seq2)
             except (TypeError, NotImplementedError):
                 differing = 'Second %s has no length.    Non-sequence?' % (
-                        seq_type_name)
+                    seq_type_name)
 
         if differing is None:
             if seq1 == seq2:
@@ -221,7 +219,7 @@ if not hasattr(TestCase, "assertSequenceEqual"):
 
             seq1_repr = safe_repr(seq1)
             seq2_repr = safe_repr(seq2)
-    
+
             if len(seq1_repr) > 30:
                 seq1_repr = seq1_repr[:30] + '...'
             if len(seq2_repr) > 30:
@@ -234,29 +232,29 @@ if not hasattr(TestCase, "assertSequenceEqual"):
                     item1 = seq1[i]
                 except (TypeError, IndexError, NotImplementedError):
                     differing += ('\nUnable to index element %d of first %s\n' %
-                                 (i, seq_type_name))
+                                  (i, seq_type_name))
                     break
 
                 try:
                     item2 = seq2[i]
                 except (TypeError, IndexError, NotImplementedError):
                     differing += ('\nUnable to index element %d of second %s\n' %
-                                 (i, seq_type_name))
+                                  (i, seq_type_name))
                     break
 
                 if item1 != item2:
                     differing += ('\nFirst differing element %d:\n%s\n%s\n' %
-                                 (i, item1, item2))
+                                  (i, item1, item2))
                     break
             else:
                 if (len1 == len2 and seq_type is None and
-                    type(seq1) != type(seq2)):
+                        not isinstance(seq1, type(seq2))):
                     # The sequences are the same, but have differing types.
                     return
 
             if len1 > len2:
                 differing += ('\nFirst %s contains %d additional '
-                             'elements.\n' % (seq_type_name, len1 - len2))
+                              'elements.\n' % (seq_type_name, len1 - len2))
                 try:
                     differing += ('First extra element %d:\n%s\n' %
                                   (len2, seq1[len2]))
@@ -265,7 +263,7 @@ if not hasattr(TestCase, "assertSequenceEqual"):
                                   'of first %s\n' % (len2, seq_type_name))
             elif len1 < len2:
                 differing += ('\nSecond %s contains %d additional '
-                             'elements.\n' % (seq_type_name, len2 - len1))
+                              'elements.\n' % (seq_type_name, len2 - len1))
                 try:
                     differing += ('First extra element %d:\n%s\n' %
                                   (len1, seq2[len1]))
@@ -299,19 +297,18 @@ if not hasattr(TestCase, "assertSequenceEqual"):
             # it changes the way unicode input is handled
             return '%s : %s' % (standardMsg, msg)
         except UnicodeDecodeError:
-            return  '%s : %s' % (safe_repr(standardMsg), safe_repr(msg))
+            return '%s : %s' % (safe_repr(standardMsg), safe_repr(msg))
 
     def _truncateMessage(self, message, diff):
         DIFF_OMITTED = ('\nDiff is %s characters long. '
-                         'Set self.maxDiff to None to see it.')
+                        'Set self.maxDiff to None to see it.')
 
         max_diff = self.maxDiff
         if max_diff is None or len(diff) <= max_diff:
             return message + diff
         return message + (DIFF_OMITTED % len(diff))
 
-
-    _maxDiff = 80*8
+    _maxDiff = 80 * 8
     setattr(TestCase, "maxDiff", _maxDiff)
     setattr(TestCase, "_truncateMessage", _truncateMessage)
     setattr(TestCase, "_formatMessage", _formatMessage)
@@ -323,6 +320,5 @@ else:
         See :obj:`unittest.TestCase.assertSequenceEqual`.
         """
         _builtin_unittest.TestCase.assertSequenceEqual(self, *args, **kwargs)
-    
-    setattr(TestCase, "assertSequenceEqual", assertSequenceEqual)
 
+    setattr(TestCase, "assertSequenceEqual", assertSequenceEqual)
