@@ -18,7 +18,7 @@ install:
 # command to run tests
 script:
     # Run flake8
-    - python -m flake8 -v setup.py array_split
+    - python -m flake8 setup.py array_split
     # Run the unittests, cd to docs directory so tests are
     # run on the installed package.
     - cd docs
