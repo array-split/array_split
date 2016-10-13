@@ -59,6 +59,14 @@ From latest github source::
     python setup.py install --user
 
 
+Testing
+=======
+
+Run unit tests using::
+
+   python -m array_split.tests
+
+
 Documentation
 =============
 
