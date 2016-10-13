@@ -68,7 +68,7 @@ class _Python2SplitStreamHandler(_builtin_logging.Handler):
             fs = "%s\n"
 
             try:
-                if (isinstance(msg, unicode) and
+                if (isinstance(msg, unicode) and  # noqa: F405
                         getattr(stream, 'encoding', None)):
                     ufs = fs.decode(stream.encoding)
                     try:
