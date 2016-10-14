@@ -7,9 +7,15 @@
 =============
 
 The `array_split <https://array-split.github.io/array_split>`_ python package is
-an enhanced version of
+a modest enhancement to the
 `numpy.array_split <http://docs.scipy.org/doc/numpy/reference/generated/numpy.array_split.html>`_
-for sub-dividing multi-dimensional arrays into sub-arrays (slices).
+function for sub-dividing multi-dimensional arrays into sub-arrays (slices). The main motivation
+comes from parallel processing where one desires to split (decompose) a large array
+(or multiple arrays) into smaller sub-arrays which can be processed concurrently by
+other processes (`multiprocessing <https://docs.python.org/3/library/multiprocessing.html>`_ or
+`mpi4py <http://pythonhosted.org/mpi4py/>`_) or other memory-limited hardware
+(e.g. `pyopencl <https://mathema.tician.de/software/pyopencl/>`_).
+
 
 Examples
 ========
@@ -30,7 +36,7 @@ Examples
          dtype=[('0', 'O')])
    >>> 
    >>> ary = ary.reshape(4, 9) # Make ary 2D
-   >>> shape_split(ary.shape, axis=(2, 3)) # 2D split into 2*3=6 sections
+   >>> split = shape_split(ary.shape, axis=(2, 3)) # 2D split into 2*3=6 sections
    array([[(slice(0, 2, None), slice(0, 3, None)),
            (slice(0, 2, None), slice(3, 6, None)),
            (slice(0, 2, None), slice(6, 9, None))],
@@ -38,7 +44,10 @@ Examples
            (slice(2, 4, None), slice(3, 6, None)),
            (slice(2, 4, None), slice(6, 9, None))]], 
          dtype=[('0', 'O'), ('1', 'O')])
+   >>> sub_arys = [ary[tup] for tup in split.flatten()] # Split ary in sub-array views.
 
+
+Further examples at https://array-split.github.io/array_split/examples/.
 
 
 Installation

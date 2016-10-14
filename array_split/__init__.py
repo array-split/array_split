@@ -5,6 +5,38 @@ The :mod:`array_split` Package
 
 .. currentmodule:: array_split
 
+Small python package for splitting a :obj:`numpy.ndarray` (or just an array shape)
+into a number of sub-arrays.
+
+The two main functions are:
+
+   :func:`array_split`
+       Similar to :func:`numpy.array_split`, returns a list of
+       *views* of sub-arrays of the input :obj:`numpy.ndarray`.
+
+   :func:`shape_split`
+      Instead taking an :obj:`numpy.ndarray` as an argument, it
+      takes the array *shape* and returns tuples of :obj:`slice`
+      objects which indicate the extents of the sub-arrays.
+
+These two functions use an instance of the :obj:`ShapeSplitter` class
+which contains the bulk of the *split* implementation and maintains
+some state related to the computed split.
+
+Splitting of multi-dimensional arrays can be performed according to several criteria:
+
+   * Per-axis indicies indicating the *cut* positions.
+   * Per-axis number of sub-arrays.
+   * Total number of sub-arrays (with optional per-axis number of sub-array constraints).
+   * Specific sub-array shape.
+   * Maximum number of bytes for a sub-array with constraints:
+
+        - sub-arrays are an even multiple of a specified sub-tile shape
+        - upper limit on the per-axis sub-array shape
+
+Examples of various use-cases are given in the :ref:`array_split examples` section.
+
+
 Classes and Functions
 =====================
 

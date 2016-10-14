@@ -73,6 +73,7 @@ Example::
            (slice(2, 4, None), slice(3, 6, None)),
            (slice(2, 4, None), slice(6, 9, None))]],
          dtype=[('0', 'O'), ('1', 'O')])
+   >>> sub_arys = [ary[tup] for tup in split.flatten()] # Split ary in sub-array views.
 
 
 """
