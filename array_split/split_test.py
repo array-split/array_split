@@ -30,7 +30,8 @@ import array_split as _array_split
 
 import numpy as _np
 
-from .split import ShapeSplitter, calculate_num_slices_per_axis, shape_factors, array_split
+from .split import ShapeSplitter, array_split, shape_split
+from .split import calculate_num_slices_per_axis, shape_factors
 from .split import calculate_tile_shape_for_max_bytes
 
 __author__ = "Shane J. Latham"
@@ -519,6 +520,130 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(7, 13), split[0, 1][1])  # axis 1 slice
         self.assertEqual(slice(0, 7), split[1, 0][1])  # axis 1 slice
         self.assertEqual(slice(7, 13), split[1, 1][1])  # axis 1 slice
+
+    def test_calculate_split_by_tile_shape_1d(self):
+        splitter = ShapeSplitter((10, ), tile_shape=(3,))
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertSequenceEqual((4,), split.shape)
+        self.assertSequenceEqual(
+            [(slice(0, 3),), (slice(3, 6),), (slice(6, 9),), (slice(9, 10),)],
+            split.tolist()
+        )
+
+        splitter = ShapeSplitter((10, ), tile_shape=(4,))
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertSequenceEqual((3,), split.shape)
+        self.assertSequenceEqual(
+            [(slice(0, 4),), (slice(4, 8),), (slice(8, 10),)],
+            split.tolist()
+        )
+
+        splitter = ShapeSplitter((10, ), tile_shape=(5,))
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertSequenceEqual((2,), split.shape)
+        self.assertSequenceEqual(
+            [(slice(0, 5),), (slice(5, 10),)],
+            split.tolist()
+        )
+
+        splitter = ShapeSplitter((10, ), tile_shape=(10,))
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertSequenceEqual((1,), split.shape)
+        self.assertSequenceEqual(
+            [(slice(0, 10),)],
+            split.tolist()
+        )
+
+        splitter = ShapeSplitter((10, ), tile_shape=(11,))
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertSequenceEqual((1,), split.shape)
+        self.assertSequenceEqual(
+            [(slice(0, 10),)],
+            split.tolist()
+        )
+
+    def test_calculate_split_by_tile_shape_2d(self):
+        splitter = ShapeSplitter((10, 17), tile_shape=(3, 8))
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertSequenceEqual((4, 3), split.shape)
+        self.assertSequenceEqual(
+            shape_split(splitter.array_shape, [[3, 6, 9], [8, 16]]).flatten().tolist(),
+            split.flatten().tolist()
+        )
+
+        splitter = ShapeSplitter((10, 17), tile_shape=(2, 9))
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertSequenceEqual((5, 2), split.shape)
+        self.assertSequenceEqual(
+            shape_split(splitter.array_shape, [[2, 4, 6, 8], [9, ]]).flatten().tolist(),
+            split.flatten().tolist()
+        )
+
+    def test_calculate_split_by_tile_max_bytes_1d(self):
+        splitter = ShapeSplitter((512, ), max_tile_bytes=256, array_itemsize=1)
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertSequenceEqual((2,), split.shape)
+        self.assertSequenceEqual(
+            [(slice(0, 256),), (slice(256, 512),)],
+            split.tolist()
+        )
+
+        splitter = ShapeSplitter((512, ), max_tile_bytes=256, array_itemsize=2)
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertSequenceEqual((4,), split.shape)
+        self.assertSequenceEqual(
+            [(slice(0, 128),), (slice(128, 256),), (slice(256, 384),), (slice(384, 512),)],
+            split.tolist()
+        )
+
+        splitter = ShapeSplitter((512, ), max_tile_bytes=256, array_itemsize=1, halo=1)
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertSequenceEqual((4,), split.shape)
+        self.assertSequenceEqual(
+            [(slice(0, 128),), (slice(128, 256),), (slice(256, 384),), (slice(384, 512),)],
+            split.tolist()
+        )
+
+        splitter = \
+            ShapeSplitter((512, ), max_tile_bytes=256, array_itemsize=1, max_tile_shape=(128,))
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertSequenceEqual((4,), split.shape)
+        self.assertSequenceEqual(
+            [(slice(0, 128),), (slice(128, 256),), (slice(256, 384),), (slice(384, 512),)],
+            split.tolist()
+        )
+
+        splitter = ShapeSplitter((512, ), max_tile_bytes=256, array_itemsize=1, sub_tile_shape=130)
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertSequenceEqual((4,), split.shape)
+        self.assertSequenceEqual(
+            [(slice(0, 130),), (slice(130, 260),), (slice(260, 390),), (slice(390, 512),)],
+            split.tolist()
+        )
 
 __all__ = [s for s in dir() if not s.startswith('_')]
 
