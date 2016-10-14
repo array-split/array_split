@@ -11,5 +11,5 @@ array_split documenation
 .. toctree::
    :maxdepth: 4
 
-   examples/index
+   examples/examples
    reference/index
