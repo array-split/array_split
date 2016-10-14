@@ -55,7 +55,10 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'array_split'
-copyright = open(os.path.join("..", "..", "array_split", "copyright.txt"), "rt").read()
+copyright = \
+    open(
+        os.path.join("..", "..", "array_split", "copyright.txt"), "rt"
+    ).read().replace("Copyright (C)", "")
 author = u'Shane J. Latham'
 
 # The version info for the project you're documenting, acts as replacement for

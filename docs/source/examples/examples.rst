@@ -60,9 +60,9 @@ For 2D shape::
          dtype=[('0', 'O'), ('1', 'O')])
 
 
-======================================================
-Splitting along a multiple axes into a number of tiles
-======================================================
+====================================================
+Splitting along multiple axes into a number of tiles
+====================================================
 
 Number of tiles per-axis is provided as input parameter::
 
