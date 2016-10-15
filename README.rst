@@ -14,7 +14,8 @@ comes from parallel processing where one desires to split (decompose) a large ar
 (or multiple arrays) into smaller sub-arrays which can be processed concurrently by
 other processes (`multiprocessing <https://docs.python.org/3/library/multiprocessing.html>`_ or
 `mpi4py <http://pythonhosted.org/mpi4py/>`_) or other memory-limited hardware
-(e.g. `pyopencl <https://mathema.tician.de/software/pyopencl/>`_).
+(e.g. GPGPU using `pyopencl <https://mathema.tician.de/software/pyopencl/>`_,
+`pycuda <https://mathema.tician.de/software/pycuda/>`_, etc).
 
 
 Examples
@@ -44,7 +45,7 @@ Examples
            (slice(2, 4, None), slice(3, 6, None)),
            (slice(2, 4, None), slice(6, 9, None))]], 
          dtype=[('0', 'O'), ('1', 'O')])
-   >>> sub_arys = [ary[tup] for tup in split.flatten()] # Split ary in sub-array views.
+   >>> sub_arys = [ary[tup] for tup in split.flatten()] # Split ary in sub-array views using the slice tuples.
 
 
 Further examples at https://array-split.github.io/array_split/examples/.
