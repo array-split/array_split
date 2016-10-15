@@ -10,16 +10,16 @@ into a number of sub-arrays.
 
 The two main functions are:
 
-   :func:`array_split`
+   :func:`array_split.array_split`
        Similar to :func:`numpy.array_split`, returns a list of
        *views* of sub-arrays of the input :obj:`numpy.ndarray`.
 
-   :func:`shape_split`
+   :func:`array_split.shape_split`
       Instead taking an :obj:`numpy.ndarray` as an argument, it
       takes the array *shape* and returns tuples of :obj:`slice`
       objects which indicate the extents of the sub-arrays.
 
-These two functions use an instance of the :obj:`ShapeSplitter` class
+These two functions use an instance of the :obj:`array_split.ShapeSplitter` class
 which contains the bulk of the *split* implementation and maintains
 some state related to the computed split.
 
