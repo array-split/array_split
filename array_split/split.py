@@ -365,6 +365,37 @@ def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_pe
         logger.debug("ridx=%s, f=%s, ret_array=%s", ridx, f, ret_array)
     return ret_array
 
+_array_shape_param_doc =\
+    """
+:type array_shape: sequence of :obj:`int`
+:param array_shape: The shape which is to be *split*.
+"""
+_ShapeSplitter__init__params_doc =\
+    """
+:type indices_or_sections: :obj:`int` or sequence of :obj:`int`
+:param indices_or_sections: If an integer, indicates the number of
+    elements in the calculated *split* array. If a sequence indicates
+    the indicies (per axis) at which the splits occur.
+:type axis: :obj:`int` or sequence of :obj:`int`
+:param axis: If an integer, indicates the axis which is to be split.
+   Sequence integers indicates the number of slices per axis,
+   i.e. if :samp:`{axis} == [3, 5]` then axis :samp:`0` is split into
+   3 slices and axis :samp:`1` is split into 5 slices for a total
+   of 15 (:samp:`3*5`) rectangular slices in the returned :samp:`(3, 5)`
+   shaped slice array.
+:type tile_shape: sequence of :obj:`int`
+:type tile_shape: The shape for tiles.
+:type max_tile_bytes: :obj:`int`
+:param max_tile_bytes: The maximum number of bytes for the returned :samp:`tile_shape`.
+:type max_tile_shape: sequence of integers
+:param max_tile_shape: Per axis maximum shapes for the returned :samp:`tile_shape`.
+:type sub_tile_shape: sequence of integers
+:param sub_tile_shape: The returned :samp:`tile_shape` will be an even multiple
+    of this sub-tile shape.
+:type halo: sequence of integers
+:param halo: Width of halo elements in each axis direction.
+"""
+
 
 class ShapeSplitter(object):
     """
@@ -389,35 +420,6 @@ class ShapeSplitter(object):
         sub_tile_shape=None,
         halo=None
     ):
-        """
-        Initialise.
-
-        :type array_shape: sequence of :obj:`int`
-        :param array_shape: The shape which is to be *split*.
-        :type indices_or_sections: :obj:`int` or sequence of :obj:`int`
-        :param indices_or_sections: If an integer, indicates the number of
-            elements in the calculated *split* array. If a sequence indicates
-            the indicies (per axis) at which the splits occur.
-        :type axis: :obj:`int` or sequence of :obj:`int`
-        :param axis: If an integer, indicates the axis which is to be split.
-           Sequence integers indicates the number of slices per axis,
-           i.e. if :samp:`{axis} == [3, 5]` then axis :samp:`0` is split into
-           3 slices and axis :samp:`1` is split into 5 slices for a total
-           of 15 (:samp:`3*5`) rectangular slices in the returned :samp:`(3, 5)`
-           shaped slice array.
-        :type tile_shape: sequence of :obj:`int`
-        :type tile_shape: The shape for tiles.
-        :type max_tile_bytes: :obj:`int`
-        :param max_tile_bytes: The maximum number of bytes for the returned :samp:`tile_shape`.
-        :type max_tile_shape: sequence of integers
-        :param max_tile_shape: Per axis maximum shapes for the returned :samp:`tile_shape`.
-        :type sub_tile_shape: sequence of integers
-        :param sub_tile_shape: The returned :samp:`tile_shape` will be an even multiple
-           of this sub-tile shape.
-        :type halo: sequence of integers
-        :param halo: Width of halo elements in each axis direction.
-
-        """
         #: The shape of the array which is to be split
         self.array_shape = _np.array(array_shape)
         if array_start is None:
@@ -768,70 +770,66 @@ class ShapeSplitter(object):
 
         return split
 
+ShapeSplitter.__init__.__func__.__doc__ = \
+    """
+Initialise split parameters.
+
+%s
+%s
+
+""" % (_array_shape_param_doc, _ShapeSplitter__init__params_doc)
+
 
 def shape_split(array_shape, *args, **kwargs):
-    """
-    """
     return \
         ShapeSplitter(
             array_shape,
             *args,
             **kwargs
         ).calculate_split()
-
-
-def array_split(ary, indices_or_sections, axis=0):
+shape_split.__doc__ =\
     """
-        Equivalent of :func:`numpy.array_split`, split an array into multiple sub-arrays.
+Splits specified :samp:`{array_shape}` in tiles, returns array of :obj:`slice` tuples.
 
-        :type ary: :obj:`numpy.ndarray`
-        :param ary: Array to be divided into sub-arrays.
-        :type indices_or_sections: :obj:`int` or 1-D array
-        :param indices_or_sections: If :samp:`{indices_or_sections}`
-           is an integer, :samp:`N`, the array will be divided into :samp:`N`
-           (approximately) equal arrays along :samp:`{axis}`.
-           If :samp:`{indices_or_sections}` is a 1-D array of sorted integers,
-           the entries indicate where along axis the array is split.
-           For example, :samp:`indices_or_sections=[2, 3]` would, for :samp:`{axis}=0`,
-           result in::
+%s
+%s
+:rtype: :obj:`numpy.ndarray`
+:return: Array of :obj:`tuple` objects. Each :obj:`tuple` element
+   is a :obj:`slice` object so that each :obj:`tuple` defines
+   a multi-dimensional slice of an array of shape :samp:`{array_shape}`.
 
-              ary[:2]
-              ary[2:3]
-              ary[3:]
-
-           If an index exceeds the dimension of the array along axis, an empty sub-array
-           is returned correspondingly.
-        :type axis: :obj:`int`
-        :param axis: The axis along which to split, default is :samp:`0`.
-        :rtype: :obj:`list` of :obj:`numpy.ndarray`
-        :return: A list of sub-arrays.
-
-        Examples::
-
-           >>> import numpy as np
-           >>> from array_split import array_split
-           >>> x = np.arange(9.0)
-           >>> array_split(x, 3)
-           [array([ 0.,  1.,  2.]), array([ 3.,  4.,  5.]), array([ 6.,  7.,  8.])]
-           >>> array_split(x, 4)
-           [array([ 0.,  1.,  2.]), array([ 3.,  4.]), array([ 5.,  6.]), array([ 7.,  8.])]
-           >>> array_split(x, [3, 5, 6, 10])
-           [array([ 0.,  1.,  2.]),
-            array([ 3.,  4.]),
-            array([ 5.]),
-            array([ 6.,  7.]),
-            array([], dtype=float64)]
+.. seealso:: :func:`array_split.array_split`, :meth:`array_split.ShapeSplitter`,
+   :ref:`array_split examples`
 
 
-    """
+""" % (_array_shape_param_doc, _ShapeSplitter__init__params_doc)
+
+
+def array_split(ary, *args, **kwargs):
     return [
         ary[slyce]
         for slyce in
-        ShapeSplitter(
-            array_shape=ary.shape,
-            indices_or_sections=indices_or_sections,
-            axis=axis
-        ).calculate_split().flatten()
+        shape_split(
+            ary.shape,
+            *args,
+            **kwargs
+        ).flatten()
     ]
+array_split.__doc__ =\
+    """
+Splits specified array :samp:`{ary}` into sub-arrays, returns list of :obj:`numpy.ndarray`.
+
+:type ary: :obj:`numpy.ndarray`
+:param ary: Array which is split into sub-arrays.
+%s
+:rtype: :obj:`list`
+:return: List of :obj:`numpy.ndarray` elements, where each element is
+   a *slice* from :samp:`{ary}` (potentially an empty slice).
+
+.. seealso:: :func:`array_split.shape_split`, :meth:`array_split.ShapeSplitter`,
+   :ref:`array_split examples`
+
+
+""" % (_ShapeSplitter__init__params_doc)
 
 __all__ = [s for s in dir() if not s.startswith('_')]

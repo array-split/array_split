@@ -23,6 +23,8 @@ Definitions:
 
    *tiles*
       The multi-dimensional *sub-arrays* of an array decomposition.
+   *slice*
+      Akin to a :obj:`slice` object, a contiguous range of elements along an axis.
    *splitting*
       An array is *cut* along one or more axes to form tiles.
    *halo*
@@ -106,4 +108,8 @@ Raises :obj:`ValueError` if the impossible is attempted::
    ...
    ValueError('Unable to construct grid of num_slices=8 elements from num_slices_per_axis=[1, 3, 0] (with max_slices_per_axis=[20 10 15])',)
 
+
+==================================
+Splitting with specific tile shape
+==================================
 

@@ -34,7 +34,7 @@ Splitting of multi-dimensional arrays can be performed according to several crit
         - sub-arrays are an even multiple of a specified sub-tile shape
         - upper limit on the per-axis sub-array shape
 
-Examples of various use-cases are given in the :ref:`array_split examples` section.
+A variety of use-cases are given in the :ref:`array_split examples` section.
 
 
 Classes and Functions
