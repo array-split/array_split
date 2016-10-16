@@ -811,7 +811,7 @@ class ShapeSplitter(object):
         self.set_split_extents()
         return self.calculate_split_from_extents()
 
-ShapeSplitter([0,]).__init__.__func__.__doc__ = \
+ShapeSplitter([0, ]).__init__.__func__.__doc__ = \
     """
 Initialise split parameters.
 
