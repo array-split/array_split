@@ -456,7 +456,7 @@ class ShapeSplitter(object):
                     axis = 0
                 # Make indices_per_axis a list of lists, so that
                 # element 0 is a list of indices for axis 0
-                indices_per_axis = [None,]*len(array_shape)
+                indices_per_axis = [None, ] * len(array_shape)
                 indices_per_axis[axis] = indices_or_sections
         else:
             indices_per_axis = None
