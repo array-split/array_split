@@ -448,13 +448,16 @@ class ShapeSplitter(object):
             num_subarrays = None
             indices_per_axis = indices_or_sections
             if (
-                is_scalar(axis)
-                or
+                ((axis is None) or is_scalar(axis))
+                and
                 (not _np.any([is_sequence(_e) for _e in indices_or_sections]))
             ):
+                if axis is None:
+                    axis = 0
                 # Make indices_per_axis a list of lists, so that
                 # element 0 is a list of indices for axis 0
-                indices_per_axis = [indices_or_sections, ]
+                indices_per_axis = [None,]*len(array_shape)
+                indices_per_axis[axis] = indices_or_sections
         else:
             indices_per_axis = None
             num_subarrays = indices_or_sections
