@@ -31,7 +31,7 @@ script:
     - cd docs
     - python -m doctest source/examples/examples.rst
     # array_split.__main__ runs doctest on the array_split and array_split.split modules.
-    - python -m array_split
+    - if [[ $TRAVIS_PYTHON_VERSION != '2.6' ]]; then python -m array_split; fi
 
 after_success:
     # Deploy the travis-sphinx docs to gh-pages using travis-sphinx.
