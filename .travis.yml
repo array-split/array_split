@@ -27,6 +27,11 @@ script:
     # Build the sphinx documentation using travis-sphinx
     # Can only build docs with sphinx for python 2.6, 2.7, 3.3, 3.4, ..., not python-3.2
     - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx build; fi
+    # python doctest on examples.rst
+    - cd docs
+    - python -m doctest source/examples/examples.rst
+    # array_split.__main__ runs doctest on the array_split and array_split.split modules.
+    - python -m array_split
 
 after_success:
     # Deploy the travis-sphinx docs to gh-pages using travis-sphinx.
