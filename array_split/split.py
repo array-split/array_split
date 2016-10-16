@@ -97,15 +97,15 @@ def shape_factors(n, dim=2):
        >>> shape_factors(24, 1)
        array([24])
        >>> shape_factors(24, 2)
-       array([4,6])
+       array([4, 6])
        >>> shape_factors(24, 3)
-       array([2,3,4])
+       array([2, 3, 4])
        >>> shape_factors(24, 4)
-       array([2,2,2,3])
+       array([2, 2, 2, 3])
        >>> shape_factors(24, 5)
-       array([1,2,2,2,3])
+       array([1, 2, 2, 2, 3])
        >>> shape_factors(24, 6)
-       array([1,1,2,2,2,3])
+       array([1, 1, 2, 2, 2, 3])
 
     :type n: :obj:`int`
     :param n: Integer which is factored into :samp:`{dim}` factors.
@@ -167,20 +167,21 @@ def calculate_tile_shape_for_max_bytes(
        ... array_shape=[512,],
        ... array_itemsize=1,
        ... max_tile_bytes=512
-       ...)
+       ... )
        array([512])
        >>> calculate_tile_shape_for_max_bytes(
        ... array_shape=[512,],
        ... array_itemsize=2,  # Doubling the itemsize halves the tile size.
        ... max_tile_bytes=512
-       ...)
+       ... )
        array([256])
        >>> calculate_tile_shape_for_max_bytes(
        ... array_shape=[512,],
        ... array_itemsize=1,
        ... max_tile_bytes=512-1  # tile shape will now be halved
-       ...)
+       ... )
        array([256])
+
 
     """
     array_shape = _np.array(array_shape, dtype="int64")
