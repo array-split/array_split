@@ -66,6 +66,11 @@ issued to import the relevant functions::
    >>> import numpy
    >>> from array_split import array_split, shape_split, ShapeSplitter
 
+=====================================================================================
+Comparison between :samp:`array_split`, :samp:`shape_split` and :samp:`ShapeSplitter`
+=====================================================================================
+
+.. todo:: fill in this section
 
 ============================
 Splitting by number of tiles
@@ -381,3 +386,15 @@ the  :samp:`{sub_tile_shape}`::
            (slice(360, 512, None), slice(840, 1024, None))]], 
          dtype=[('0', 'O'), ('1', 'O')])
 
+
+===================================
+The :samp:`{array_start}` parameter
+===================================
+
+.. todo:: fill in this section
+
+============================
+The :samp:`{halo}` parameter
+============================
+
+.. todo:: fill in this section
