@@ -184,6 +184,16 @@ def calculate_tile_shape_for_max_bytes(
 
 
     """
+
+    logger = _logging.getLogger(__name__ + ".calculate_tile_shape_for_max_bytes")
+    logger.debug("calculate_tile_shape_for_max_bytes: enter:")
+    logger.debug("array_shape=%s", array_shape)
+    logger.debug("array_itemsize=%s", array_itemsize)
+    logger.debug("max_tile_bytes=%s", max_tile_bytes)
+    logger.debug("max_tile_shape=%s", max_tile_shape)
+    logger.debug("sub_tile_shape=%s", sub_tile_shape)
+    logger.debug("halo=%s", halo)
+
     array_shape = _np.array(array_shape, dtype="int64")
     array_itemsize = _np.sum(array_itemsize, dtype="int64")
 
@@ -221,18 +231,30 @@ def calculate_tile_shape_for_max_bytes(
             )
         )
 
-    logger = _logging.getLogger(__name__ + ".calculate_tile_shape_for_max_bytes")
     logger.debug("max_tile_shape=%s", max_tile_shape)
     logger.debug("sub_tile_shape=%s", sub_tile_shape)
     logger.debug("halo=%s", halo)
     array_sub_tile_split_shape = ((array_shape - 1) // sub_tile_shape) + 1
-    tile_sub_tile_split_shape = array_sub_tile_split_shape.copy()
-    logger.debug("tile_sub_tile_split_shape=%s", tile_sub_tile_split_shape)
+    tile_sub_tile_split_shape = array_shape // sub_tile_shape
+    if len(tile_sub_tile_split_shape) <= 1:
+        tile_sub_tile_split_shape[0] = \
+            int(_np.floor(
+                (
+                    (max_tile_bytes / float(array_itemsize))
+                    -
+                    _np.sum(halo)
+                )
+                /
+                float(sub_tile_shape[0])
+            ))
+
     tile_sub_tile_split_shape = \
         _np.minimum(
             tile_sub_tile_split_shape,
             max_tile_shape // sub_tile_shape
         )
+    logger.debug("tile_sub_tile_split_shape=%s", tile_sub_tile_split_shape)
+
     current_axis = 0
     while (
         (current_axis < len(tile_sub_tile_split_shape.shape))
@@ -247,7 +269,7 @@ def calculate_tile_shape_for_max_bytes(
             max_tile_bytes
         )
     ):
-        if current_axis > 1:
+        if current_axis < (len(tile_sub_tile_split_shape) - 1):
             tile_sub_tile_split_shape[current_axis] = 1
             tile_sub_tile_split_shape[current_axis] = \
                 (
@@ -268,15 +290,28 @@ def calculate_tile_shape_for_max_bytes(
                 tile_sub_tile_split_shape[current_axis] = 1
             current_axis += 1
         else:
-            tile_sub_tile_split_shape[current_axis] //= 2
-            if tile_sub_tile_split_shape[current_axis] <= 0:
-                tile_sub_tile_split_shape[current_axis] = 1
-                current_axis += 1
+            sub_tile_shape_h = sub_tile_shape.copy()
+            sub_tile_shape_h[0:current_axis] += _np.sum(halo[0:current_axis, :], axis=1)
+            tile_sub_tile_split_shape[current_axis] = \
+                int(_np.floor(
+                    (
+                        (max_tile_bytes / float(array_itemsize))
+                        -
+                        _np.sum(halo[current_axis]) * _np.product(sub_tile_shape_h[0:current_axis])
+                    )
+                    /
+                    float(_np.product(sub_tile_shape_h))
+                ))
+
+    logger.debug("tile_sub_tile_split_shape=%s", tile_sub_tile_split_shape)
     tile_shape = _np.minimum(array_shape, tile_sub_tile_split_shape * sub_tile_shape)
+    logger.debug("pre cannonicalise tile_shape=%s", tile_shape)
 
     tile_split_shape = ((array_shape - 1) // tile_shape) + 1
+    logger.debug("tile_split_shape=%s", tile_split_shape)
 
-    tile_shape = (array_sub_tile_split_shape // tile_split_shape) * sub_tile_shape
+    tile_shape = (((array_sub_tile_split_shape - 1) // tile_split_shape) + 1) * sub_tile_shape
+    logger.debug("post cannonicalise tile_shape=%s", tile_shape)
 
     return tile_shape
 

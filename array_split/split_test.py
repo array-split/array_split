@@ -191,6 +191,14 @@ class SplitTest(_unittest.TestCase):
             )
         self.assertSequenceEqual((512,), tile_shape)
 
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512,),
+                array_itemsize=2,
+                max_tile_bytes=511
+            )
+        self.assertSequenceEqual((171,), tile_shape)
+
     def test_calculate_tile_shape_for_max_bytes_2d(self):
         """
         Test case for :func:`array_split.split.calculate_tile_shape_for_max_bytes`,
@@ -218,7 +226,7 @@ class SplitTest(_unittest.TestCase):
                 array_itemsize=1,
                 max_tile_bytes=512**2 - 1
             )
-        self.assertSequenceEqual((513 // 3, 512), tile_shape.tolist())
+        self.assertSequenceEqual((257, 512), tile_shape.tolist())
 
         tile_shape = \
             calculate_tile_shape_for_max_bytes(
@@ -261,7 +269,7 @@ class SplitTest(_unittest.TestCase):
                 max_tile_bytes=512**2 // 2,
                 sub_tile_shape=(30, 64)
             )
-        self.assertSequenceEqual((90, 512), tile_shape.tolist())
+        self.assertSequenceEqual((120, 512), tile_shape.tolist())
 
         tile_shape = \
             calculate_tile_shape_for_max_bytes(
@@ -621,13 +629,23 @@ class SplitTest(_unittest.TestCase):
             split.tolist()
         )
 
+        splitter = ShapeSplitter((512, ), max_tile_bytes=511, array_itemsize=2)
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertSequenceEqual((3,), split.shape)
+        self.assertSequenceEqual(
+            [(slice(0, 171),), (slice(171, 342),), (slice(342, 512),)],
+            split.tolist()
+        )
+
         splitter = ShapeSplitter((512, ), max_tile_bytes=256, array_itemsize=1, halo=1)
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
-        self.assertSequenceEqual((4,), split.shape)
+        self.assertSequenceEqual((3,), split.shape)
         self.assertSequenceEqual(
-            [(slice(0, 128),), (slice(128, 256),), (slice(256, 384),), (slice(384, 512),)],
+            [(slice(0, 171),), (slice(171, 342),), (slice(342, 512),)],
             split.tolist()
         )
 
@@ -642,7 +660,8 @@ class SplitTest(_unittest.TestCase):
             split.tolist()
         )
 
-        splitter = ShapeSplitter((512, ), max_tile_bytes=256, array_itemsize=1, sub_tile_shape=130)
+        splitter = \
+            ShapeSplitter((512, ), max_tile_bytes=256, array_itemsize=1, sub_tile_shape=(130,))
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
         self.logger.info("split =\n%s", split)
