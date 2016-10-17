@@ -63,6 +63,7 @@ The subsequent sections provides examples from each of these categories.
 In the examples, we assume that the following statement has been
 issued to import the relevant functions::
 
+   >>> import numpy
    >>> from array_split import array_split, shape_split, ShapeSplitter
 
 
@@ -278,11 +279,105 @@ Decrement :samp:`{max_tile_bytes}` to :samp:`511` to split into 3 tiles::
 
 Note that the split is calculated so that tiles are approximately equal in size.
 
+In 2D::
+
+   >>> split = shape_split(
+   ...   array_shape=[512, 1024],
+   ...   array_itemsize=1,
+   ...   max_tile_bytes=512*512
+   ... )
+   ...
+   >>> split.shape
+   (2, 1)
+   >>> split
+   array([[(slice(0, 256, None), slice(0, 1024, None))],
+          [(slice(256, 512, None), slice(0, 1024, None))]], 
+         dtype=[('0', 'O'), ('1', 'O')])
+
+and increasing :samp:`{array_itemsize}` to :samp:`4`::
+
+   >>> split = shape_split(
+   ...   array_shape=[512, 1024],
+   ...   array_itemsize=4,
+   ...   max_tile_bytes=512*512
+   ... )
+   ...
+   >>> split.shape
+   (8, 1)
+   >>> split
+   array([[(slice(0, 64, None), slice(0, 1024, None))],
+          [(slice(64, 128, None), slice(0, 1024, None))],
+          [(slice(128, 192, None), slice(0, 1024, None))],
+          [(slice(192, 256, None), slice(0, 1024, None))],
+          [(slice(256, 320, None), slice(0, 1024, None))],
+          [(slice(320, 384, None), slice(0, 1024, None))],
+          [(slice(384, 448, None), slice(0, 1024, None))],
+          [(slice(448, 512, None), slice(0, 1024, None))]], 
+         dtype=[('0', 'O'), ('1', 'O')])
+
+The preference is to split into (:samp:`'C'` order) contiguous memory tiles.
+
 
 Constraining split with tile shape upper bound
 ==============================================
 
+The split can be influenced by specifying the :samp:`{max_tile_shape}`
+parameter. For the previous 2D example, we can force splitting
+along :samp:`axis=1` by constraining the tile shape::
+
+   >>> split = shape_split(
+   ...   array_shape=[512, 1024],
+   ...   array_itemsize=4,
+   ...   max_tile_bytes=512*512,
+   ...   max_tile_shape=[numpy.inf, 256]
+   ... )
+   ...
+   >>> split.shape
+   (2, 4)
+   >>> split
+   array([[(slice(0, 256, None), slice(0, 256, None)),
+           (slice(0, 256, None), slice(256, 512, None)),
+           (slice(0, 256, None), slice(512, 768, None)),
+           (slice(0, 256, None), slice(768, 1024, None))],
+          [(slice(256, 512, None), slice(0, 256, None)),
+           (slice(256, 512, None), slice(256, 512, None)),
+           (slice(256, 512, None), slice(512, 768, None)),
+           (slice(256, 512, None), slice(768, 1024, None))]], 
+         dtype=[('0', 'O'), ('1', 'O')])
+
 
 Constraining split with shape with sub-tiling
 =============================================
+
+The split can also be influenced by specifying the :samp:`{sub_tile_shape}`
+parameter which forces the tile shape to be an even multiple of
+the  :samp:`{sub_tile_shape}`::
+
+   >>> split = shape_split(
+   ...   array_shape=[512, 1024],
+   ...   array_itemsize=4,
+   ...   max_tile_bytes=512*512,
+   ...   max_tile_shape=[numpy.inf, 256],
+   ...   sub_tile_shape=(15, 10)
+   ... )
+   ...
+   >>> split.shape
+   (3, 5)
+   >>> split
+   array([[(slice(0, 180, None), slice(0, 210, None)),
+           (slice(0, 180, None), slice(210, 420, None)),
+           (slice(0, 180, None), slice(420, 630, None)),
+           (slice(0, 180, None), slice(630, 840, None)),
+           (slice(0, 180, None), slice(840, 1024, None))],
+          [(slice(180, 360, None), slice(0, 210, None)),
+           (slice(180, 360, None), slice(210, 420, None)),
+           (slice(180, 360, None), slice(420, 630, None)),
+           (slice(180, 360, None), slice(630, 840, None)),
+           (slice(180, 360, None), slice(840, 1024, None))],
+          [(slice(360, 512, None), slice(0, 210, None)),
+           (slice(360, 512, None), slice(210, 420, None)),
+           (slice(360, 512, None), slice(420, 630, None)),
+           (slice(360, 512, None), slice(630, 840, None)),
+           (slice(360, 512, None), slice(840, 1024, None))]], 
+         dtype=[('0', 'O'), ('1', 'O')])
 
