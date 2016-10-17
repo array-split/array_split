@@ -199,6 +199,8 @@ def calculate_tile_shape_for_max_bytes(
 
     if max_tile_shape is None:
         max_tile_shape = _np.array(array_shape, copy=True)
+    max_tile_shape = \
+        _np.array(_np.minimum(max_tile_shape, array_shape), copy=True, dtype=array_shape.dtype)
 
     if sub_tile_shape is None:
         sub_tile_shape = _np.ones((len(array_shape),), dtype="int64")
