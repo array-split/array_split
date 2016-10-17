@@ -28,7 +28,7 @@ Definitions:
       *overlap* with neighbouring tiles. Also often referred to as
       *ghost cells* or *ghost elements*.
    *sub-tile*
-      The sub-array formed by spliting a tile.
+      The sub-array formed by splitting a tile.
 
 ====================
 Parameter Categories
@@ -74,7 +74,7 @@ Splitting by number of tiles
 Splitting along a single axis into a number of tiles
 ====================================================
 
-Number of tiles and axis are provided as input parameters::
+Number of tiles is provided as input parameter (default :samp:`{axis}=0`)::
 
    >>> split = shape_split([20,], 4)  # 1D, array_shape=[20,], number of tiles=4, default axis=0
    >>> split.shape
@@ -100,7 +100,7 @@ For 2D shape::
 Splitting along multiple axes into a number of tiles
 ====================================================
 
-Number of tiles per-axis is provided as input parameter::
+Number of slices per-axis is provided as input parameter::
 
    >>> split = shape_split([20, 10], axis=[3, 2])  # Split into 3*2=6 tiles
    >>> split.shape
@@ -132,7 +132,8 @@ In 3D, split into 8 tiles, but only split the :samp:`axis=1` and :samp:`axis=2` 
          dtype=[('0', 'O'), ('1', 'O'), ('2', 'O')])
 
 In the above, non-positive elements of :samp:`axis` are replaced
-so that :samp:`numpy.product(axis)` equals the number of requested tiles (:samp:`= 8` above).
+with positive values such that :samp:`numpy.product(axis)` equals
+the number of requested tiles (:samp:`= 8` above).
 Raises :obj:`ValueError` if the impossible is attempted::
 
    >>> try:
@@ -149,7 +150,7 @@ Splitting by per-axis split indices
 Splitting along a single axis with per-axis split indices
 =========================================================
 
-Indices of cuts provided as input parameter::
+Indices of splits provided as input parameter::
 
    >>> split = shape_split([20,], [5, 7, 9])  # 1D, split into 4 tiles, default cut axis=0
    >>> split.shape
@@ -159,7 +160,7 @@ Indices of cuts provided as input parameter::
           (slice(9, 20, None),)], 
          dtype=[('0', 'O')])
 
-In 2D, cut :samp:`axis=1` only::
+In 2D, split :samp:`axis=1` only::
 
    >>> split = shape_split([20, 13], [5, 7, 9], axis=1)  # 2D, split into 4 tiles, cut axis=1
    >>> split.shape
@@ -174,7 +175,7 @@ In 2D, cut :samp:`axis=1` only::
 Splitting along multiple axes with per-axis split indices
 =========================================================
 
-In 3D, cut along :samp:`axis=1` and :samp:`axis=2` only::
+In 3D, split along :samp:`axis=1` and :samp:`axis=2` only::
 
    >>> split = shape_split([20, 13, 64], [[], [7], [15, 30, 45]])  # 3D, split into 8 tiles, no cuts on axis=0
    >>> split.shape
@@ -229,4 +230,59 @@ and 2D::
 ===================================
 Splitting by maximum bytes per tile
 ===================================
+
+1D split, tile shape 
+
+   >>> split = shape_split(
+   ...   array_shape=[512,],
+   ...   array_itemsize=1,
+   ...   max_tile_bytes=512 # Equals number of array bytes
+   ... )
+   ...
+   >>> split.shape
+   (1,)
+   >>> split
+   array([(slice(0, 512, None),)], 
+         dtype=[('0', 'O')])
+
+
+Double the array per-element number of bytes::
+
+   >>> split = shape_split(
+   ...   array_shape=[512,],
+   ...   array_itemsize=2,
+   ...   max_tile_bytes=512 # Equals half the number of array bytes
+   ... )
+   ...
+   >>> split.shape
+   (2,)
+   >>> split
+   array([(slice(0, 256, None),), (slice(256, 512, None),)], 
+         dtype=[('0', 'O')])
+
+
+Decrement :samp:`{max_tile_bytes}` to :samp:`511` to split into 3 tiles::
+
+   >>> split = shape_split(
+   ...   array_shape=[512,],
+   ...   array_itemsize=2,
+   ...   max_tile_bytes=511 # Less than half the number of array bytes
+   ... )
+   ...
+   >>> split.shape
+   (3,)
+   >>> split
+   array([(slice(0, 171, None),), (slice(171, 342, None),),
+          (slice(342, 512, None),)], 
+         dtype=[('0', 'O')])
+
+Note that the split is calculated so that tiles are approximately equal in size.
+
+
+Constraining split with tile shape upper bound
+==============================================
+
+
+Constraining split with shape with sub-tiling
+=============================================
 
