@@ -9,6 +9,8 @@ python:
 
 # command to install dependencies
 install:
+  - git config --global user.name array-split
+  - git config --global user.email array-split@users.noreply.github.com
   - pwd
   - ls -al `pwd`/*
   - if [[ $TRAVIS_PYTHON_VERSION != '2.6'* ]]; then pip install flake8; else pip install 'flake8<3'; fi
