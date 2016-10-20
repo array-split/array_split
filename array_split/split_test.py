@@ -753,6 +753,18 @@ class SplitTest(_unittest.TestCase):
             split.tolist()
         )
 
+        split = shape_split((10,), 3, halo=1, tile_bounds_policy=ARRAY_BOUNDS)
+        self.assertSequenceEqual(
+            [(slice(0, 5),), (slice(3, 8),), (slice(6, 10),)],
+            split.tolist()
+        )
+
+        split = shape_split((10,), 3, halo=1, tile_bounds_policy=NO_BOUNDS)
+        self.assertSequenceEqual(
+            [(slice(-1, 5),), (slice(3, 8),), (slice(6, 11),)],
+            split.tolist()
+        )
+
 __all__ = [s for s in dir() if not s.startswith('_')]
 
 _unittest.main(__name__)
