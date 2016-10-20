@@ -677,6 +677,38 @@ class SplitTest(_unittest.TestCase):
             split.tolist()
         )
 
+    def test_calculate_split_with_array_start_1d(self):
+        split = shape_split((10,), 2, array_start=(0,))
+        self.assertSequenceEqual(
+            [(slice(0, 5),), (slice(5, 10),)],
+            split.tolist()
+        )
+
+        split = shape_split((10,), 2, array_start=(32,))
+        self.assertSequenceEqual(
+            [(slice(32, 37),), (slice(37, 42),)],
+            split.tolist()
+        )
+
+    def test_calculate_split_with_array_start_2d(self):
+        split = shape_split((10, 12), axis=(2, 2), array_start=(0, 0))
+        self.assertSequenceEqual(
+            [
+                [(slice(0, 5), slice(0, 6)), (slice(0, 5), slice(6, 12))],
+                [(slice(5, 10), slice(0, 6)), (slice(5, 10), slice(6, 12))]
+            ],
+            split.tolist()
+        )
+
+        split = shape_split((10, 12), axis=(2, 2), array_start=(32, 16))
+        self.assertSequenceEqual(
+            [
+                [(slice(32, 37), slice(16, 22)), (slice(32, 37), slice(22, 28))],
+                [(slice(37, 42), slice(16, 22)), (slice(37, 42), slice(22, 28))]
+            ],
+            split.tolist()
+        )
+
 __all__ = [s for s in dir() if not s.startswith('_')]
 
 _unittest.main(__name__)

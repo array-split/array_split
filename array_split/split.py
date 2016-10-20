@@ -627,8 +627,8 @@ class ShapeSplitter(object):
                     tuple(
                         [
                             slice(
-                                self.split_begs[d][idx[d]],
-                                self.split_ends[d][idx[d]]
+                                self.split_begs[d][idx[d]] + self.array_start[d],
+                                self.split_ends[d][idx[d]] + self.array_start[d]
                             )
                             for d in range(len(self.split_shape))
                         ]

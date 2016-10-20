@@ -441,7 +441,20 @@ the  :samp:`{sub_tile_shape}`::
 The :samp:`{array_start}` parameter
 ===================================
 
-.. todo:: fill in this section
+The :samp:`{array_start}` argument to the :func:`array_split.shape_split` function
+and the :meth:`array_split.ShapeSplitter.__init__` constructor specifies
+an index offset for the slices in the returned :obj:`tuple` of :obj:`slice` objects::
+
+   >>> split = shape_split((15,), 3)
+   >>> split 
+   array([(slice(0, 5, None),), (slice(5, 10, None),), (slice(10, 15, None),)], 
+         dtype=[('0', 'O')])
+   >>> split = shape_split((15,), 3, array_start=(20,))
+   >>> split
+   array([(slice(20, 25, None),), (slice(25, 30, None),),
+          (slice(30, 35, None),)], 
+         dtype=[('0', 'O')])
+
 
 ============================
 The :samp:`{halo}` parameter
