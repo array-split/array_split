@@ -454,7 +454,6 @@ class ShapeSplitter(object):
     """
     Implements array shape splitting.
 
-
     """
 
     #: Class attribute for :obj:`logging.Logger` logging.
@@ -535,9 +534,9 @@ class ShapeSplitter(object):
         self.sub_tile_shape = sub_tile_shape
 
         if halo is None:
-            halo = _np.zeros((len(array_shape), 2), dtype="int64")
+            halo = _np.zeros((len(self.array_shape), 2), dtype="int64")
         elif is_scalar(halo):
-            halo = _np.zeros((len(array_shape), 2), dtype="int64") + halo
+            halo = _np.zeros((len(self.array_shape), 2), dtype="int64") + halo
         else:
             halo = _np.array(halo, copy=True)
             if len(halo.shape) == 1:
