@@ -29,7 +29,7 @@ script:
     - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx build; fi
     # python doctest on examples/index.rst
     - cd docs
-    - python -m doctest source/examples/index.rst
+    - python -m doctest source/examples/index.rst ../README.rst
     # array_split.__main__ runs doctest on the array_split and array_split.split modules.
     - if [[ $TRAVIS_PYTHON_VERSION != '2.6'* ]]; then python -m array_split; fi
     - cd ..
