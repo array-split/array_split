@@ -33,6 +33,7 @@ import numpy as _np
 from .split import ShapeSplitter, array_split, shape_split
 from .split import calculate_num_slices_per_axis, shape_factors
 from .split import calculate_tile_shape_for_max_bytes
+from .split import ARRAY_BOUNDS, NO_BOUNDS
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
@@ -651,7 +652,7 @@ class SplitTest(_unittest.TestCase):
         self.logger.info("split =\n%s", split)
         self.assertSequenceEqual((3,), split.shape)
         self.assertSequenceEqual(
-            [(slice(0, 171),), (slice(171, 342),), (slice(342, 512),)],
+            [(slice(0, 172),), (slice(170, 343),), (slice(341, 512),)],
             split.tolist()
         )
 
@@ -706,6 +707,49 @@ class SplitTest(_unittest.TestCase):
                 [(slice(32, 37), slice(16, 22)), (slice(32, 37), slice(22, 28))],
                 [(slice(37, 42), slice(16, 22)), (slice(37, 42), slice(22, 28))]
             ],
+            split.tolist()
+        )
+
+    def test_calculate_split_with_halo_1d(self):
+        split = shape_split((10,), 3, halo=(0,))
+        self.assertSequenceEqual(
+            [(slice(0, 4),), (slice(4, 7),), (slice(7, 10),)],
+            split.tolist()
+        )
+
+        split = shape_split((10,), 3, halo=(0, 0))
+        self.assertSequenceEqual(
+            [(slice(0, 4),), (slice(4, 7),), (slice(7, 10),)],
+            split.tolist()
+        )
+
+        split = shape_split((10,), 3, halo=(1, 0))
+        self.assertSequenceEqual(
+            [(slice(0, 4),), (slice(3, 7),), (slice(6, 10),)],
+            split.tolist()
+        )
+
+        split = shape_split((10,), 3, halo=(0, 1))
+        self.assertSequenceEqual(
+            [(slice(0, 5),), (slice(4, 8),), (slice(7, 10),)],
+            split.tolist()
+        )
+
+        split = shape_split((10,), 3, halo=(1, 1))
+        self.assertSequenceEqual(
+            [(slice(0, 5),), (slice(3, 8),), (slice(6, 10),)],
+            split.tolist()
+        )
+
+        split = shape_split((10,), 3, halo=[(1, 2), ])
+        self.assertSequenceEqual(
+            [(slice(0, 6),), (slice(3, 9),), (slice(6, 10),)],
+            split.tolist()
+        )
+
+        split = shape_split((10,), 3, halo=1)
+        self.assertSequenceEqual(
+            [(slice(0, 5),), (slice(3, 8),), (slice(6, 10),)],
             split.tolist()
         )
 

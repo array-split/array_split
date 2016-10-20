@@ -3,9 +3,9 @@
 The :mod:`array_split.split` Module
 ===================================
 
-Defines array splitting functions and classes.
-
 .. currentmodule:: array_split.split
+
+Defines array splitting functions and classes.
 
 Classes and Functions
 =====================
@@ -16,9 +16,15 @@ Classes and Functions
    shape_factors - Compute *largest* factors of a given integer.
    calculate_num_slices_per_axis - Computes per-axis divisions for a multi-dimensional shape.
    calculate_tile_shape_for_max_bytes - Calculate a tile shape subject to max bytes restriction.
-   ShapeSplitter - Array shape splitting akin to :func:`numpy.array_split`.
+   ShapeSplitter - Splits a given shape into slices.
    shape_split - Splits a specified shape and returns :obj:`numpy.ndarray` of :obj:`slice` elements.
    array_split - Equivalent to :func:`numpy.array_split`.
+
+Attributes
+==========
+
+.. autodata:: ARRAY_BOUNDS
+.. autodata:: NO_BOUNDS
 
 """
 from __future__ import absolute_import
@@ -421,6 +427,20 @@ _array_itemsize_param_doc =\
    Only relevant when :samp:`{max_tile_bytes}` is specified.
 """
 
+_array_tile_bounds_policy_param_doc =\
+    """
+:type tile_bounds_policy: :obj:`str`
+:param tile_bounds_policy: Specifies whether tiles can extend beyond the array boundaries.
+   Only relevant for halo values greater than one. If :samp:`{tile_bounds_policy}`
+   is :data:`ARRAY_BOUNDS`
+   then the calculated tiles will not extend beyond the array
+   extents :samp:`{array_start}` and :samp:`{array_start} + {array_shape}`.
+   If :samp:`{tile_bounds_policy}` is :data:`NO_BOUNDS`
+   then the returned tiles will extend beyond
+   the :samp:`{array_start}` and :samp:`{array_start} + {array_shape}` extend
+   for positive :samp:`{halo}` values.
+"""
+
 _ShapeSplitter__init__params_doc =\
     """
 :type indices_or_sections: :obj:`int` or sequence of :obj:`int`
@@ -447,7 +467,14 @@ _ShapeSplitter__init__params_doc =\
     of this sub-tile shape. Only relevant when :samp:`{max_tile_bytes}` is specified.
 :type halo: sequence of :obj:`int`
 :param halo: Width of halo elements in each axis direction.
+%s
 """
+
+#: Indicates that tiles are always within the array bounds.
+ARRAY_BOUNDS = "array_bounds"
+
+#: Indicates that tiles may extend beyond the array bounds.
+NO_BOUNDS = "no_bounds"
 
 
 class ShapeSplitter(object):
@@ -470,7 +497,8 @@ class ShapeSplitter(object):
         max_tile_bytes=None,
         max_tile_shape=None,
         sub_tile_shape=None,
-        halo=None
+        halo=None,
+        tile_bounds_policy=ARRAY_BOUNDS
     ):
         #: The shape of the array which is to be split
         self.array_shape = _np.array(array_shape)
@@ -517,6 +545,7 @@ class ShapeSplitter(object):
             else:
                 split_num_slices_per_axis = pad_with_object([1, ], len(self.array_shape), 1)
                 split_num_slices_per_axis[axis] = self.split_size
+
         #: Defines number of slices per axis
         self.split_num_slices_per_axis = split_num_slices_per_axis
 
@@ -537,13 +566,30 @@ class ShapeSplitter(object):
             halo = _np.zeros((len(self.array_shape), 2), dtype="int64")
         elif is_scalar(halo):
             halo = _np.zeros((len(self.array_shape), 2), dtype="int64") + halo
+        elif (len(array_shape) == 1) and (_np.array(halo).shape == (2,)):
+            halo = _np.array([halo, ], copy=True)
+        elif len(_np.array(halo).shape) == 1:
+            halo = _np.array([halo, halo]).T.copy()
         else:
             halo = _np.array(halo, copy=True)
-            if len(halo.shape) == 1:
-                halo = _np.array([halo, halo]).T.copy()
 
         #: Notional halo element padding for tiles
         self.halo = halo
+
+        if tile_bounds_policy is None:
+            tile_bounds_policy = ARRAY_BOUNDS
+
+        #: Policy specifying whether slices can extend beyond the array bounds.
+        self.tile_bounds_policy = tile_bounds_policy
+
+        #: Lower bound for the tile start index.
+        self.tile_beg_min = self.array_start
+
+        #: Upper bound for the tile stop index.
+        self.tile_end_max = self.array_start + self.array_shape
+
+        #: List of valid values for :samp:`{self}.tile_bound_policy`.
+        self.valid_tile_bounds_policies = [ARRAY_BOUNDS, NO_BOUNDS]
 
         #: The shape of the returned *split* arrays.
         self.split_shape = None
@@ -557,7 +603,7 @@ class ShapeSplitter(object):
     def check_halo(self):
         """
         Raises :obj:`ValueError` if there is an inconsistency
-        between :samp:`{self}.array_shape` and :samp:`{self}.halo`
+        between shapes of :samp:`{self}.array_shape` and :samp:`{self}.halo`
         """
         if (
             (len(self.halo.shape) != 2)
@@ -571,6 +617,34 @@ class ShapeSplitter(object):
                 %
                 (self.halo.shape, self.array_shape.shape[0])
             )
+
+    def check_tile_bounds_policy(self):
+        """
+        Raises :obj:`ValueError` if :samp:`{self}.tile_bounds_policy`
+        is not in :samp:`[{self}.ARRAY_BOUNDS, {self}.NO_BOUNDS]`.
+        """
+        if not (self.tile_bounds_policy in self.valid_tile_bounds_policies):
+            raise ValueError(
+                "Got self.tile_bounds_policy=%s, which is not in %s."
+                %
+                (self.tile_bounds_policy, self.valid_tile_bounds_policies)
+            )
+
+    def update_tile_extent_bounds(self):
+        """
+        Updates the :samp:`{self}.tile_beg_min` and :samp:`{self}.tile_end_max`
+        data members according to :samp:`{self}.tile_bounds_policy`.
+        """
+
+        self.check_halo()
+        self.check_tile_bounds_policy()
+
+        if self.tile_bounds_policy == NO_BOUNDS:
+            self.tile_beg_min = self.array_start - self.halo[:, 0]
+            self.tile_end_max = self.array_start + self.array_shape + self.halo[:, 1]
+        elif self.tile_bounds_policy == ARRAY_BOUNDS:
+            self.tile_beg_min = self.array_start
+            self.tile_end_max = self.array_start + self.array_shape
 
     def set_split_extents_by_indices_per_axis(self):
         """
@@ -626,8 +700,16 @@ class ShapeSplitter(object):
                     tuple(
                         [
                             slice(
-                                self.split_begs[d][idx[d]] + self.array_start[d],
-                                self.split_ends[d][idx[d]] + self.array_start[d]
+                                max([
+                                    self.split_begs[d][idx[d]]
+                                    + self.array_start[d] - self.halo[d, 0],
+                                    self.tile_beg_min[d]
+                                ]),
+                                min([
+                                    self.split_ends[d][idx[d]]
+                                    + self.array_start[d] + self.halo[d, 1],
+                                    self.tile_end_max[d]
+                                ])
                             )
                             for d in range(len(self.split_shape))
                         ]
@@ -822,7 +904,7 @@ class ShapeSplitter(object):
         selected attributes set from :meth:`__init__`.
         """
 
-        self.check_halo()
+        self.update_tile_extent_bounds()
 
         if self.indices_per_axis is not None:
             self.set_split_extents_by_indices_per_axis()
@@ -860,7 +942,15 @@ Initialise split parameters.
 
 """ % (
     _array_shape_param_doc,
-    _ShapeSplitter__init__params_doc % (_array_start_param_doc, "\n" + _array_itemsize_param_doc)
+    (
+        _ShapeSplitter__init__params_doc
+        %
+        (
+            _array_start_param_doc,
+            "\n" + _array_itemsize_param_doc,
+            _array_tile_bounds_policy_param_doc
+        )
+    )
 )
 
 
@@ -888,9 +978,15 @@ Splits specified :samp:`{array_shape}` in tiles, returns array of :obj:`slice` t
 
 """ % (
         _array_shape_param_doc,
-        _ShapeSplitter__init__params_doc % (
-            _array_start_param_doc,
-            "\n" + _array_itemsize_param_doc)
+        (
+            _ShapeSplitter__init__params_doc
+            %
+            (
+                _array_start_param_doc,
+                "\n" + _array_itemsize_param_doc,
+                _array_tile_bounds_policy_param_doc
+            )
+        )
     )
 
 
@@ -917,12 +1013,13 @@ def array_split(
             max_tile_bytes=max_tile_bytes,
             max_tile_shape=max_tile_shape,
             sub_tile_shape=sub_tile_shape,
-            halo=halo
+            halo=halo,
+            tile_bounds_policy=ARRAY_BOUNDS
         ).flatten()
     ]
 array_split.__doc__ =\
     """
-Splits specified array :samp:`{ary}` into sub-arrays, returns list of :obj:`numpy.ndarray`.
+Splits the specified array :samp:`{ary}` into sub-arrays, returns list of :obj:`numpy.ndarray`.
 
 :type ary: :obj:`numpy.ndarray`
 :param ary: Array which is split into sub-arrays.
@@ -935,6 +1032,6 @@ Splits specified array :samp:`{ary}` into sub-arrays, returns list of :obj:`nump
    :ref:`array_split examples`
 
 
-""" % (_ShapeSplitter__init__params_doc % ("", ""))
+""" % (_ShapeSplitter__init__params_doc % ("", "", ""))
 
 __all__ = [s for s in dir() if not s.startswith('_')]

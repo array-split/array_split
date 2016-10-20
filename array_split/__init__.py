@@ -58,5 +58,6 @@ __copyright__ = _copyright()
 __version__ = _pkg_resources.resource_string("array_split", "version.txt").decode()
 
 from .split import array_split, shape_split, ShapeSplitter  # noqa: E402,F401
+from .split import ARRAY_BOUNDS, NO_BOUNDS  # noqa: E402,F401
 
 __all__ = [s for s in dir() if not s.startswith('_')]
