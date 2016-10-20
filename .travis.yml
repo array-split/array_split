@@ -1,4 +1,9 @@
 language: python
+
+# Set the clone depth, pick up tags for git describe.
+git:
+  depth: 200
+
 python:
   - "2.6"
   - "2.7"
