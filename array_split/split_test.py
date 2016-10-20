@@ -332,6 +332,12 @@ class SplitTest(_unittest.TestCase):
             array_split(x, [3, 8, 12], axis=1)
         )
 
+        x = _np.arange(0, 512, dtype="int16")
+        self.assertArraySplitEqual(
+            [_np.arange(0, 256), _np.arange(256, 512)],
+            array_split(x, max_tile_bytes=512)
+        )
+
     def test_split_by_per_axis_indices(self):
         """
         Test for case for splitting by specified

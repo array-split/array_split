@@ -414,6 +414,12 @@ _array_start_param_doc =\
 :type array_start: sequence of :obj:`int`
 :param array_start: Specify a starting index, defaults to :samp:`[0,]*len(array_shape)`.
 """
+_array_itemsize_param_doc =\
+    """
+:type array_itemsize: int or sequence of :obj:`int`
+:param array_itemsize: Number of bytes per array element is :samp:`numpy.sum(array_itemsize)`.
+   Only relevant when :samp:`{max_tile_bytes}` is specified.
+"""
 
 _ShapeSplitter__init__params_doc =\
     """
@@ -428,9 +434,7 @@ _ShapeSplitter__init__params_doc =\
    3 slices and axis :samp:`1` is split into 5 slices for a total
    of 15 (:samp:`3*5`) rectangular slices in the returned :samp:`(3, 5)`
    shaped slice array.
-%s:type array_itemsize: int or sequence of :obj:`int`
-:param array_itemsize: Number of bytes per array element is :samp:`numpy.sum(array_itemsize)`.
-   Only relevant when :samp:`{max_tile_bytes}` is specified.
+%s%s
 :type tile_shape: sequence of :obj:`int`
 :param tile_shape: Explicit shape for tiles.
 :type max_tile_bytes: :obj:`int`
@@ -855,7 +859,10 @@ Initialise split parameters.
 %s
 %s
 
-""" % (_array_shape_param_doc, _ShapeSplitter__init__params_doc % _array_start_param_doc)
+""" % (
+    _array_shape_param_doc,
+    _ShapeSplitter__init__params_doc % (_array_start_param_doc, "\n" + _array_itemsize_param_doc)
+)
 
 
 def shape_split(array_shape, *args, **kwargs):
@@ -880,17 +887,38 @@ Splits specified :samp:`{array_shape}` in tiles, returns array of :obj:`slice` t
    :ref:`array_split examples`
 
 
-""" % (_array_shape_param_doc, _ShapeSplitter__init__params_doc % _array_start_param_doc)
+""" % (
+        _array_shape_param_doc,
+        _ShapeSplitter__init__params_doc % (
+            _array_start_param_doc,
+            "\n" + _array_itemsize_param_doc)
+    )
 
 
-def array_split(ary, *args, **kwargs):
+def array_split(
+    ary,
+    indices_or_sections=None,
+    axis=None,
+    tile_shape=None,
+    max_tile_bytes=None,
+    max_tile_shape=None,
+    sub_tile_shape=None,
+    halo=None
+):
     return [
         ary[slyce]
         for slyce in
         shape_split(
-            ary.shape,
-            *args,
-            **kwargs
+            array_shape=ary.shape,
+            indices_or_sections=indices_or_sections,
+            axis=axis,
+            array_start=None,
+            array_itemsize=ary.itemsize,
+            tile_shape=tile_shape,
+            max_tile_bytes=max_tile_bytes,
+            max_tile_shape=max_tile_shape,
+            sub_tile_shape=sub_tile_shape,
+            halo=halo
         ).flatten()
     ]
 array_split.__doc__ =\
@@ -908,6 +936,6 @@ Splits specified array :samp:`{ary}` into sub-arrays, returns list of :obj:`nump
    :ref:`array_split examples`
 
 
-""" % (_ShapeSplitter__init__params_doc % "")
+""" % (_ShapeSplitter__init__params_doc % ("", ""))
 
 __all__ = [s for s in dir() if not s.startswith('_')]
