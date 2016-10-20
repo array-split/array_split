@@ -70,7 +70,57 @@ issued to import the relevant functions::
 Comparison between :samp:`array_split`, :samp:`shape_split` and :samp:`ShapeSplitter`
 =====================================================================================
 
-.. todo:: fill in this section
+The :func:`array_split.array_split` function is analogous to
+the :func:`numpy.array_split` function. It takes a :obj:`numpy.ndarray`
+object as an argument and returns a :obj:`list` of tile (:obj:`numpy.ndarray` sub-array
+objects) elements::
+
+   >>> numpy.array_split(numpy.arange(0, 10), 3)
+   [array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]
+   >>> array_split(numpy.arange(0, 10), 3) # array_split.array_split
+   [array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]
+
+The :func:`array_split.shape_split` function takes an array *shape* as an
+argument instead of an actual array, and returns an array of :samp:`tuple` elements.
+The tuple elements can then be used to extract the tiles from a :obj:`numpy.ndarray`
+of an equivalent shape::
+
+   >>> ary = numpy.arange(0, 10)
+   >>> split = shape_split(ary.shape, 3)
+   >>> split
+   array([(slice(0, 4, None),), (slice(4, 7, None),), (slice(7, 10, None),)], 
+         dtype=[('0', 'O')])
+   >>> [ary[slyce] for slyce in split.flatten()]
+   [array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]
+
+The :obj:`array_split.ShapeSplitter` class provides the splitting implementation
+for the :func:`array_split.shape_split`. The :meth:`array_split.ShapeSplitter.__init__`
+constructor takes the same arguments as the :func:`array_split.shape_split` function.
+The :meth:`array_split.ShapeSplitter.calculate_split` method calculates the split. After
+the split calculation, some state information is preserved in the :obj:`array_split.ShapeSplitter`
+data attributes::
+
+   >>> ary = numpy.arange(0, 10)
+   >>> splitter = ShapeSplitter(ary.shape, 3)
+   >>> split = splitter.calculate_split()
+   >>> split.shape
+   (3,)
+   >>> split
+   array([(slice(0, 4, None),), (slice(4, 7, None),), (slice(7, 10, None),)], 
+         dtype=[('0', 'O')])
+   >>> [ary[slyce] for slyce in split.flatten()]
+   [array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]
+   >>> 
+   >>> splitter.split_shape # equivalent to split.shape above
+   array([3])
+   >>> splitter.split_begs  # start indices for tile extents
+   [array([0, 4, 7])]
+   >>> splitter.split_ends  # stop indices for tile extents
+   [array([ 4,  7, 10])]
+
+Potentially, the methods of the :obj:`array_split.ShapeSplitter` class can be over-ridden
+in sub-classes in order to customise the splitting behaviour.
+
 
 ============================
 Splitting by number of tiles
