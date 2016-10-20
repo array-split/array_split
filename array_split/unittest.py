@@ -79,25 +79,6 @@ def _fix_docstring_for_sphinx(docstr):
     return "\n".join(lines)
 
 
-def _fix_method_docstrings_for_sphinx(class_instance, list_of_attr_names):
-    logger = array_split.logging.getLogger(__name__ + "._fix_method_docstrings_for_sphinx")
-    for attr_name in list_of_attr_names:
-        if hasattr(class_instance, attr_name):
-            try:
-                attr = getattr(class_instance, attr_name)
-                if hasattr(attr, "__func__"):
-                    attr_func = getattr(attr, "__func__")
-                    if hasattr(attr_func, "__doc__"):
-                        logger.debug("Fixing docstring for %s...", attr_func)
-                        setattr(
-                            attr_func,
-                            "__doc__",
-                            _fix_docstring_for_sphinx(getattr(attr_func, "__doc__"))
-                        )
-            except (Exception,) as e:
-                logger.warn("_fix_method_docstrings_for_sphinx: %s", e)
-
-
 class TestCase(_builtin_unittest.TestCase):
     """
     Extends :obj:`unittest.TestCase` with the :meth:`assertArraySplitEqual`.
@@ -130,6 +111,50 @@ class TestCase(_builtin_unittest.TestCase):
                 )
             )
 
+    #
+    # Method over-rides below are just to avoid sphinx warnings
+    #
+    def assertItemsEqual(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertItemsEqual`.
+        """
+        _builtin_unittest.TestCase.assertItemsEqual(self, *args, **kwargs)
+
+    def assertListEqual(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertListEqual`.
+        """
+        _builtin_unittest.TestCase.assertListEqual(self, *args, **kwargs)
+
+    def assertRaisesRegexp(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertRaisesRegexp`.
+        """
+        _builtin_unittest.TestCase.assertRaisesRegexp(self, *args, **kwargs)
+
+    def assertRaisesRegex(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertRaisesRegex`.
+        """
+        _builtin_unittest.TestCase.assertRaisesRegex(self, *args, **kwargs)
+
+    def assertSetEqual(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertSetEqual`.
+        """
+        _builtin_unittest.TestCase.assertSetEqual(self, *args, **kwargs)
+
+    def assertTupleEqual(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertTupleEqual`.
+        """
+        _builtin_unittest.TestCase.assertTupleEqual(self, *args, **kwargs)
+
+    def assertWarnsRegex(self, *args, **kwargs):
+        """
+        See :obj:`unittest.TestCase.assertWarnsRegex`.
+        """
+        _builtin_unittest.TestCase.assertWarnsRegex(self, *args, **kwargs)
 
 if not hasattr(TestCase, "assertSequenceEqual"):
     # code from python-2.7 unitest.case.TestCase
@@ -297,17 +322,3 @@ else:
         _builtin_unittest.TestCase.assertSequenceEqual(self, *args, **kwargs)
 
     setattr(TestCase, "assertSequenceEqual", assertSequenceEqual)
-
-_fix_method_docstrings_for_sphinx(
-    TestCase("assertTrue"),
-    [
-        "assertItemsEqual",
-        "assertListEqual",
-        "assertRaisesRegexp",
-        "assertRaisesRegex",
-        "assertSetEqual",
-        "assertTupleEqual",
-        "assertWarnsRegex",
-        "assertSequenceEqual",
-    ]
-)
