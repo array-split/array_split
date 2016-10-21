@@ -765,6 +765,312 @@ class SplitTest(_unittest.TestCase):
             split.tolist()
         )
 
+        split = shape_split((10,), 3, halo=((2, 3),), tile_bounds_policy=NO_BOUNDS)
+        self.assertSequenceEqual(
+            [(slice(-2, 7),), (slice(2, 10),), (slice(5, 13),)],
+            split.tolist()
+        )
+
+        split = shape_split((10,), 3, halo=(2, 3), tile_bounds_policy=NO_BOUNDS)
+        self.assertSequenceEqual(
+            [(slice(-2, 7),), (slice(2, 10),), (slice(5, 13),)],
+            split.tolist()
+        )
+
+    def test_calculate_split_with_halo_2d(self):
+        split = shape_split((15, 13), axis=[3, 3], halo=0)
+        self.assertSequenceEqual(
+            [
+                [
+                    (slice(0, 5), slice(0, 5)),
+                    (slice(0, 5), slice(5, 9)),
+                    (slice(0, 5), slice(9, 13))
+                ],
+                [
+                    (slice(5, 10), slice(0, 5)),
+                    (slice(5, 10), slice(5, 9)),
+                    (slice(5, 10), slice(9, 13))
+                ],
+                [
+                    (slice(10, 15), slice(0, 5)),
+                    (slice(10, 15), slice(5, 9)),
+                    (slice(10, 15), slice(9, 13))
+                ],
+            ],
+            split.tolist()
+        )
+
+        split = shape_split((15, 13), axis=[3, 3], halo=(0, 0))
+        self.assertSequenceEqual(
+            [
+                [
+                    (slice(0, 5), slice(0, 5)),
+                    (slice(0, 5), slice(5, 9)),
+                    (slice(0, 5), slice(9, 13))
+                ],
+                [
+                    (slice(5, 10), slice(0, 5)),
+                    (slice(5, 10), slice(5, 9)),
+                    (slice(5, 10), slice(9, 13))
+                ],
+                [
+                    (slice(10, 15), slice(0, 5)),
+                    (slice(10, 15), slice(5, 9)),
+                    (slice(10, 15), slice(9, 13))
+                ],
+            ],
+            split.tolist()
+        )
+
+        split = shape_split((15, 13), axis=[3, 3], halo=[[0, 0], [0, 0]])
+        self.assertSequenceEqual(
+            [
+                [
+                    (slice(0, 5), slice(0, 5)),
+                    (slice(0, 5), slice(5, 9)),
+                    (slice(0, 5), slice(9, 13))
+                ],
+                [
+                    (slice(5, 10), slice(0, 5)),
+                    (slice(5, 10), slice(5, 9)),
+                    (slice(5, 10), slice(9, 13))
+                ],
+                [
+                    (slice(10, 15), slice(0, 5)),
+                    (slice(10, 15), slice(5, 9)),
+                    (slice(10, 15), slice(9, 13))
+                ],
+            ],
+            split.tolist()
+        )
+
+        split = \
+            shape_split(
+                (15, 13),
+                axis=[3, 3],
+                halo=[[0, 0], [0, 0]],
+                tile_bounds_policy=ARRAY_BOUNDS
+            )
+        self.assertSequenceEqual(
+            [
+                [
+                    (slice(0, 5), slice(0, 5)),
+                    (slice(0, 5), slice(5, 9)),
+                    (slice(0, 5), slice(9, 13))
+                ],
+                [
+                    (slice(5, 10), slice(0, 5)),
+                    (slice(5, 10), slice(5, 9)),
+                    (slice(5, 10), slice(9, 13))
+                ],
+                [
+                    (slice(10, 15), slice(0, 5)),
+                    (slice(10, 15), slice(5, 9)),
+                    (slice(10, 15), slice(9, 13))
+                ],
+            ],
+            split.tolist()
+        )
+
+        split = \
+            shape_split(
+                (15, 13),
+                axis=[3, 3],
+                halo=[[0, 0], [0, 0]],
+                tile_bounds_policy=NO_BOUNDS
+            )
+        self.assertSequenceEqual(
+            [
+                [
+                    (slice(0, 5), slice(0, 5)),
+                    (slice(0, 5), slice(5, 9)),
+                    (slice(0, 5), slice(9, 13))
+                ],
+                [
+                    (slice(5, 10), slice(0, 5)),
+                    (slice(5, 10), slice(5, 9)),
+                    (slice(5, 10), slice(9, 13))
+                ],
+                [
+                    (slice(10, 15), slice(0, 5)),
+                    (slice(10, 15), slice(5, 9)),
+                    (slice(10, 15), slice(9, 13))
+                ],
+            ],
+            split.tolist()
+        )
+
+        split = \
+            shape_split(
+                (15, 13),
+                axis=[3, 3],
+                halo=1,
+                tile_bounds_policy=ARRAY_BOUNDS
+            )
+        self.assertSequenceEqual(
+            [
+                [
+                    (slice(0, 6), slice(0, 6)),
+                    (slice(0, 6), slice(4, 10)),
+                    (slice(0, 6), slice(8, 13))
+                ],
+                [
+                    (slice(4, 11), slice(0, 6)),
+                    (slice(4, 11), slice(4, 10)),
+                    (slice(4, 11), slice(8, 13))
+                ],
+                [
+                    (slice(9, 15), slice(0, 6)),
+                    (slice(9, 15), slice(4, 10)),
+                    (slice(9, 15), slice(8, 13))
+                ],
+            ],
+            split.tolist()
+        )
+
+        split = \
+            shape_split(
+                (15, 13),
+                axis=[3, 3],
+                halo=(2, 3),
+                tile_bounds_policy=ARRAY_BOUNDS
+            )
+        self.assertSequenceEqual(
+            [
+                [
+                    (slice(0, 7), slice(0, 8)),
+                    (slice(0, 7), slice(2, 12)),
+                    (slice(0, 7), slice(6, 13))
+                ],
+                [
+                    (slice(3, 12), slice(0, 8)),
+                    (slice(3, 12), slice(2, 12)),
+                    (slice(3, 12), slice(6, 13))
+                ],
+                [
+                    (slice(8, 15), slice(0, 8)),
+                    (slice(8, 15), slice(2, 12)),
+                    (slice(8, 15), slice(6, 13))
+                ],
+            ],
+            split.tolist()
+        )
+
+        split = \
+            shape_split(
+                (15, 13),
+                axis=[3, 3],
+                halo=[[1, 2], [2, 3]],
+                tile_bounds_policy=ARRAY_BOUNDS
+            )
+        self.assertSequenceEqual(
+            [
+                [
+                    (slice(0, 7), slice(0, 8)),
+                    (slice(0, 7), slice(3, 12)),
+                    (slice(0, 7), slice(7, 13))
+                ],
+                [
+                    (slice(4, 12), slice(0, 8)),
+                    (slice(4, 12), slice(3, 12)),
+                    (slice(4, 12), slice(7, 13))
+                ],
+                [
+                    (slice(9, 15), slice(0, 8)),
+                    (slice(9, 15), slice(3, 12)),
+                    (slice(9, 15), slice(7, 13))
+                ],
+            ],
+            split.tolist()
+        )
+
+        # NO_BOUNDS
+
+        split = \
+            shape_split(
+                (15, 13),
+                axis=[3, 3],
+                halo=1,
+                tile_bounds_policy=NO_BOUNDS
+            )
+        self.assertSequenceEqual(
+            [
+                [
+                    (slice(-1, 6), slice(-1, 6)),
+                    (slice(-1, 6), slice(4, 10)),
+                    (slice(-1, 6), slice(8, 14))
+                ],
+                [
+                    (slice(4, 11), slice(-1, 6)),
+                    (slice(4, 11), slice(4, 10)),
+                    (slice(4, 11), slice(8, 14))
+                ],
+                [
+                    (slice(9, 16), slice(-1, 6)),
+                    (slice(9, 16), slice(4, 10)),
+                    (slice(9, 16), slice(8, 14))
+                ],
+            ],
+            split.tolist()
+        )
+
+        split = \
+            shape_split(
+                (15, 13),
+                axis=[3, 3],
+                halo=(2, 3),
+                tile_bounds_policy=NO_BOUNDS
+            )
+        self.assertSequenceEqual(
+            [
+                [
+                    (slice(-2, 7), slice(-3, 8)),
+                    (slice(-2, 7), slice(2, 12)),
+                    (slice(-2, 7), slice(6, 16))
+                ],
+                [
+                    (slice(3, 12), slice(-3, 8)),
+                    (slice(3, 12), slice(2, 12)),
+                    (slice(3, 12), slice(6, 16))
+                ],
+                [
+                    (slice(8, 17), slice(-3, 8)),
+                    (slice(8, 17), slice(2, 12)),
+                    (slice(8, 17), slice(6, 16))
+                ],
+            ],
+            split.tolist()
+        )
+
+        split = \
+            shape_split(
+                (15, 13),
+                axis=[3, 3],
+                halo=[[1, 2], [2, 3]],
+                tile_bounds_policy=NO_BOUNDS
+            )
+        self.assertSequenceEqual(
+            [
+                [
+                    (slice(-1, 7), slice(-2, 8)),
+                    (slice(-1, 7), slice(3, 12)),
+                    (slice(-1, 7), slice(7, 16))
+                ],
+                [
+                    (slice(4, 12), slice(-2, 8)),
+                    (slice(4, 12), slice(3, 12)),
+                    (slice(4, 12), slice(7, 16))
+                ],
+                [
+                    (slice(9, 17), slice(-2, 8)),
+                    (slice(9, 17), slice(3, 12)),
+                    (slice(9, 17), slice(7, 16))
+                ],
+            ],
+            split.tolist()
+        )
+
+
 __all__ = [s for s in dir() if not s.startswith('_')]
 
 _unittest.main(__name__)
