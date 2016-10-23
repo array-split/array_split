@@ -34,7 +34,7 @@ Splitting of multi-dimensional arrays can be performed according to several crit
         - sub-arrays are an even multiple of a specified sub-tile shape
         - upper limit on the per-axis sub-array shape
 
-A variety of use-cases are given in the :ref:`array_split examples` section.
+A variety of use-cases are given in the :ref:`array_split-examples` section.
 
 
 Classes and Functions
@@ -47,6 +47,13 @@ Classes and Functions
    array_split - Equivalent to :func:`numpy.array_split`.
    ShapeSplitter - Array shape splitting class.
 
+Attributes
+==========
+
+.. autodata:: ARRAY_BOUNDS
+.. autodata:: NO_BOUNDS
+
+
 """
 from __future__ import absolute_import
 from .license import license as _license, copyright as _copyright
@@ -57,7 +64,14 @@ __license__ = _license()
 __copyright__ = _copyright()
 __version__ = _pkg_resources.resource_string("array_split", "version.txt").decode()
 
+from . import split
 from .split import array_split, shape_split, ShapeSplitter  # noqa: E402,F401
 from .split import ARRAY_BOUNDS, NO_BOUNDS  # noqa: E402,F401
+
+#: See :data:`array_split.split.ARRAY_BOUNDS`
+ARRAY_BOUNDS = split.ARRAY_BOUNDS
+
+#: See :data:`array_split.split.NO_BOUNDS`
+NO_BOUNDS = split.NO_BOUNDS
 
 __all__ = [s for s in dir() if not s.startswith('_')]

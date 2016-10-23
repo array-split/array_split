@@ -419,12 +419,14 @@ _array_start_param_doc =\
     """
 :type array_start: sequence of :obj:`int`
 :param array_start: Specify a starting index, defaults to :samp:`[0,]*len(array_shape)`.
+   See :ref:`the-array_start-parameter-examples` examples.
 """
 _array_itemsize_param_doc =\
     """
 :type array_itemsize: int or sequence of :obj:`int`
 :param array_itemsize: Number of bytes per array element is :samp:`numpy.sum(array_itemsize)`.
    Only relevant when :samp:`{max_tile_bytes}` is specified.
+   See :ref:`splitting-by-maximum-bytes-per-tile-examples` examples.
 """
 
 _array_tile_bounds_policy_param_doc =\
@@ -438,7 +440,7 @@ _array_tile_bounds_policy_param_doc =\
    If :samp:`{tile_bounds_policy}` is :data:`NO_BOUNDS`
    then the returned tiles will extend beyond
    the :samp:`{array_start}` and :samp:`{array_start} + {array_shape}` extend
-   for positive :samp:`{halo}` values.
+   for positive :samp:`{halo}` values. See :ref:`the-halo-parameter-examples` examples.
 """
 
 _ShapeSplitter__init__params_doc =\
@@ -447,6 +449,7 @@ _ShapeSplitter__init__params_doc =\
 :param indices_or_sections: If an integer, indicates the number of
     elements in the calculated *split* array. If a sequence indicates
     the indicies (per axis) at which the splits occur.
+    See :ref:`splitting-by-number-of-tiles-examples` examples.
 :type axis: :obj:`int` or sequence of :obj:`int`
 :param axis: If an integer, indicates the axis which is to be split.
    Sequence integers indicates the number of slices per axis,
@@ -454,9 +457,12 @@ _ShapeSplitter__init__params_doc =\
    3 slices and axis :samp:`1` is split into 5 slices for a total
    of 15 (:samp:`3*5`) rectangular slices in the returned :samp:`(3, 5)`
    shaped slice array.
+   See :ref:`splitting-by-number-of-tiles-examples` examples
+   and :ref:`splitting-by-per-axis-split-indices-examples` examples.
 %s%s
 :type tile_shape: sequence of :obj:`int`
 :param tile_shape: Explicit shape for tiles.
+   See :ref:`splitting-by-tile-shape-examples` examples.
 :type max_tile_bytes: :obj:`int`
 :param max_tile_bytes: The maximum number of bytes for calculated :samp:`tile_shape`.
 :type max_tile_shape: sequence of :obj:`int`
@@ -466,14 +472,17 @@ _ShapeSplitter__init__params_doc =\
 :param sub_tile_shape: The calculated :samp:`tile_shape` will be an even multiple
     of this sub-tile shape. Only relevant when :samp:`{max_tile_bytes}` is specified.
 :type halo: sequence of :obj:`int`
-:param halo: Width of halo elements in each axis direction.
+:param halo: How tiles are extended in each axis direction with *halo*
+   elements. See :ref:`the-halo-parameter-examples` examples.
 %s
 """
 
 #: Indicates that tiles are always within the array bounds.
+#: See :ref:`the-halo-parameter-examples` examples.
 ARRAY_BOUNDS = "array_bounds"
 
 #: Indicates that tiles may extend beyond the array bounds.
+#: See :ref:`the-halo-parameter-examples` examples.
 NO_BOUNDS = "no_bounds"
 
 
@@ -973,7 +982,7 @@ Splits specified :samp:`{array_shape}` in tiles, returns array of :obj:`slice` t
    a multi-dimensional slice of an array of shape :samp:`{array_shape}`.
 
 .. seealso:: :func:`array_split.array_split`, :meth:`array_split.ShapeSplitter`,
-   :ref:`array_split examples`
+   :ref:`array_split-examples`
 
 
 """ % (
@@ -1029,7 +1038,7 @@ Splits the specified array :samp:`{ary}` into sub-arrays, returns list of :obj:`
    a *slice* from :samp:`{ary}` (potentially an empty slice).
 
 .. seealso:: :func:`array_split.shape_split`, :meth:`array_split.ShapeSplitter`,
-   :ref:`array_split examples`
+   :ref:`array_split-examples`
 
 
 """ % (_ShapeSplitter__init__params_doc % ("", "", ""))

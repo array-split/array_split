@@ -6,6 +6,8 @@
 `array_split`
 =============
 
+.. Start of sphinx doc include.
+
 The `array_split <https://array-split.github.io/array_split>`_ python package is
 a modest enhancement to the
 `numpy.array_split <http://docs.scipy.org/doc/numpy/reference/generated/numpy.array_split.html>`_
@@ -18,8 +20,8 @@ other processes (`multiprocessing <https://docs.python.org/3/library/multiproces
 `pycuda <https://mathema.tician.de/software/pycuda/>`_, etc).
 
 
-Examples
-========
+Quick Start Example
+===================
 
 
    >>> from array_split import array_split, shape_split
@@ -30,7 +32,7 @@ Examples
    >>> array_split(ary, 4) # 1D split into 4 sections (like numpy.array_split)
    [array([0, 1, 2, 3, 4, 5, 6, 7, 8]), array([ 9, 10, 11, 12, 13, 14, 15, 16, 17]), array([18, 19, 20, 21, 22, 23, 24, 25, 26]), array([27, 28, 29, 30, 31, 32, 33, 34, 35])]
    >>> 
-   >>> shape_split(ary.shape, 4) # 1D split into 4, slice objects instead of numpy.ndarray views 
+   >>> shape_split(ary.shape, 4) # 1D split into 4 sections, slice objects instead of numpy.ndarray views 
    array([(slice(0, 9, None),), (slice(9, 18, None),), (slice(18, 27, None),),
           (slice(27, 36, None),)], 
          dtype=[('0', 'O')])
@@ -47,7 +49,7 @@ Examples
            (slice(2, 4, None), slice(3, 6, None)),
            (slice(2, 4, None), slice(6, 9, None))]], 
          dtype=[('0', 'O'), ('1', 'O')])
-   >>> sub_arys = [ary[tup] for tup in split.flatten()] # Split ary in sub-array views using the slice tuples.
+   >>> sub_arys = [ary[tup] for tup in split.flatten()] # Split ary into sub-array views using the slice tuples.
    >>> sub_arys
    [array([[ 0,  1,  2],
           [ 9, 10, 11]]), array([[ 3,  4,  5],
@@ -58,7 +60,7 @@ Examples
           [33, 34, 35]])]
 
 
-Further examples at https://array-split.github.io/array_split/examples/.
+Latest sphinx documention examples at https://array-split.github.io/array_split/examples/.
 
 
 Installation
@@ -78,6 +80,11 @@ From latest github source::
     cd array_split
     python setup.py install --user
 
+Requirements
+============
+
+Requires `numpy <http://docs.scipy.org/doc/numpy/>`_ version `>= 1.6`,
+python-2 version `>= 2.6` or python-3 version `>= 3.2`.
 
 Testing
 =======
@@ -85,6 +92,11 @@ Testing
 Run unit tests using::
 
    python -m array_split.tests
+
+Run doc tests::
+
+   python -m array_split
+   python -m doctest docs/source/examples/index.rst
 
 Travis CI at:
 

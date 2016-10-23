@@ -1,4 +1,4 @@
-.. _`array_split examples`:
+.. _array_split-examples:
 
 +++++++++++++++++++++++++++
 :mod:`array_split` Examples
@@ -22,7 +22,7 @@ Definitions:
       Equivalent to a tile, a :obj:`tuple` of :obj:`slice` elements indicating the extents
       of a tile/sub-array.
    *split*
-      A *cut* along one or more (array) axes to form tiles.
+      A *cut* along one or more (array) axes to form tiles or slices.
    *halo*
       An expansion of a tile (along one or more axes) to form an
       *overlap* with neighbouring tiles. Also often referred to as
@@ -118,9 +118,10 @@ data attributes::
    >>> splitter.split_ends  # stop indices for tile extents
    [array([ 4,  7, 10])]
 
-Potentially, the methods of the :obj:`array_split.ShapeSplitter` class can be over-ridden
+Methods of the :obj:`array_split.ShapeSplitter` class can be over-ridden
 in sub-classes in order to customise the splitting behaviour.
 
+.. _splitting-by-number-of-tiles-examples:
 
 ============================
 Splitting by number of tiles
@@ -199,6 +200,8 @@ Raises :obj:`ValueError` if the impossible is attempted::
    ...
    ValueError('Unable to construct grid of num_slices=8 elements from num_slices_per_axis=[1, 3, 0] (with max_slices_per_axis=[20 10 15])',)
 
+.. _splitting-by-per-axis-split-indices-examples:
+
 ===================================
 Splitting by per-axis split indices
 ===================================
@@ -251,7 +254,9 @@ The :samp:`{indices_or_sections}=[[], [7], [15, 30, 45]]` parameter indicates
 that the cut indices for :samp:`axis=0` are :samp:`[]` (i.e. no splits), the
 cut indices for :samp:`axis=1` are :samp:`[7]` (a single split at index :samp:`7`)
 and the cut indices for :samp:`axis=2` are :samp:`[15, 30, 45]` (three splits).
- 
+
+.. _splitting-by-tile-shape-examples:
+
 =======================
 Splitting by tile shape
 =======================
@@ -282,6 +287,7 @@ and 2D::
            (slice(18, 20, None), slice(16, 32, None))]], 
          dtype=[('0', 'O'), ('1', 'O')])
 
+.. _splitting-by-maximum-bytes-per-tile-examples:
 
 ===================================
 Splitting by maximum bytes per tile
@@ -401,7 +407,7 @@ along :samp:`axis=1` by constraining the tile shape::
          dtype=[('0', 'O'), ('1', 'O')])
 
 
-Constraining split with shape with sub-tiling
+Constraining split tile shape with sub-tiling
 =============================================
 
 The split can also be influenced by specifying the :samp:`{sub_tile_shape}`
@@ -436,6 +442,7 @@ the  :samp:`{sub_tile_shape}`::
            (slice(360, 512, None), slice(840, 1024, None))]], 
          dtype=[('0', 'O'), ('1', 'O')])
 
+.. _the-array_start-parameter-examples:
 
 ===================================
 The :samp:`{array_start}` parameter
@@ -455,9 +462,121 @@ an index offset for the slices in the returned :obj:`tuple` of :obj:`slice` obje
           (slice(30, 35, None),)], 
          dtype=[('0', 'O')])
 
+.. _the-halo-parameter-examples:
 
 ============================
 The :samp:`{halo}` parameter
 ============================
 
-.. todo:: fill in this section
+The :samp:`{halo}` parameter can be used to generate tiles
+which overlap with neighbouring tiles by a specified number
+of array elements (in each axis direction)::
+
+   >>> from array_split import ARRAY_BOUNDS, NO_BOUNDS
+   >>> split = shape_split([16,], 4) # No halo
+   >>> split.shape
+   (4,)
+   >>> split
+   array([(slice(0, 4, None),), (slice(4, 8, None),), (slice(8, 12, None),),
+          (slice(12, 16, None),)], 
+         dtype=[('0', 'O')])
+   >>> split = shape_split([16,], 4, halo=2, tile_bounds_policy=ARRAY_BOUNDS) # halo width = 2
+   >>> split.shape
+   (4,)
+   >>> split
+   array([(slice(0, 6, None),), (slice(2, 10, None),), (slice(6, 14, None),),
+          (slice(10, 16, None),)], 
+         dtype=[('0', 'O')])
+   >>> split = shape_split(
+   ... [16,],
+   ... 4,
+   ... halo=2,
+   ... tile_bounds_policy=NO_BOUNDS  # halo width = 2 and tile halos extend outside array_shape bounds
+   ... )
+   >>> split.shape
+   (4,)
+   >>> split
+   array([(slice(-2, 6, None),), (slice(2, 10, None),), (slice(6, 14, None),),
+          (slice(10, 18, None),)], 
+         dtype=[('0', 'O')])
+
+The :samp:`tile_bounds_policy` parameter specifies whether the :samp:`{halo}`
+extended tiles can extend beyond the bounding box defined by the *start*
+index :samp:`{array_start}` and the *stop* index :samp:`{array_start} + {array_shape}`.
+
+Asymmetric halo extensions can also be specified::
+   
+   >>> split = shape_split(
+   ... [16,],
+   ... 4,
+   ... halo=((1,2),),
+   ... tile_bounds_policy=NO_BOUNDS
+   ... )
+   >>> split.shape
+   (4,)
+   >>> split
+   array([(slice(-1, 6, None),), (slice(3, 10, None),), (slice(7, 14, None),),
+          (slice(11, 18, None),)], 
+         dtype=[('0', 'O')])
+
+
+For an :samp:`N` dimensional split (i.e. :samp:`N = len(array_shape)`), the :samp:`{halo}`
+parameter can be either a
+
+   scalar
+      Tiles are extended by :samp:`{halo}` voxels in the negative and positive
+      directions for all axes.
+
+   1D sequence
+      Tiles are extended by :samp:`{halo[i]}` voxels in the negative and positive
+      directions for axis :samp:`i`.
+
+   2D sequence
+      Tiles are extended by :samp:`{halo[i][0]}` voxels in the negative direction
+      and :samp:`{halo[i][1]}` in the positive direction for axis :samp:`i`.
+
+For example, in 3D:
+ 
+   >>> split = shape_split(
+   ... [16, 8, 8],
+   ... 2,
+   ... halo=1,  # halo=1 in +ve and -ve directions for all axes
+   ... tile_bounds_policy=NO_BOUNDS
+   ... )
+   >>> split.shape
+   (2, 1, 1)
+   >>> split
+   array([[[(slice(-1, 9, None), slice(-1, 9, None), slice(-1, 9, None))]],
+   <BLANKLINE>
+          [[(slice(7, 17, None), slice(-1, 9, None), slice(-1, 9, None))]]], 
+         dtype=[('0', 'O'), ('1', 'O'), ('2', 'O')])
+   >>> split = shape_split(
+   ... [16, 8, 8],
+   ... 2,
+   ... halo=(1, 2, 3),  # halo=1 for axis 0, halo=2 for axis 1, halo=3 for axis=2
+   ... tile_bounds_policy=NO_BOUNDS
+   ... )
+   >>> split.shape
+   (2, 1, 1)
+   >>> split
+   array([[[(slice(-1, 9, None), slice(-2, 10, None), slice(-3, 11, None))]],
+   <BLANKLINE>
+          [[(slice(7, 17, None), slice(-2, 10, None), slice(-3, 11, None))]]], 
+         dtype=[('0', 'O'), ('1', 'O'), ('2', 'O')])
+   >>> split = shape_split(
+   ... [16, 8, 8],
+   ... 2,
+   ... halo=((1, 2), (3, 4), (5, 6)),  # halo=1 for -ve axis 0, halo=2 for +ve axis 0
+   ...                                 # halo=3 for -ve axis 1, halo=4 for +ve axis 1
+   ...                                 # halo=5 for -ve axis 2, halo=6 for +ve axis 2
+   ... tile_bounds_policy=NO_BOUNDS
+   ... )
+   >>> split.shape
+   (2, 1, 1)
+   >>> split
+   array([[[(slice(-1, 10, None), slice(-3, 12, None), slice(-5, 14, None))]],
+   <BLANKLINE>
+          [[(slice(7, 18, None), slice(-3, 12, None), slice(-5, 14, None))]]], 
+         dtype=[('0', 'O'), ('1', 'O'), ('2', 'O')])
+
+
