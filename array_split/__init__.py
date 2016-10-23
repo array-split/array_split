@@ -66,12 +66,11 @@ __version__ = _pkg_resources.resource_string("array_split", "version.txt").decod
 
 from . import split  # noqa: E402,F401
 from .split import array_split, shape_split, ShapeSplitter  # noqa: E402,F401
-from .split import ARRAY_BOUNDS, NO_BOUNDS  # noqa: E402,F401
 
 #: See :data:`array_split.split.ARRAY_BOUNDS`
-ARRAY_BOUNDS = split.ARRAY_BOUNDS  # noqa: F811
+ARRAY_BOUNDS = split.ARRAY_BOUNDS
 
 #: See :data:`array_split.split.NO_BOUNDS`
-NO_BOUNDS = split.NO_BOUNDS  # noqa: F811
+NO_BOUNDS = split.NO_BOUNDS
 
 __all__ = [s for s in dir() if not s.startswith('_')]
