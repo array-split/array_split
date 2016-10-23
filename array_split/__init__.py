@@ -64,14 +64,14 @@ __license__ = _license()
 __copyright__ = _copyright()
 __version__ = _pkg_resources.resource_string("array_split", "version.txt").decode()
 
-from . import split
+from . import split  # noqa: E402,F401
 from .split import array_split, shape_split, ShapeSplitter  # noqa: E402,F401
 from .split import ARRAY_BOUNDS, NO_BOUNDS  # noqa: E402,F401
 
 #: See :data:`array_split.split.ARRAY_BOUNDS`
-ARRAY_BOUNDS = split.ARRAY_BOUNDS
+ARRAY_BOUNDS = split.ARRAY_BOUNDS  # noqa: F811
 
 #: See :data:`array_split.split.NO_BOUNDS`
-NO_BOUNDS = split.NO_BOUNDS
+NO_BOUNDS = split.NO_BOUNDS  # noqa: F811
 
 __all__ = [s for s in dir() if not s.startswith('_')]
