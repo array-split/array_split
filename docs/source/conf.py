@@ -125,7 +125,10 @@ html_theme = 'nature'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #html_theme_options = {}
-
+html_theme_options = {
+    # Set the width of the sidebar. Defaults to 3
+    'sidebarwidth': (256 + 32),
+}
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
 

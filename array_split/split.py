@@ -465,12 +465,15 @@ _ShapeSplitter__init__params_doc =\
    See :ref:`splitting-by-tile-shape-examples` examples.
 :type max_tile_bytes: :obj:`int`
 :param max_tile_bytes: The maximum number of bytes for calculated :samp:`tile_shape`.
+   See :ref:`splitting-by-maximum-bytes-per-tile-examples` examples.
 :type max_tile_shape: sequence of :obj:`int`
 :param max_tile_shape: Per axis maximum shapes for the calculated :samp:`tile_shape`.
    Only relevant when :samp:`{max_tile_bytes}` is specified.
+   See :ref:`splitting-by-maximum-bytes-per-tile-examples` examples.
 :type sub_tile_shape: sequence of :obj:`int`
 :param sub_tile_shape: The calculated :samp:`tile_shape` will be an even multiple
     of this sub-tile shape. Only relevant when :samp:`{max_tile_bytes}` is specified.
+    See :ref:`splitting-by-maximum-bytes-per-tile-examples` examples.
 :type halo: sequence of :obj:`int`
 :param halo: How tiles are extended in each axis direction with *halo*
    elements. See :ref:`the-halo-parameter-examples` examples.

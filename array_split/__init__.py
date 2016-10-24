@@ -13,6 +13,8 @@ The two main functions are:
    :func:`array_split.array_split`
        Similar to :func:`numpy.array_split`, returns a list of
        *views* of sub-arrays of the input :obj:`numpy.ndarray`.
+       Can split along multiple axes and has more splitting
+       criteria (parameters) than :func:`numpy.array_split`.
 
    :func:`array_split.shape_split`
       Instead taking an :obj:`numpy.ndarray` as an argument, it
@@ -27,14 +29,14 @@ Splitting of multi-dimensional arrays can be performed according to several crit
 
    * Per-axis indicies indicating the *cut* positions.
    * Per-axis number of sub-arrays.
-   * Total number of sub-arrays (with optional per-axis number of sub-array constraints).
+   * Total number of sub-arrays (with optional per-axis *number of sections* constraints).
    * Specific sub-array shape.
    * Maximum number of bytes for a sub-array with constraints:
 
         - sub-arrays are an even multiple of a specified sub-tile shape
         - upper limit on the per-axis sub-array shape
 
-A variety of use-cases are given in the :ref:`array_split-examples` section.
+The usage documentation is given in the :ref:`array_split-examples` section.
 
 
 Classes and Functions
