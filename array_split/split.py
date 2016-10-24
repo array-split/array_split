@@ -479,12 +479,28 @@ _ShapeSplitter__init__params_doc =\
 
 #: Indicates that tiles are always within the array bounds.
 #: See :ref:`the-halo-parameter-examples` examples.
-ARRAY_BOUNDS = "array_bounds"
+__ARRAY_BOUNDS = "array_bounds"
+
+@property
+def ARRAY_BOUNDS():
+    """
+    Indicates that tiles are always within the array bounds,
+    resulting in tiles which have truncated halos.
+    See :ref:`the-halo-parameter-examples` examples.
+    """
+    return __ARRAY_BOUNDS
 
 #: Indicates that tiles may extend beyond the array bounds.
 #: See :ref:`the-halo-parameter-examples` examples.
-NO_BOUNDS = "no_bounds"
+__NO_BOUNDS = "no_bounds"
 
+@property
+def NO_BOUNDS():
+    """
+    Indicates that tiles may have halos which extend beyond the array bounds.
+    See :ref:`the-halo-parameter-examples` examples.
+    """
+    return __NO_BOUNDS
 
 class ShapeSplitter(object):
     """
@@ -494,6 +510,10 @@ class ShapeSplitter(object):
 
     #: Class attribute for :obj:`logging.Logger` logging.
     logger = _logging.getLogger(__name__ + ".ShapeSplitter")
+
+    #: Class attribute indicating list of valid values for :attr:`tile_bound_policy`.
+    #: See :data:`ARRAY_BOUNDS` and :data:`NO_BOUNDS`.
+    valid_tile_bounds_policies = [ARRAY_BOUNDS, NO_BOUNDS]
 
     def __init__(
         self,
@@ -509,15 +529,13 @@ class ShapeSplitter(object):
         halo=None,
         tile_bounds_policy=ARRAY_BOUNDS
     ):
-        #: The shape of the array which is to be split
         self.array_shape = _np.array(array_shape)
+
         if array_start is None:
             array_start = _np.zeros_like(self.array_shape)
-        #: The start index (i.e. assume array indexing starts at self.array_start),
-        #: defaults to :samp:`numpy.zeros_like(array_shape)`.
+
         self.array_start = array_start
 
-        #: The number of bytes per array element
         self.array_itemsize = array_itemsize
 
         indices_per_axis = None
@@ -539,11 +557,8 @@ class ShapeSplitter(object):
             indices_per_axis = None
             num_subarrays = indices_or_sections
 
-        #: Specifies the indices (per axis) where the splits occur.
         self.indices_per_axis = indices_per_axis
 
-        #: Specifies the size (total number of structure elements)
-        #: of the returned split.
         self.split_size = num_subarrays
         split_num_slices_per_axis = None
         if (self.split_size is not None) or (axis is not None):
@@ -555,20 +570,14 @@ class ShapeSplitter(object):
                 split_num_slices_per_axis = pad_with_object([1, ], len(self.array_shape), 1)
                 split_num_slices_per_axis[axis] = self.split_size
 
-        #: Defines number of slices per axis
         self.split_num_slices_per_axis = split_num_slices_per_axis
 
-        #: Shape for all tiles
         self.tile_shape = tile_shape
 
-        #: Maximum number of bytes for a tile
         self.max_tile_bytes = max_tile_bytes
 
-        #: Maximum axis size for tile, :samp:`self.tile_shape[i] <= self.max_tile_shape[i]`.
         self.max_tile_shape = max_tile_shape
 
-        #: Tile shape will be an even multiple of this sub-tile
-        #: shape, i.e. :samp:`(self.tile_shape[i] % self.sub_tile_shape[i]) == 0`.
         self.sub_tile_shape = sub_tile_shape
 
         if halo is None:
@@ -582,32 +591,235 @@ class ShapeSplitter(object):
         else:
             halo = _np.array(halo, copy=True)
 
-        #: Notional halo element padding for tiles
         self.halo = halo
 
         if tile_bounds_policy is None:
             tile_bounds_policy = ARRAY_BOUNDS
 
-        #: Policy specifying whether slices can extend beyond the array bounds.
         self.tile_bounds_policy = tile_bounds_policy
 
-        #: Lower bound for the tile start index.
         self.tile_beg_min = self.array_start
 
-        #: Upper bound for the tile stop index.
         self.tile_end_max = self.array_start + self.array_shape
 
-        #: List of valid values for :samp:`{self}.tile_bound_policy`.
-        self.valid_tile_bounds_policies = [ARRAY_BOUNDS, NO_BOUNDS]
-
-        #: The shape of the returned *split* arrays.
         self.split_shape = None
 
-        #: List of per-axis *start* indicies indicating :obj:`slice` starts.
         self.split_begs = None
 
-        #: List of per-axis *stop* indicies indicating :obj:`slice` stops.
         self.split_ends = None
+
+    @property
+    def array_shape(self):
+        """
+        The shape of the array which is to be split. A sequence of :obj:`int` indicating the
+        per-axis sizes which are to be split.
+        """
+        return self.__array_shape
+
+    @array_shape.setter
+    def array_shape(self, array_shape):
+        self.__array_shape = array_shape
+
+    @property
+    def array_start(self):
+        """
+        The start index. A sequence of :obj:`int` indicating the start of indexing for
+        the tile slices. Defaults to :samp:`numpy.zeros_like({self}.array_shape)`.
+        """
+        return self.__array_start
+
+    @array_start.setter
+    def array_start(self, array_start):
+        self.__array_start = array_start
+
+    @property
+    def array_itemsize(self):
+        """
+        The number of bytes per array element, see :attr:`max_tile_bytes`.
+        """
+        return self.__array_itemsize
+
+    @array_itemsize.setter
+    def array_itemsize(self, array_itemsize):
+        self.__array_itemsize = array_itemsize
+
+    @property
+    def indices_per_axis(self):
+        """
+        The per-axis indices indicating the cuts for the split.
+        A :obj:`list` of 1D :obj:`numpy.ndarray` objects such
+        that :samp:`{self}.indices_per_axis[i]` indicates the
+        cut positions for axis :samp:`i`.
+        """
+        return self.__indices_per_axis
+
+    @indices_per_axis.setter
+    def indices_per_axis(self, indices_per_axis):
+        self.__indices_per_axis = indices_per_axis
+
+    @property
+    def split_size(self):
+        """
+        An :obj:`int` indicating the number of tiles in the calculated split.
+        """
+        return self.__split_size
+
+    @split_size.setter
+    def split_size(self, split_size):
+        self.__split_size = split_size
+
+    @property
+    def split_num_slices_per_axis(self):
+        """
+        Number of slices per axis.
+        A 1D :obj:`numpy.ndarray` of :obj:`int` indicating the number of slices (sections)
+        per axis, so that :samp:`{self}.split_num_slices_per_axis[i]` is an integer
+        indicating the number of sections along axis :samp:`i` in the calculated split.
+        """
+        return self.__split_num_slices_per_axis
+
+    @split_num_slices_per_axis.setter
+    def split_num_slices_per_axis(self, split_num_slices_per_axis):
+        self.__split_num_slices_per_axis = split_num_slices_per_axis
+
+    @property
+    def tile_shape(self):
+        """
+        The shape of all tiles in the calculated split.
+        A 1D :samp:`numpy.ndarray` of :obj:`int` indicating the per-axis
+        number of elements for tiles in the calculated split.
+        """
+        return self.__tile_shape
+
+    @tile_shape.setter
+    def tile_shape(self, tile_shape):
+        self.__tile_shape = tile_shape
+
+    @property
+    def max_tile_bytes(self):
+        """
+        The maximum number of bytes for any tile (including :attr:`halo`) in the returned split.
+        An :obj:`int` which constrains the tile shape such that any tile
+        from the computed split is no bigger than :samp:`{max_tile_bytes}`.
+        """
+        return self.__max_tile_bytes
+
+    @max_tile_bytes.setter
+    def max_tile_bytes(self, max_tile_bytes):
+        self.__max_tile_bytes = max_tile_bytes
+
+    @property
+    def max_tile_shape(self):
+        """
+        Per-axis maximum sizes for calculated tiles.
+        A 1D :samp:`numpy.ndarray` of :obj:`int` indicating the per-axis
+        maximum number of elements for tiles in the calculated split.
+        """
+        return self.__max_tile_shape
+
+    @max_tile_shape.setter
+    def max_tile_shape(self, max_tile_shape):
+        self.__max_tile_shape = max_tile_shape
+
+    @property
+    def sub_tile_shape(self):
+        """
+        Calculated tile shape will be an integer multiple of this sub-tile shape.
+        i.e. :samp:`(self.tile_shape[i] % self.sub_tile_shape[i]) == 0`,
+        for :samp:`i in range(0, len(self.tile_shape))`.
+        A 1D :samp:`numpy.ndarray` of :obj:`int` indicating sub-tile shape.
+        """
+        return self.__sub_tile_shape
+
+    @sub_tile_shape.setter
+    def sub_tile_shape(self, sub_tile_shape):
+        self.__sub_tile_shape = sub_tile_shape
+
+    @property
+    def halo(self):
+        """
+        Per-axis -ve and +ve halo sizes for extending tiles to overlap with neighbouring tiles.
+        A :samp:`(N, 2)` shaped array indicating the
+        """
+        return self.__halo
+
+    @halo.setter
+    def halo(self, halo):
+        self.__halo = halo
+
+    @property
+    def tile_bounds_policy(self):
+        """
+        A string indicating whether tile halo extents can extend beyond the array domain.
+        Valid values are indicated by :attr:`valid_tile_bounds_policies`.
+        """
+        return self.__tile_bounds_policy
+
+    @tile_bounds_policy.setter
+    def tile_bounds_policy(self, tile_bounds_policy):
+        self.__tile_bounds_policy = tile_bounds_policy
+
+    @property
+    def tile_beg_min(self):
+        """
+        The per-axis minimum index for :attr:`slice.start`. The per-axis lower bound for
+        tile start indices. A 1D :obj:`numpy.ndarray`.
+        """
+        return self.__tile_beg_min
+
+    @tile_beg_min.setter
+    def tile_beg_min(self, tile_beg_min):
+        self.__tile_beg_min = tile_beg_min
+
+    @property
+    def tile_end_max(self):
+        """
+        The per-axis maximum index for :attr:`slice.stop`. The per-axis upper bound for
+        tile stop indices. A 1D :obj:`numpy.ndarray`.
+        """
+        return self.__tile_end_max
+
+    @tile_end_max.setter
+    def tile_end_max(self, tile_end_max):
+        self.__tile_end_max = tile_end_max
+
+    @property
+    def split_shape(self):
+        """
+        The shape of the calculated split array. Indicates the per-axis number
+        of sections in the calculated split. A 1D :obj:`numpy.ndarray`.
+        """
+        return self.__split_shape
+
+    @split_shape.setter
+    def split_shape(self, split_shape):
+        self.__split_shape = split_shape
+
+    @property
+    def split_begs(self):
+        """
+        The list of per-axis start indices for :obj:`slice` objects.
+        A :obj:`list` of 1D :obj:`numpy.ndarray` objects indicating
+        the :attr:`slice.start` index for for tiles.
+        """
+        return self.__split_begs
+
+    @split_begs.setter
+    def split_begs(self, split_begs):
+        self.__split_begs = split_begs
+
+    @property
+    def split_ends(self):
+        """
+        The list of per-axis stop indices for :obj:`slice` objects.
+        A :obj:`list` of 1D :obj:`numpy.ndarray` objects indicating
+        the :attr:`slice.stop` index for for tiles.
+        """
+        return self.__split_ends
+
+    @split_ends.setter
+    def split_ends(self, split_ends):
+        self.__split_ends = split_ends
 
     def check_halo(self):
         """
