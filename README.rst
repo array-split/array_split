@@ -1,14 +1,19 @@
 
 .. image:: https://travis-ci.org/array-split/array_split.svg?branch=dev
-    :target: https://travis-ci.org/array-split/array_split
+   :target: https://travis-ci.org/array-split/array_split
+   :alt: Build Status
+.. image:: https://readthedocs.org/projects/array-split/badge/?version=latest
+   :target: http://array-split.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
 
 =============
 `array_split`
 =============
 
 .. Start of sphinx doc include.
+.. start long description.
 
-The `array_split <https://array-split.github.io/array_split>`_ python package is
+The `array_split <http://array-split.readthedocs.io/en/latest>`_ python package is
 a modest enhancement to the
 `numpy.array_split <http://docs.scipy.org/doc/numpy/reference/generated/numpy.array_split.html>`_
 function for sub-dividing multi-dimensional arrays into sub-arrays (slices). The main motivation
@@ -60,8 +65,9 @@ Quick Start Example
           [33, 34, 35]])]
 
 
-Latest sphinx documention examples at https://array-split.github.io/array_split/examples/.
+Latest sphinx documention examples at http://array-split.readthedocs.io/en/latest/examples/.
 
+.. end long description.
 
 Installation
 ============
@@ -108,7 +114,7 @@ Documentation
 
 Latest sphinx generated documentation is at:
 
-    https://array-split.github.io/array_split
+    http://array-split.readthedocs.io/en/latest
 
 Latest source code
 ==================
