@@ -475,12 +475,14 @@ _ShapeSplitter__init__params_doc =\
 :type sub_tile_shape: sequence of :obj:`int`
 :param sub_tile_shape: The calculated :samp:`tile_shape` will be an even multiple
     of this sub-tile shape. Only relevant when :samp:`{max_tile_bytes}` is specified.
-    See :ref:`splitting-by-maximum-bytes-per-tile-examples` examples.
+    See :ref:`splitting-by-maximum-bytes-per-tile-examples` examples.%s%s
+"""
+_halo_param_doc =\
+    """
 :type halo: :obj:`int`, sequence of :obj:`int`, or :samp:`(len({array_shape}), 2)`
    shaped :obj:`numpy.ndarray`
 :param halo: How tiles are extended in each axis direction with *halo*
    elements. See :ref:`the-halo-parameter-examples` examples.
-%s
 """
 
 #: Indicates that tiles are always within the array bounds.
@@ -575,8 +577,8 @@ class ShapeSplitter(object):
                 axis = 0
             if is_sequence(axis):
                 split_num_slices_per_axis = pad_with_object(axis, len(self.array_shape), 1)
-            else:
-                split_num_slices_per_axis = pad_with_object([1, ], len(self.array_shape), 1)
+            elif self.split_size is not None:
+                split_num_slices_per_axis = pad_with_object([], len(self.array_shape), 1)
                 split_num_slices_per_axis[axis] = self.split_size
 
         self.split_num_slices_per_axis = split_num_slices_per_axis
@@ -860,14 +862,138 @@ class ShapeSplitter(object):
                 (self.tile_bounds_policy, self.valid_tile_bounds_policies)
             )
 
+    def check_consistent_parameter_dimensions(self):
+        """
+        Ensure that all parameter dimensions are consistent with
+        the :samp:`{self}.array_shape` dimension.
+
+        :raises ValueError: For inconsistent parameter dimensions.
+        """
+        if self.indices_per_axis is not None:
+            if len(self.indices_per_axis) > len(self.array_shape):
+                raise ValueError(
+                    "Got len(self.indices_per_axis)=%s > len(self.array_shape)=%s, should be equal."
+                    %
+                    (len(self.indices_per_axis), len(self.array_shape))
+                )
+        if self.split_num_slices_per_axis is not None:
+            if len(self.split_num_slices_per_axis) > len(self.array_shape):
+                raise ValueError(
+                    (
+                        "Got len(self.split_num_slices_per_axis)=%s > len(self.array_shape)=%s,"
+                        +
+                        " should be equal."
+                    )
+                    %
+                    (len(self.split_num_slices_per_axis), len(self.array_shape))
+                )
+        if self.tile_shape is not None:
+            if len(self.tile_shape) != len(self.array_shape):
+                raise ValueError(
+                    "Got len(self.tile_shape)=%s > len(self.array_shape)=%s, should be equal."
+                    %
+                    (len(self.tile_shape), len(self.array_shape))
+                )
+
+        if self.sub_tile_shape is not None:
+            if len(self.sub_tile_shape) != len(self.array_shape):
+                raise ValueError(
+                    "Got len(self.sub_tile_shape)=%s > len(self.array_shape)=%s, should be equal."
+                    %
+                    (len(self.sub_tile_shape), len(self.array_shape))
+                )
+
+        if self.max_tile_shape is not None:
+            if len(self.max_tile_shape) != len(self.array_shape):
+                raise ValueError(
+                    "Got len(self.max_tile_shape)=%s > len(self.array_shape)=%s, should be equal."
+                    %
+                    (len(self.max_tile_shape), len(self.array_shape))
+                )
+
+        if self.array_start is not None:
+            if len(self.array_start) != len(self.array_shape):
+                raise ValueError(
+                    "Got len(self.array_start)=%s > len(self.array_shape)=%s, should be equal."
+                    %
+                    (len(self.array_start), len(self.array_shape))
+                )
+
+    def check_consistent_parameter_grouping(self):
+        """
+        Ensures this object does not have conflicting groups of parameters.
+
+        :raises ValueError: For conflicting or absent parameters.
+        """
+        parameter_groups = {}
+        if self.indices_per_axis is not None:
+            parameter_groups["indices_per_axis"] = \
+                {"self.indices_per_axis": self.indices_per_axis}
+        if (self.split_size is not None) or (self.split_num_slices_per_axis is not None):
+            parameter_groups["split_size"] = \
+                {
+                    "self.split_size": self.split_size,
+                    "self.split_num_slices_per_axis": self.split_num_slices_per_axis,
+            }
+        if self.tile_shape is not None:
+            parameter_groups["tile_shape"] = \
+                {"self.tile_shape": self.tile_shape}
+        if self.max_tile_bytes is not None:
+            parameter_groups["max_tile_bytes"] = \
+                {"self.max_tile_bytes": self.max_tile_bytes}
+        if self.max_tile_shape is not None:
+            if "max_tile_bytes" not in parameter_groups.keys():
+                parameter_groups["max_tile_bytes"] = {}
+            parameter_groups["max_tile_bytes"]["self.max_tile_shape"] = self.max_tile_shape
+        if self.sub_tile_shape is not None:
+            if "max_tile_bytes" not in parameter_groups.keys():
+                parameter_groups["max_tile_bytes"] = {}
+            parameter_groups["max_tile_bytes"]["self.sub_tile_shape"] = self.sub_tile_shape
+
+        if (len(parameter_groups.keys()) > 1):
+            group_keys = sorted(parameter_groups.keys())
+            raise ValueError(
+                "Got conflicting parameter groups specified, "
+                +
+                "should only specify one group to define the split:\n"
+                +
+                (
+                    "\n".join(
+                        [
+                            (
+                                ("Group %18s: " % ("'%s'" % group_key))
+                                +
+                                str(parameter_groups[group_key])
+                            )
+                            for group_key in group_keys
+                        ]
+                    )
+                )
+            )
+        if (len(parameter_groups.keys()) <= 0):
+            raise ValueError(
+                "No split parameters specified, need parameters from one of the groups: "
+                +
+                "'indices_per_axis', 'split_size', 'tile_shape' or 'max_tile_bytes'"
+            )
+
+    def check_split_parameters(self):
+        """
+        Ensures this object has a state consistent with evaluating a split.
+
+        :raises ValueError: For conflicting or absent parameters.
+        """
+
+        self.check_halo()
+        self.check_tile_bounds_policy()
+        self.check_consistent_parameter_dimensions()
+        self.check_consistent_parameter_grouping()
+
     def update_tile_extent_bounds(self):
         """
         Updates the :samp:`{self}.tile_beg_min` and :samp:`{self}.tile_end_max`
         data members according to :samp:`{self}.tile_bounds_policy`.
         """
-
-        self.check_halo()
-        self.check_tile_bounds_policy()
 
         if self.tile_bounds_policy == NO_BOUNDS:
             self.tile_beg_min = self.array_start - self.halo[:, 0]
@@ -1134,6 +1260,7 @@ class ShapeSplitter(object):
         selected attributes set from :meth:`__init__`.
         """
 
+        self.check_split_parameters()
         self.update_tile_extent_bounds()
 
         if self.indices_per_axis is not None:
@@ -1181,7 +1308,8 @@ Initialises parameters which define a split.
         (
             _array_start_param_doc,
             "\n" + _array_itemsize_param_doc,
-            _array_tile_bounds_policy_param_doc
+            _halo_param_doc,
+            _array_tile_bounds_policy_param_doc,
         )
     )
 )
@@ -1217,7 +1345,8 @@ Splits specified :samp:`{array_shape}` in tiles, returns array of :obj:`slice` t
             (
                 _array_start_param_doc,
                 "\n" + _array_itemsize_param_doc,
-                _array_tile_bounds_policy_param_doc
+                _halo_param_doc,
+                _array_tile_bounds_policy_param_doc,
             )
         )
     )
@@ -1265,6 +1394,15 @@ Splits the specified array :samp:`{ary}` into sub-arrays, returns list of :obj:`
    :ref:`array_split-examples`
 
 
-""" % (_ShapeSplitter__init__params_doc % ("", "", ""))
+""" % (
+        _ShapeSplitter__init__params_doc
+        %
+        (
+            "",
+            "",
+            _halo_param_doc.replace("len({array_shape})", "len({ary}.shape)"),
+            ""
+        )
+    )
 
 __all__ = [s for s in dir() if not s.startswith('_')]
