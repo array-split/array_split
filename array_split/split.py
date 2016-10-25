@@ -159,8 +159,10 @@ def calculate_tile_shape_for_max_bytes(
     :type sub_tile_shape: sequence of :obj:`int`
     :param sub_tile_shape: The returned :samp:`tile_shape` will be an even multiple
        of this sub-tile shape.
-    :type halo: sequence of :obj:`int`
-    :param halo: Width of halo elements in each axis direction.
+    :type halo: :obj:`int`, sequence of :obj:`int`, or :samp:`(len({array_shape}), 2)`
+       shaped :obj:`numpy.ndarray`
+    :param halo: How tiles are extended in each axis direction with *halo*
+       elements. See :ref:`the-halo-parameter-examples` for meaning of :samp:`{halo}` values.
     :rtype: :obj:`numpy.ndarray`
     :return: A 1D array of shape :samp:`(len(array_shape),)` indicating a *tile shape*
        which will (approximately) uniformly divide the given :samp:`{array_shape}` into
@@ -326,8 +328,8 @@ def calculate_tile_shape_for_max_bytes(
 
 def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_per_axis=None):
     """
-    Returns :obj:`numpy.ndarray` where non-positive elements of
-    the :samp:`num_slices_per_axis` sequence have been replaced with
+    Returns a :obj:`numpy.ndarray` (:samp:`return_array` say) where non-positive elements of
+    the :samp:`{num_slices_per_axis}` sequence have been replaced with
     positive integer values such that :samp:`numpy.product(return_array) == num_slices`
     and::
 
@@ -474,7 +476,8 @@ _ShapeSplitter__init__params_doc =\
 :param sub_tile_shape: The calculated :samp:`tile_shape` will be an even multiple
     of this sub-tile shape. Only relevant when :samp:`{max_tile_bytes}` is specified.
     See :ref:`splitting-by-maximum-bytes-per-tile-examples` examples.
-:type halo: sequence of :obj:`int`
+:type halo: :obj:`int`, sequence of :obj:`int`, or :samp:`(len({array_shape}), 2)`
+   shaped :obj:`numpy.ndarray`
 :param halo: How tiles are extended in each axis direction with *halo*
    elements. See :ref:`the-halo-parameter-examples` examples.
 %s
@@ -934,12 +937,12 @@ class ShapeSplitter(object):
         :rtype: :obj:`numpy.ndarray`
         :return:
            A :mod:`numpy` `structured array <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_
-           of dimension :samp:`len(self.array_shape)`.
+           of dimension :samp:`len({self}.array_shape)`.
            Each element of the returned array is a :obj:`tuple`
-           containing :samp:`len(self.array_shape)` elements, with each element
+           containing :samp:`len({self}.array_shape)` elements, with each element
            being a :obj:`slice` object. Each :obj:`tuple` defines a slice within
-           the original bounds of :samp:`self.array_start`
-           to :samp:`self.array_start + self.array_shape`.
+           the bounds :samp:`{self}.array_start - {self}.halo[:, 0]`
+           to :samp:`{self}.array_start + {self}.array_shape + {self}.halo[:, 1]`.
         """
 
         self.set_split_extents()
@@ -947,10 +950,13 @@ class ShapeSplitter(object):
 
 ShapeSplitter([0, ]).__init__.__func__.__doc__ = \
     """
-Initialise split parameters.
+Initialises parameters which define a split.
+
 
 %s
 %s
+
+.. seealso:: :ref:`array_split-examples`
 
 """ % (
     _array_shape_param_doc,

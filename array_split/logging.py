@@ -167,9 +167,9 @@ def get_formatter(prefix_string="ARRSPLT| "):
     """
     Returns :obj:`logging.Formatter` object which produces messages
     with *time* and :samp:`prefix_string` prefix.
+
     :type prefix_string: :obj:`str` or :samp:`None`
     :param prefix_string: Prefix for all logging messages.
-
     :rtype: :obj:`logging.Formatter`
     :return: Regular formatter for logging.
     """

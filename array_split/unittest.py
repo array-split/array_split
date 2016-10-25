@@ -35,11 +35,12 @@ def main(module_name, log_level=array_split.logging.DEBUG, init_logger_names=Non
 
        array_split.unittest.main(__name__)
 
-    If :samp:`__name__ == "__main__"` *discoverable* :obj:`unittest.TestCase`
+    If :samp:`__name__ == "__main__"`, then *discoverable* :obj:`unittest.TestCase`
     test cases are executed.
-    Logging level for explicit set of modules can be specified as::
+    Logging level can be explicitly set for a group of modules using::
 
        import logging
+
        array_split.unittest.main(
            __name__,
            logging.DEBUG,
@@ -48,7 +49,7 @@ def main(module_name, log_level=array_split.logging.DEBUG, init_logger_names=Non
 
 
     :type module_name: :obj:`str`
-    :param module_name: If :samp:`{module_name} == __main__` then unit-tests
+    :param module_name: If :samp:`{module_name} == "__main__"` then unit-tests
        are *discovered* and run.
     :type log_level: :obj:`int`
     :param log_level: The default logging level for all
