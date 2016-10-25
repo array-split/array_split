@@ -487,6 +487,7 @@ _ShapeSplitter__init__params_doc =\
 #: See :ref:`the-halo-parameter-examples` examples.
 __ARRAY_BOUNDS = "array_bounds"
 
+
 @property
 def ARRAY_BOUNDS():
     """
@@ -500,6 +501,7 @@ def ARRAY_BOUNDS():
 #: See :ref:`the-halo-parameter-examples` examples.
 __NO_BOUNDS = "no_bounds"
 
+
 @property
 def NO_BOUNDS():
     """
@@ -507,6 +509,7 @@ def NO_BOUNDS():
     See :ref:`the-halo-parameter-examples` examples.
     """
     return __NO_BOUNDS
+
 
 class ShapeSplitter(object):
     """
