@@ -16,19 +16,22 @@ Terminology
 
 Definitions:
 
-   *tiles*
-      The multi-dimensional *sub-arrays* of an array decomposition.
+   *tile*
+      A multi-dimensional *sub-array* of an array (e.g. :obj:`numpy.ndarray`) decomposition.
    *slice*
-      Equivalent to a tile, a :obj:`tuple` of :obj:`slice` elements indicating the extents
+      A :obj:`tuple` of :obj:`slice` elements defining the extents
       of a tile/sub-array.
+   *cut*
+      A *division* along an axis to form tiles or slices.
    *split*
-      A *cut* along one or more (array) axes to form tiles or slices.
+      The sub-division (tiling) of an array (or an array shape) resulting from cuts.  
    *halo*
-      An expansion of a tile (along one or more axes) to form an
-      *overlap* with neighbouring tiles. Also often referred to as
-      *ghost cells* or *ghost elements*.
+      Per-axis number of elements which specifies the expansion of a tile
+      (in the negative and positive axis directions) to form an
+      *overlap* of elements with neighbouring tiles. The *overlaps* are often
+      referred to as *ghost cells* or *ghost elements*.
    *sub-tile*
-      The sub-array formed by splitting a tile.
+      A sub-array of a tile.
 
 ====================
 Parameter Categories
@@ -42,26 +45,31 @@ There are four categories of parameters for specifying a split:
       number of tiles in the resulting split (as an :obj:`int`).
      
    **Per-axis split indices**
-      The per-axis indices where the array (shape) is to be split.
+      The per-axis indices specifying where the array (shape) is to be cut.
       The :samp:`{indices_or_sections}` parameter doubles up to indicate
-      the indices at which splits are to occur.
+      the indices at which cuts are to occur.
    
    **Tile shape**
-      Explicitly specify the shape of the tile in the split.
+      Explicitly specify the shape of the tile in a split.
       The :samp:`{tile_shape}` parameter (typically as a lone
       *keyword argument*) indicates the tile shape.
    
    **Tile maximum number of bytes**
       Given the number of bytes per array element, a tile shape
-      is calculated such that all tiles of the split do not exceed a specified
-      (maximum) number of bytes. The :samp:`{array_itemsize}` parameter
-      gives the number of bytes per array element and the :samp:`{max_tile_bytes}`
+      is calculated such that all tiles (including halo extension) of the
+      resulting split do not exceed a specified (maximum) number of bytes.
+      The :samp:`{array_itemsize}` parameter gives the number of bytes
+      per array element and the :samp:`{max_tile_bytes}`
       parameter constrains the maximum number of bytes per tile.
 
 The subsequent sections provides examples from each of these categories.
 
-In the examples, we assume that the following statement has been
-issued to import the relevant functions::
+==================================
+Import statements for the examples
+==================================
+
+In the examples of the following sections, we assume that the following statement
+has been issued to :obj:`import` the relevant functions::
 
    >>> import numpy
    >>> from array_split import array_split, shape_split, ShapeSplitter
@@ -81,24 +89,30 @@ objects) elements::
    [array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]
 
 The :func:`array_split.shape_split` function takes an array *shape* as an
-argument instead of an actual array, and returns an array of :samp:`tuple` elements.
-The tuple elements can then be used to extract the tiles from a :obj:`numpy.ndarray`
-of an equivalent shape::
+argument instead of an actual array, and returns
+a :mod:`numpy` `structured array`_
+of :obj:`tuple` elements. The tuple elements can then be used to generate
+the tiles from a :obj:`numpy.ndarray` of an equivalent shape::
 
    >>> ary = numpy.arange(0, 10)
-   >>> split = shape_split(ary.shape, 3)
+   >>> split = shape_split(ary.shape, 3) # returns array of tuples
    >>> split
    array([(slice(0, 4, None),), (slice(4, 7, None),), (slice(7, 10, None),)], 
          dtype=[('0', 'O')])
-   >>> [ary[slyce] for slyce in split.flatten()]
+   >>> [ary[slyce] for slyce in split.flatten()] # generates tile views of ary
    [array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]
 
-The :obj:`array_split.ShapeSplitter` class provides the splitting implementation
+Each :obj:`tuple` array element, of the returned split, has length
+equal to the  dimension of the multi-dimensional shape,
+i.e. :samp:`N = len({array_shape})`. Each :obj:`tuple`
+indicates the indexing extent of a tile.
+
+The :obj:`array_split.ShapeSplitter` class contains the bulk of the split implementation
 for the :func:`array_split.shape_split`. The :meth:`array_split.ShapeSplitter.__init__`
-constructor takes the same arguments as the :func:`array_split.shape_split` function.
-The :meth:`array_split.ShapeSplitter.calculate_split` method calculates the split. After
-the split calculation, some state information is preserved in the :obj:`array_split.ShapeSplitter`
-data attributes::
+constructor takes the same arguments as the :func:`array_split.shape_split` function and
+the :meth:`array_split.ShapeSplitter.calculate_split` method computes the split. After
+the split computation, some state information is preserved in the
+:obj:`array_split.ShapeSplitter` data attributes::
 
    >>> ary = numpy.arange(0, 10)
    >>> splitter = ShapeSplitter(ary.shape, 3)
@@ -121,6 +135,13 @@ data attributes::
 Methods of the :obj:`array_split.ShapeSplitter` class can be over-ridden
 in sub-classes in order to customise the splitting behaviour.
 
+The examples of the following section explicitly illustrate the behaviour for
+the :func:`array_split.shape_split` function, but with minor modifications,
+the examples are also relevant for the :func:`array_split.array_split` function
+and for instances of the :obj:`array_split.ShapeSplitter` class.
+
+.. _structured array: http://docs.scipy.org/doc/numpy/user/basics.rec.html
+
 .. _splitting-by-number-of-tiles-examples:
 
 ============================
@@ -128,10 +149,11 @@ Splitting by number of tiles
 ============================
 
 
-Splitting along a single axis into a number of tiles
-====================================================
+Single axis number of tiles
+===========================
 
-Number of tiles is provided as input parameter (default :samp:`{axis}=0`)::
+When the :samp:`{indices_or_sections}` parameter is specified as an
+integer (scalar), it specifies the number of tiles in the returned split::
 
    >>> split = shape_split([20,], 4)  # 1D, array_shape=[20,], number of tiles=4, default axis=0
    >>> split.shape
@@ -141,7 +163,8 @@ Number of tiles is provided as input parameter (default :samp:`{axis}=0`)::
           (slice(15, 20, None),)], 
          dtype=[('0', 'O')])
 
-For 2D shape::
+By default, cuts are made along the :samp:`{axis} = 0` axis. In the multi-dimensional
+case, one can over-ride the axis using the :samp:`{axis}` parameter, e.g. for a 2D shape::
 
    >>> split = shape_split([20,10], 4, axis=1)  # Split along axis=1
    >>> split.shape
@@ -154,12 +177,13 @@ For 2D shape::
          dtype=[('0', 'O'), ('1', 'O')])
 
 
-Splitting along multiple axes into a number of tiles
-====================================================
+Multiple axes number of tiles
+=============================
 
-Number of slices per-axis is provided as input parameter::
+The :samp:`{axis}` parameter can also be used to specify the number of slices (sections)
+per-axis::
 
-   >>> split = shape_split([20, 10], axis=[3, 2])  # Split into 3*2=6 tiles
+   >>> split = shape_split([20, 10], axis=[3, 2])  # Cut into 3*2=6 tiles
    >>> split.shape
    (3, 2)
    >>> split
@@ -171,10 +195,18 @@ Number of slices per-axis is provided as input parameter::
            (slice(14, 20, None), slice(5, 10, None))]], 
          dtype=[('0', 'O'), ('1', 'O')])
 
+The array axis 0 has been cut into three sections and axis 1 has been cut into two
+sections for a total of :samp:`3*2 = 6` tiles. In general, if :samp:`{axis}` is an
+integer (scalar) it indicates the single axis which is to be cut to form slices.
+When :samp:`{axis}` is a sequence, then :samp:`{axis}[i]` indicates the number of
+sections into which axis :samp:`i` is to be cut. 
 
-In 3D, split into 8 tiles, but only split the :samp:`axis=1` and :samp:`axis=2` axes::
+In addition, one can also specify a total number of tiles and use the :samp:`{axis}`
+parameter to limit which axes are to be cut by specifying non-positive values for
+elements of the :samp:`{axis}` sequence. For example, in 3D, cut into 8 tiles, but
+only cut the :samp:`axis=1` and :samp:`axis=2` axes::
 
-   >>> split = shape_split([20, 10, 15], 8, axis=[1, 0, 0])  # Split into 1*?*?=8 tiles
+   >>> split = shape_split([20, 10, 15], 8, axis=[1, 0, 0])  # Cut into 1*?*?=8 tiles
    >>> split.shape
    (1, 4, 2)
    >>> split
@@ -194,7 +226,7 @@ the number of requested tiles (:samp:`= 8` above).
 Raises :obj:`ValueError` if the impossible is attempted::
 
    >>> try:
-   ...     split = shape_split([20, 10, 15], 8, axis=[1, 3, 0])  # Impossible to split into 1*3*?=8 tiles
+   ...     split = shape_split([20, 10, 15], 8, axis=[1, 3, 0])  # Impossible to cut into 1*3*?=8 tiles
    ... except (ValueError,) as e:
    ...     e
    ...
@@ -202,14 +234,15 @@ Raises :obj:`ValueError` if the impossible is attempted::
 
 .. _splitting-by-per-axis-split-indices-examples:
 
-===================================
-Splitting by per-axis split indices
-===================================
+=================================
+Splitting by per-axis cut indices
+=================================
 
-Splitting along a single axis with per-axis split indices
-=========================================================
+Single axis cut indices
+=======================
 
-Indices of splits provided as input parameter::
+The :samp:`{indices_or_sections}` parameter can also be used to
+specify the location (index values) of cuts::
 
    >>> split = shape_split([20,], [5, 7, 9])  # 1D, split into 4 tiles, default cut axis=0
    >>> split.shape
@@ -219,9 +252,13 @@ Indices of splits provided as input parameter::
           (slice(9, 20, None),)], 
          dtype=[('0', 'O')])
 
-In 2D, split :samp:`axis=1` only::
+Here, three cuts have been made to form :samp:`4` slices, cuts at index :samp:`5`, index :samp:`7`
+and index :samp:`9`.
 
-   >>> split = shape_split([20, 13], [5, 7, 9], axis=1)  # 2D, split into 4 tiles, cut axis=1
+Similarly, in 2D, the :samp:`{indices_or_sections}` cut indices can made
+along :samp:`{axis} = 1` only::
+
+   >>> split = shape_split([20, 13], [5, 7, 9], axis=1)  # 2D, cut into 4 tiles, cut axis=1
    >>> split.shape
    (1, 4)
    >>> split
@@ -231,10 +268,15 @@ In 2D, split :samp:`axis=1` only::
            (slice(0, 20, None), slice(9, 13, None))]], 
          dtype=[('0', 'O'), ('1', 'O')])
 
-Splitting along multiple axes with per-axis split indices
-=========================================================
+Multiple axes cut indices
+=========================
 
-In 3D, split along :samp:`axis=1` and :samp:`axis=2` only::
+The :samp:`{indices_or_sections}` parameter can also be used to cut
+along multiple axes. In this case, the :samp:`{indices_or_sections}`
+parameter is specified as a *sequence of sequence*,
+so that :samp:`{indices_or_sections}[i]` specifies the cut
+indices along axis :samp:`i`.
+For example, in 3D, cut along :samp:`axis=1` and :samp:`axis=2` only::
 
    >>> split = shape_split([20, 13, 64], [[], [7], [15, 30, 45]])  # 3D, split into 8 tiles, no cuts on axis=0
    >>> split.shape
@@ -251,9 +293,9 @@ In 3D, split along :samp:`axis=1` and :samp:`axis=2` only::
          dtype=[('0', 'O'), ('1', 'O'), ('2', 'O')])
 
 The :samp:`{indices_or_sections}=[[], [7], [15, 30, 45]]` parameter indicates
-that the cut indices for :samp:`axis=0` are :samp:`[]` (i.e. no splits), the
-cut indices for :samp:`axis=1` are :samp:`[7]` (a single split at index :samp:`7`)
-and the cut indices for :samp:`axis=2` are :samp:`[15, 30, 45]` (three splits).
+that the cut indices for :samp:`axis=0` are :samp:`[]` (i.e. no cuts), the
+cut indices for :samp:`axis=1` are :samp:`[7]` (a single cut at index :samp:`7`)
+and the cut indices for :samp:`axis=2` are :samp:`[15, 30, 45]` (three cuts).
 
 .. _splitting-by-tile-shape-examples:
 
@@ -261,9 +303,10 @@ and the cut indices for :samp:`axis=2` are :samp:`[15, 30, 45]` (three splits).
 Splitting by tile shape
 =======================
 
-Explicitly set the tile shape, 1D::
+The tile shape can be explicitly set with the :samp:`{tile_shape}` parameter,
+e.g. in 1D::
 
-   >>> split = shape_split([20,], tile_shape=[6,])  # Split (6,) shaped tiles
+   >>> split = shape_split([20,], tile_shape=[6,])  # Cut into (6,) shaped tiles
    >>> split.shape
    (4,)
    >>> split
@@ -273,7 +316,7 @@ Explicitly set the tile shape, 1D::
 
 and 2D::
 
-   >>> split = shape_split([20, 32], tile_shape=[6, 16])  # Split into (6, 16) shaped tiles
+   >>> split = shape_split([20, 32], tile_shape=[6, 16])  # Cut into (6, 16) shaped tiles
    >>> split.shape
    (4, 2)
    >>> split
@@ -293,7 +336,9 @@ and 2D::
 Splitting by maximum bytes per tile
 ===================================
 
-1D split, tile shape 
+Tile shape can constrained by specifying a maximum number of bytes
+per tile by specifying the :samp:`array_itemsize` and
+the :samp:`max_tile_bytes` parameters. In 1D:: 
 
    >>> split = shape_split(
    ...   array_shape=[512,],
@@ -376,14 +421,14 @@ and increasing :samp:`{array_itemsize}` to :samp:`4`::
           [(slice(448, 512, None), slice(0, 1024, None))]], 
          dtype=[('0', 'O'), ('1', 'O')])
 
-The preference is to split into (:samp:`'C'` order) contiguous memory tiles.
+The preference is to cut into (:samp:`'C'` order) contiguous memory tiles.
 
 
-Constraining split with tile shape upper bound
-==============================================
+Tile shape upper bound constraint
+=================================
 
 The split can be influenced by specifying the :samp:`{max_tile_shape}`
-parameter. For the previous 2D example, we can force splitting
+parameter. For the previous 2D example, cuts can for forced
 along :samp:`axis=1` by constraining the tile shape::
 
    >>> split = shape_split(
@@ -407,12 +452,12 @@ along :samp:`axis=1` by constraining the tile shape::
          dtype=[('0', 'O'), ('1', 'O')])
 
 
-Constraining split tile shape with sub-tiling
-=============================================
+Sub-tile shape constraint
+=========================
 
 The split can also be influenced by specifying the :samp:`{sub_tile_shape}`
 parameter which forces the tile shape to be an even multiple of
-the  :samp:`{sub_tile_shape}`::
+the :samp:`{sub_tile_shape}`::
 
    >>> split = shape_split(
    ...   array_shape=[512, 1024],
