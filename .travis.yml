@@ -2,34 +2,33 @@ language: python
 git:
   depth: 200
 python:
-- '2.6'
-- '2.7'
-- '3.2'
-- '3.3'
-- '3.4'
-- '3.5'
+  - '2.6'
+  - '2.7'
+  - '3.2'
+  - '3.3'
+  - '3.4'
+  - '3.5'
+
 install:
-- git config --global user.name array-split
-- git config --global user.email array-split@users.noreply.github.com
-- pwd
-- ls -al `pwd`/*
-- if [[ $TRAVIS_PYTHON_VERSION != '2.6'* ]]; then pip install flake8; else pip install
-  'flake8<3'; fi
-- pip install travis-sphinx
-- python ./setup.py install
+  - git config --global user.name array-split
+  - git config --global user.email array-split@users.noreply.github.com
+  - pwd
+  - ls -al `pwd`/*
+  - if [[ $TRAVIS_PYTHON_VERSION != '2.6'* ]]; then pip install flake8; else pip install 'flake8<3'; fi
+  - pip install travis-sphinx
+  - pip install coveralls
+  - python ./setup.py install
+
 script:
-- flake8 array_split
-- cd docs
-- python -m array_split.tests
-- cd ..
-- if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx build; fi
-- cd docs
-- python -m doctest source/examples/index.rst ../README.rst
-- if [[ $TRAVIS_PYTHON_VERSION != '2.6'* ]]; then python -m array_split; fi
-- cd ..
+  - flake8 array_split
+  - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then coverage run --source=array_split -m array_split.tests; else python -m array_split.tests; fi
+  - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx build; fi
+  - python -m doctest docs/source/examples/index.rst ./README.rst
+  - if [[ $TRAVIS_PYTHON_VERSION != '2.6'* ]]; then python -m array_split; fi
+
 after_success:
-- if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx --branches=dev deploy;
-  fi
+  - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx --branches=dev deploy; fi
+  - coveralls
 
 deploy:
   provider: pypi
