@@ -21,10 +21,12 @@ install:
 
 script:
   - flake8 array_split
-  - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then coverage run --source=array_split -m array_split.tests; else python -m array_split.tests; fi
+  - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then
+      coverage run --source=array_split --omit='*logging*,*unittest*' -m array_split.tests;
+    else
+      python -m array_split.tests;s
+    fi
   - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx build; fi
-  - python -m doctest docs/source/examples/index.rst ./README.rst
-  - if [[ $TRAVIS_PYTHON_VERSION != '2.6'* ]]; then python -m array_split; fi
 
 after_success:
   - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx --branches=dev deploy; fi

@@ -115,5 +115,6 @@ setup(
     package_data={
         "array_split": ["version.txt", "git_describe.txt", "copyright.txt", "license.txt"]
     },
+    test_suite="array_split.tests",
     # could also include download_url, etc.
 )

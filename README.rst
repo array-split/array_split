@@ -5,6 +5,9 @@
 .. image:: https://readthedocs.org/projects/array-split/badge/?version=latest
    :target: http://array-split.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
+.. image:: https://coveralls.io/repos/github/array-split/array_split/badge.svg
+   :target: https://coveralls.io/github/array-split/array_split
+   :alt: Coveralls Status
 
 =============
 `array_split`
@@ -35,11 +38,13 @@ Quick Start Example
    >>> ary = np.arange(0, 4*9)
    >>> 
    >>> array_split(ary, 4) # 1D split into 4 sections (like numpy.array_split)
-   [array([0, 1, 2, 3, 4, 5, 6, 7, 8]), array([ 9, 10, 11, 12, 13, 14, 15, 16, 17]), array([18, 19, 20, 21, 22, 23, 24, 25, 26]), array([27, 28, 29, 30, 31, 32, 33, 34, 35])]
+   [array([0, 1, 2, 3, 4, 5, 6, 7, 8]),
+    array([ 9, 10, 11, 12, 13, 14, 15, 16, 17]),
+    array([18, 19, 20, 21, 22, 23, 24, 25, 26]),
+    array([27, 28, 29, 30, 31, 32, 33, 34, 35])]
    >>> 
    >>> shape_split(ary.shape, 4) # 1D split into 4 sections, slice objects instead of numpy.ndarray views 
-   array([(slice(0, 9, None),), (slice(9, 18, None),), (slice(18, 27, None),),
-          (slice(27, 36, None),)], 
+   array([(slice(0, 9, None),), (slice(9, 18, None),), (slice(18, 27, None),), (slice(27, 36, None),)], 
          dtype=[('0', 'O')])
    >>> 
    >>> ary = ary.reshape(4, 9) # Make ary 2D
@@ -56,16 +61,15 @@ Quick Start Example
          dtype=[('0', 'O'), ('1', 'O')])
    >>> sub_arys = [ary[tup] for tup in split.flatten()] # Split ary into sub-array views using the slice tuples.
    >>> sub_arys
-   [array([[ 0,  1,  2],
-          [ 9, 10, 11]]), array([[ 3,  4,  5],
-          [12, 13, 14]]), array([[ 6,  7,  8],
-          [15, 16, 17]]), array([[18, 19, 20],
-          [27, 28, 29]]), array([[21, 22, 23],
-          [30, 31, 32]]), array([[24, 25, 26],
-          [33, 34, 35]])]
+   [array([[ 0,  1,  2], [ 9, 10, 11]]),
+    array([[ 3,  4,  5], [12, 13, 14]]),
+    array([[ 6,  7,  8], [15, 16, 17]]),
+    array([[18, 19, 20], [27, 28, 29]]),
+    array([[21, 22, 23], [30, 31, 32]]),
+    array([[24, 25, 26], [33, 34, 35]])]
 
 
-Latest sphinx documention examples at http://array-split.readthedocs.io/en/latest/examples/.
+Latest sphinx documentation examples at http://array-split.readthedocs.io/en/latest/examples/.
 
 .. end long description.
 
@@ -95,14 +99,14 @@ python-2 version `>= 2.6` or python-3 version `>= 3.2`.
 Testing
 =======
 
-Run unit tests using::
+Run tests (unit-tests and doctest module docstring tests) using::
 
    python -m array_split.tests
 
-Run doc tests::
+or, from the source tree, run::
 
-   python -m array_split
-   python -m doctest docs/source/examples/index.rst
+   python setup.py test
+
 
 Travis CI at:
 
