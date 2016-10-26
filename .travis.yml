@@ -24,13 +24,13 @@ script:
   - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then
       coverage run --source=array_split --omit='*logging*,*unittest*' -m array_split.tests;
     else
-      python -m array_split.tests;s
+      python -m array_split.tests;
     fi
   - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx build; fi
 
 after_success:
   - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx --branches=dev deploy; fi
-  - coveralls
+  - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then coveralls; fi
 
 deploy:
   provider: pypi
