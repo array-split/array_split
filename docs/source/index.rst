@@ -1,6 +1,6 @@
-#####################
-pygimage documenation
-#####################
+########################
+array_split documenation
+########################
 
 .. sectionauthor:: Shane J. Latham
 
@@ -11,5 +11,6 @@ pygimage documenation
 .. toctree::
    :maxdepth: 4
 
-   tutorial/index
+   about/index
+   examples/index
    reference/index

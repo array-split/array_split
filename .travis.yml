@@ -1,0 +1,50 @@
+language: python
+git:
+  depth: 200
+python:
+  - '2.6'
+  - '2.7'
+  - '3.2'
+  - '3.3'
+  - '3.4'
+  - '3.5'
+
+install:
+  - git config --global user.name array-split
+  - git config --global user.email array-split@users.noreply.github.com
+  - pwd
+  - ls -al `pwd`/*
+  - if [[ $TRAVIS_PYTHON_VERSION != '2.6'* ]]; then pip install flake8; else pip install 'flake8<3'; fi
+  - pip install 'sphinx>=1.4'
+  - pip install travis-sphinx
+  - pip install coveralls
+  - python ./setup.py install
+
+script:
+  - flake8 array_split
+  - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then
+      coverage run --source=array_split --omit='*logging*,*unittest*' -m array_split.tests;
+    else
+      python -m array_split.tests;
+    fi
+  - # run tests on installed array_split
+  - cd docs
+  - python -m array_split.tests
+  - cd ..
+  - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx build; fi
+
+after_success:
+  - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx --branches=dev deploy; fi
+  - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then coveralls; fi
+
+deploy:
+  provider: pypi
+  user: array-split
+  password:
+    secure: eGWaz8EWAeU4NohzwB3e6Za8qW+uM0CDWoIuHr98Fii74hsH1+8US2SoG2y/IXvLHsUTxNK6N+nx3aQ0/AQiqpIhBJiYiHpRUPlHh8Zdp4Oh9bRidllGvBlUHSN6LXQHUMcogwHXWybdpgH0ge++rwqs+pGYPjjMSNX1xy5kVmVAIZ6FfORpiY8GOxhVCAAZJyBBLk/zMNZXFZTeNFIn0ebJ9O4ofYOAUpkBbUheA1b9ej7biIwFrkBZu2rJGjgb52cuG/JkS2UbsCQXVvTnbWOxfBh5+kEKdAC8ruAXoSAZEunqLIuCiJ6OQoVF27cGUl1jfuCbkU/qhTyYgQC/7B1CyVTFj3cLkPmIzLbl6C6nhldZe2bbHp8gKjH3sNKPr/0FlUrZGXxQhxvdtrbM9/gi9iCKCsJiZUp+9BOP2kH/JxEkXO4+nbUpCSPqMnB/E8IORIaUhvzKBeTbMrfht/wtdd5BL1wobQcXB4fyvwEXSTTx0TcdIaB6citVQgidu3RvBjKm6ujRqwT7BmjZTvQZzwq6Ap9HNGfeLep/LbwwCJtO1oIuzh5uzFNr3jCDUJa2vC72xwbgTgnwx10Ondwqq6c2HhosVt4aBtqy83j6F+fxrimGIBW17RtQNLqycWvTYi/UJEEc4d3il5+znD3d65D9n8OGRPALbE0Of/M=
+  skip_cleanup: true
+  on:
+    tags: true
+    branch: master
+    distributions: sdist bdist_wheel
+    repo: array-split/array_split
