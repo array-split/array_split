@@ -46,5 +46,5 @@ deploy:
   on:
     tags: true
     branch: master
-    distributions: sdist bdist_wheel
+    distributions: "sdist bdist_wheel"
     repo: array-split/array_split
