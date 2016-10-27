@@ -27,6 +27,10 @@ script:
     else
       python -m array_split.tests;
     fi
+  - # run tests on installed array_split
+  - cd docs
+  - python -m array_split.tests
+  - cd ..
   - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx build; fi
 
 after_success:
