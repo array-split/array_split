@@ -15,6 +15,7 @@ install:
   - pwd
   - ls -al `pwd`/*
   - if [[ $TRAVIS_PYTHON_VERSION != '2.6'* ]]; then pip install flake8; else pip install 'flake8<3'; fi
+  - pip install 'sphinx>=1.4'
   - pip install travis-sphinx
   - pip install coveralls
   - python ./setup.py install

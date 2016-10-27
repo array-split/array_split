@@ -1,4 +1,14 @@
 
+=============
+`array_split`
+=============
+
+.. Start of sphinx doc include.
+.. start long description.
+
+.. image:: https://img.shields.io/pypi/v/array_split.svg
+   :target: https://pypi.python.org/pypi/array_split/
+   :alt: array_split python package
 .. image:: https://travis-ci.org/array-split/array_split.svg?branch=dev
    :target: https://travis-ci.org/array-split/array_split
    :alt: Build Status
@@ -8,13 +18,13 @@
 .. image:: https://coveralls.io/repos/github/array-split/array_split/badge.svg
    :target: https://coveralls.io/github/array-split/array_split
    :alt: Coveralls Status
+.. image:: https://img.shields.io/pypi/l/array_split.svg
+   :target: https://pypi.python.org/pypi/array_split/
+   :alt: MIT License
+.. image:: https://img.shields.io/pypi/pyversions/array_split.svg
+   :target: https://pypi.python.org/pypi/array_split/
+   :alt: array_split python package
 
-=============
-`array_split`
-=============
-
-.. Start of sphinx doc include.
-.. start long description.
 
 The `array_split <http://array-split.readthedocs.io/en/latest>`_ python package is
 a modest enhancement to the
