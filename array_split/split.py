@@ -414,19 +414,21 @@ def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_pe
 _array_shape_param_doc =\
     """
 :type array_shape: sequence of :obj:`int`
-:param array_shape: The shape which is to be *split*.
+:param array_shape: The shape to be *split*.
 """
 
 _array_start_param_doc =\
     """
-:type array_start: sequence of :obj:`int`
-:param array_start: Specify a starting index, defaults to :samp:`[0,]*len(array_shape)`.
+:type array_start: :samp:`None` or sequence of :obj:`int`
+:param array_start: The start index. Defaults to :samp:`[0,]*len(array_shape)`.
+   The array indexing extents are assumed to range from :samp:`{array_start}`
+   to :samp:`{array_start} + {array_shape}`.
    See :ref:`the-array_start-parameter-examples` examples.
 """
 _array_itemsize_param_doc =\
     """
 :type array_itemsize: int or sequence of :obj:`int`
-:param array_itemsize: Number of bytes per array element is :samp:`numpy.sum(array_itemsize)`.
+:param array_itemsize: Number of bytes per array element.
    Only relevant when :samp:`{max_tile_bytes}` is specified.
    See :ref:`splitting-by-maximum-bytes-per-tile-examples` examples.
 """
@@ -447,41 +449,44 @@ _array_tile_bounds_policy_param_doc =\
 
 _ShapeSplitter__init__params_doc =\
     """
-:type indices_or_sections: :obj:`int` or sequence of :obj:`int`
+:type indices_or_sections: :samp:`None`, :obj:`int` or sequence of :obj:`int`
 :param indices_or_sections: If an integer, indicates the number of
-    elements in the calculated *split* array. If a sequence indicates
+    elements in the calculated *split* array. If a sequence, indicates
     the indicies (per axis) at which the splits occur.
     See :ref:`splitting-by-number-of-tiles-examples` examples.
-:type axis: :obj:`int` or sequence of :obj:`int`
+:type axis: :samp:`None`, :obj:`int` or sequence of :obj:`int`
 :param axis: If an integer, indicates the axis which is to be split.
-   Sequence integers indicates the number of slices per axis,
-   i.e. if :samp:`{axis} == [3, 5]` then axis :samp:`0` is split into
-   3 slices and axis :samp:`1` is split into 5 slices for a total
+   If a sequence integers, indicates the number of slices per axis,
+   i.e. if :samp:`{axis} = [3, 5]` then axis :samp:`0` is cut into
+   3 slices and axis :samp:`1` is cut into 5 slices for a total
    of 15 (:samp:`3*5`) rectangular slices in the returned :samp:`(3, 5)`
-   shaped slice array.
+   shaped split.
    See :ref:`splitting-by-number-of-tiles-examples` examples
    and :ref:`splitting-by-per-axis-split-indices-examples` examples.
 %s%s
-:type tile_shape: sequence of :obj:`int`
-:param tile_shape: Explicit shape for tiles.
+:type tile_shape: :samp:`None` or sequence of :obj:`int`
+:param tile_shape: When not :samp:`None`, specifies explicit shape for tiles.
+   Should be same length as :samp:`{array_shape}`.
    See :ref:`splitting-by-tile-shape-examples` examples.
-:type max_tile_bytes: :obj:`int`
+:type max_tile_bytes: :samp:`None` or :obj:`int`
 :param max_tile_bytes: The maximum number of bytes for calculated :samp:`tile_shape`.
    See :ref:`splitting-by-maximum-bytes-per-tile-examples` examples.
-:type max_tile_shape: sequence of :obj:`int`
+:type max_tile_shape: :samp:`None` or sequence of :obj:`int`
 :param max_tile_shape: Per axis maximum shapes for the calculated :samp:`tile_shape`.
-   Only relevant when :samp:`{max_tile_bytes}` is specified.
+   Only relevant when :samp:`{max_tile_bytes}` is specified. Should be same length
+   as :samp:`{array_shape}`.
    See :ref:`splitting-by-maximum-bytes-per-tile-examples` examples.
-:type sub_tile_shape: sequence of :obj:`int`
-:param sub_tile_shape: The calculated :samp:`tile_shape` will be an even multiple
-    of this sub-tile shape. Only relevant when :samp:`{max_tile_bytes}` is specified.
+:type sub_tile_shape: :samp:`None` or sequence of :obj:`int`
+:param sub_tile_shape: When not :samp:`None`, the calculated :samp:`tile_shape` will
+    be an even multiple of this sub-tile shape. Only relevant when :samp:`{max_tile_bytes}`
+    is specified. Should be same length as :samp:`{array_shape}`.
     See :ref:`splitting-by-maximum-bytes-per-tile-examples` examples.%s%s
 """
 _halo_param_doc =\
     """
-:type halo: :obj:`int`, sequence of :obj:`int`, or :samp:`(len({array_shape}), 2)`
+:type halo: :samp:`None`, :obj:`int`, sequence of :obj:`int`, or :samp:`(len({array_shape}), 2)`
    shaped :obj:`numpy.ndarray`
-:param halo: How tiles are extended in each axis direction with *halo*
+:param halo: How tiles are extended per axis in -ve and +ve directions with *halo*
    elements. See :ref:`the-halo-parameter-examples` examples.
 """
 
@@ -515,7 +520,18 @@ def NO_BOUNDS():
 
 class ShapeSplitter(object):
     """
-    Implements array shape splitting.
+    Implements array shape splitting. There are three main (top-level) methods:
+
+       :meth:`__init__`
+          Initialisation of parameters which define the split.
+       :meth:`set_split_extents`
+          Calculates the per-axis indices for the cuts. Sets
+          the :attr:`split_shape`, :attr:`split_begs`
+          and :attr:`split_ends` attributes.
+       :meth:`calculate_split`
+          Calls :meth:`set_split_extents` followed
+          by :meth:`calculate_split_from_extents` to
+          return the :obj:`numpy.ndarray` of :obj:`tuple` elements (slices).
 
     """
 
@@ -835,7 +851,7 @@ class ShapeSplitter(object):
     def check_halo(self):
         """
         Raises :obj:`ValueError` if there is an inconsistency
-        between shapes of :samp:`{self}.array_shape` and :samp:`{self}.halo`
+        between shapes of :attr:`array_shape` and :attr:`halo`.
         """
         if (
             (len(self.halo.shape) != 2)
@@ -852,7 +868,7 @@ class ShapeSplitter(object):
 
     def check_tile_bounds_policy(self):
         """
-        Raises :obj:`ValueError` if :samp:`{self}.tile_bounds_policy`
+        Raises :obj:`ValueError` if :attr:`tile_bounds_policy`
         is not in :samp:`[{self}.ARRAY_BOUNDS, {self}.NO_BOUNDS]`.
         """
         if not (self.tile_bounds_policy in self.valid_tile_bounds_policies):
@@ -865,7 +881,7 @@ class ShapeSplitter(object):
     def check_consistent_parameter_dimensions(self):
         """
         Ensure that all parameter dimensions are consistent with
-        the :samp:`{self}.array_shape` dimension.
+        the :attr:`array_shape` dimension.
 
         :raises ValueError: For inconsistent parameter dimensions.
         """
@@ -991,8 +1007,8 @@ class ShapeSplitter(object):
 
     def update_tile_extent_bounds(self):
         """
-        Updates the :samp:`{self}.tile_beg_min` and :samp:`{self}.tile_end_max`
-        data members according to :samp:`{self}.tile_bounds_policy`.
+        Updates the :attr:`tile_beg_min` and :attr:`tile_end_max`
+        data members according to :attr:`tile_bounds_policy`.
         """
 
         if self.tile_bounds_policy == NO_BOUNDS:
@@ -1004,9 +1020,9 @@ class ShapeSplitter(object):
 
     def set_split_extents_by_indices_per_axis(self):
         """
-        Sets split shape :samp:`{self}.split_shape` and
-        split extents (:samp:`{self}.split_begs` and :samp:`{self}.split_ends`)
-        from values in :samp:`{self}.indices_per_axis`.
+        Sets split shape :attr:`split_shape` and
+        split extents (:attr:`split_begs` and :attr:`split_ends`)
+        from values in :attr:`indices_per_axis`.
         """
         if self.indices_per_axis is None:
             raise ValueError("Got None for self.indices_per_axis")
@@ -1039,7 +1055,7 @@ class ShapeSplitter(object):
     def calculate_split_from_extents(self):
         """
         Returns split calculated using extents obtained
-        from :samp:`{self}.split_begs` and :samp:`{self}.split_ends`.
+        from :attr:`split_begs` and :attr:`split_ends`.
 
         :rtype: :obj:`numpy.ndarray`
         :return:
@@ -1086,7 +1102,7 @@ class ShapeSplitter(object):
     def calculate_split_by_indices_per_axis(self):
         """
         Returns split calculated using extents obtained
-        from :samp:`{self}.indices_per_axis`.
+        from :attr:`indices_per_axis`.
 
         :rtype: :obj:`numpy.ndarray`
         :return:
@@ -1133,9 +1149,9 @@ class ShapeSplitter(object):
 
     def set_split_extents_by_split_size(self):
         """
-        Sets split shape :samp:`{self}.split_shape` and
-        split extents (:samp:`{self}.split_begs` and :samp:`{self}.split_ends`)
-        from values in :samp:`{self}.split_size` and :samp:`{self}.axis`.
+        Sets split shape :attr:`split_shape` and
+        split extents (:attr:`split_begs` and :attr:`split_ends`)
+        from values in :attr:`split_size` and :attr:`split_num_slices_per_axis`.
         """
 
         if self.split_size is None:
@@ -1181,7 +1197,7 @@ class ShapeSplitter(object):
     def calculate_split_by_split_size(self):
         """
         Returns split calculated using extents obtained
-        from :samp:`{self}.split_size` and :samp:`{self}.axis`.
+        from :attr:`split_size` and :attr:`split_num_slices_per_axis`.
 
         :rtype: :obj:`numpy.ndarray`
         :return:
@@ -1193,9 +1209,9 @@ class ShapeSplitter(object):
 
     def set_split_extents_by_tile_shape(self):
         """
-        Sets split shape :samp:`{self}.split_shape` and
-        split extents (:samp:`{self}.split_begs` and :samp:`{self}.split_ends`)
-        from value of :samp:`{self}.tile_shape`.
+        Sets split shape :attr:`split_shape` and
+        split extents (:attr:`split_begs` and :attr:`split_ends`)
+        from value of :attr:`tile_shape`.
         """
         self.split_shape = ((self.array_shape - 1) // self.tile_shape) + 1
         self.split_begs = [[], ] * len(self.array_shape)
@@ -1209,7 +1225,7 @@ class ShapeSplitter(object):
     def calculate_split_by_tile_shape(self):
         """
         Returns split calculated using extents obtained
-        from :samp:`{self}.tile_shape`.
+        from :attr:`tile_shape`.
 
         :rtype: :obj:`numpy.ndarray`
         :return:
@@ -1221,10 +1237,10 @@ class ShapeSplitter(object):
 
     def set_split_extents_by_tile_max_bytes(self):
         """
-        Sets split extents (:samp:`{self}.split_begs`
-        and :samp:`{self}.split_ends`) calculated using
-        from :samp:`{self}.max_tile_bytes`
-        (and :samp:`{self}.max_tile_shape`, :samp:`{self}.sub_tile_shape`, :samp:`{self}.halo`).
+        Sets split extents (:attr:`split_begs`
+        and :attr:`split_ends`) calculated using
+        from :attr:`max_tile_bytes`
+        (and :attr:`max_tile_shape`, :attr:`sub_tile_shape`, :attr:`halo`).
 
         """
         self.tile_shape = \
@@ -1241,8 +1257,8 @@ class ShapeSplitter(object):
     def calculate_split_by_tile_max_bytes(self):
         """
         Returns split calculated using extents obtained
-        from :samp:`{self}.max_tile_bytes`
-        (and :samp:`{self}.max_tile_shape`, :samp:`{self}.sub_tile_shape`, :samp:`{self}.halo`).
+        from :attr:`max_tile_bytes`
+        (and :attr:`max_tile_shape`, :attr:`sub_tile_shape`, :attr:`halo`).
 
         :rtype: :obj:`numpy.ndarray`
         :return:
@@ -1255,8 +1271,8 @@ class ShapeSplitter(object):
 
     def set_split_extents(self):
         """
-        Sets split extents (:samp:`{self}.split_begs`
-        and :samp:`{self}.split_ends`) calculated using
+        Sets split extents (:attr:`split_begs`
+        and :attr:`split_ends`) calculated using
         selected attributes set from :meth:`__init__`.
         """
 
