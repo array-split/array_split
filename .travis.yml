@@ -23,11 +23,11 @@ install:
 script:
   - flake8 array_split
   - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then
-      coverage run --source=array_split --omit='*logging*,*unittest*' -m array_split.tests
+      coverage run --source=array_split --omit='*logging*,*unittest*' -m array_split.tests;
     else
-      python -m array_split.tests
+      python -m array_split.tests;
     fi
-    # run tests on installed array_split
+  - # run tests on installed array_split
   - cd docs
   - python -m array_split.tests
   - cd ..
