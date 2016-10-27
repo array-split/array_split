@@ -12,8 +12,8 @@
 .. image:: https://travis-ci.org/array-split/array_split.svg?branch=dev
    :target: https://travis-ci.org/array-split/array_split
    :alt: Build Status
-.. image:: https://readthedocs.org/projects/array-split/badge/?version=latest
-   :target: http://array-split.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/array-split/badge/?version=stable
+   :target: http://array-split.readthedocs.io/en/stable
    :alt: Documentation Status
 .. image:: https://coveralls.io/repos/github/array-split/array_split/badge.svg
    :target: https://coveralls.io/github/array-split/array_split
