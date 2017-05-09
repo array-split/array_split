@@ -17,6 +17,7 @@ array_split documenation
 .. toctree::
    :maxdepth: 2
    :caption: Examples
+   :name: array_split-examples
 
    examples/index
 

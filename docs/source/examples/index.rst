@@ -1,4 +1,3 @@
-.. _array_split-examples:
 
 ===========
 Terminology
