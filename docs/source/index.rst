@@ -9,8 +9,19 @@ array_split documenation
 :Date: |today|
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
+   :caption: Read Me
 
    about/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples
+
    examples/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference
+
    reference/index
