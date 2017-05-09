@@ -30,9 +30,9 @@ script:
   - cd docs
   - python -m array_split.tests
   - cd ..
-  - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx build; fi
+  - if [[ $TRAVIS_PYTHON_VERSION != '2.6'* ]]; then travis-sphinx build; fi
 
 after_success:
-  - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then travis-sphinx --branches=dev deploy; fi
-  - if [[ $TRAVIS_PYTHON_VERSION != '3.2'* ]]; then coveralls; fi
+  - if [[ $TRAVIS_PYTHON_VERSION != '2.6'* ]]; then travis-sphinx --branches=dev deploy; fi
+  - if [[ $TRAVIS_PYTHON_VERSION != '2.6'* ]]; then coveralls; fi
 
