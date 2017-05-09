@@ -153,6 +153,7 @@ class _Python3SplitStreamHandler(_builtin_logging.Handler):
         except:
             self.handleError(record)
 
+
 if (sys.version_info[0] <= 2):
     class SplitStreamHandler(_Python2SplitStreamHandler):
         __doc__ = _Python2SplitStreamHandler.__doc__

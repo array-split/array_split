@@ -16,6 +16,19 @@ import sys
 import os
 import shlex
 
+# on_rtd is whether we are on readthedocs.org, this line of code grabbed from docs.readthedocs.org
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+
+have_rtd_theme = False
+rtd_theme_path = None
+if (not on_rtd) and (not have_rtd_theme):
+    try:
+        import sphinx_rtd_theme
+        have_rtd_theme = True
+        rtd_theme_path = sphinx_rtd_theme.get_html_theme_path()
+    except:
+        pass
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -122,7 +135,7 @@ todo_include_todos = True
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'nature'
+# html_theme = 'nature'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -132,6 +145,23 @@ html_theme_options = {
     # Set the width of the sidebar. Defaults to 3
     'sidebarwidth': (256 + 32),
 }
+
+rtd_html_theme_options = \
+    {
+        'collapse_navigation': False,
+        'display_version': True,
+    }
+if not on_rtd:
+    html_theme = 'nature'
+    if have_rtd_theme:
+        html_theme = "sphinx_rtd_theme"
+        if rtd_theme_path is not None:
+            html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+        html_theme_options.update(rtd_html_theme_options)
+else:
+    html_theme = 'default'
+    html_theme_options.update(rtd_html_theme_options)
+
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
 
