@@ -411,6 +411,7 @@ def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_pe
         logger.debug("ridx=%s, f=%s, ret_array=%s", ridx, f, ret_array)
     return ret_array
 
+
 _array_shape_param_doc =\
     """
 :type array_shape: sequence of :obj:`int`
@@ -503,6 +504,7 @@ def ARRAY_BOUNDS():
     See :ref:`the-halo-parameter-examples` examples.
     """
     return __ARRAY_BOUNDS
+
 
 #: Indicates that tiles may extend beyond the array bounds.
 #: See :ref:`the-halo-parameter-examples` examples.
@@ -1306,6 +1308,7 @@ class ShapeSplitter(object):
         self.set_split_extents()
         return self.calculate_split_from_extents()
 
+
 ShapeSplitter([0, ]).__init__.__func__.__doc__ = \
     """
 Initialises parameters which define a split.
@@ -1338,6 +1341,8 @@ def shape_split(array_shape, *args, **kwargs):
             *args,
             **kwargs
         ).calculate_split()
+
+
 shape_split.__doc__ =\
     """
 Splits specified :samp:`{array_shape}` in tiles, returns array of :obj:`slice` tuples.
@@ -1395,6 +1400,8 @@ def array_split(
             tile_bounds_policy=ARRAY_BOUNDS
         ).flatten()
     ]
+
+
 array_split.__doc__ =\
     """
 Splits the specified array :samp:`{ary}` into sub-arrays, returns list of :obj:`numpy.ndarray`.

@@ -157,6 +157,7 @@ class TestCase(_builtin_unittest.TestCase):
         """
         _builtin_unittest.TestCase.assertWarnsRegex(self, *args, **kwargs)
 
+
 if not hasattr(TestCase, "assertSequenceEqual"):
     # code from python-2.7 unitest.case.TestCase
     _MAX_LENGTH = 80
