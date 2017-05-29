@@ -609,17 +609,7 @@ class ShapeSplitter(object):
 
         self.sub_tile_shape = sub_tile_shape
 
-        if halo is None:
-            halo = _np.zeros((len(self.array_shape), 2), dtype="int64")
-        elif is_scalar(halo):
-            halo = _np.zeros((len(self.array_shape), 2), dtype="int64") + halo
-        elif (len(array_shape) == 1) and (_np.array(halo).shape == (2,)):
-            halo = _np.array([halo, ], copy=True)
-        elif len(_np.array(halo).shape) == 1:
-            halo = _np.array([halo, halo]).T.copy()
-        else:
-            halo = _np.array(halo, copy=True)
-
+        halo = self.convert_halo_to_array_form(halo)
         self.halo = halo
 
         if tile_bounds_policy is None:
@@ -636,6 +626,32 @@ class ShapeSplitter(object):
         self.split_begs = None
 
         self.split_ends = None
+
+    def convert_halo_to_array_form(self, halo):
+        """
+        Converts the :samp:`{halo}` argument to a :samp:`({self}.array_shape.size, 2)`
+        shaped array.
+
+        :type halo: :samp:`None`, :obj:`int`, :samp:`self.array_shape.size` length sequence
+            of :samp:`int` or :samp:`(self.array_shape.size, 2)` shaped array
+            of :samp:`int`
+        :param halo: Halo to be converted to :samp:`(len(self.array_shape), 2)` shaped array form.
+        :rtype: :obj:`numpy.ndarray`
+        :return: A :samp:`(len(self.array_shape), 2)` shaped array of :obj:`numpy.int64` elements.
+        """
+        ndim = len(self.array_shape)
+        if halo is None:
+            halo = _np.zeros((ndim, 2), dtype="int64")
+        elif is_scalar(halo):
+            halo = _np.zeros((ndim, 2), dtype="int64") + halo
+        elif (ndim == 1) and (_np.array(halo).shape == (2,)):
+            halo = _np.array([halo, ], copy=True, dtype="int64")
+        elif len(_np.array(halo).shape) == 1:
+            halo = _np.array([halo, halo], dtype="int64").T.copy()
+        else:
+            halo = _np.array(halo, copy=True, dtype="int64")
+
+        return halo
 
     @property
     def array_shape(self):
