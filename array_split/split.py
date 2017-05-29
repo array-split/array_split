@@ -16,6 +16,7 @@ Classes and Functions
    shape_factors - Compute *largest* factors of a given integer.
    calculate_num_slices_per_axis - Computes per-axis divisions for a multi-dimensional shape.
    calculate_tile_shape_for_max_bytes - Calculate a tile shape subject to max bytes restriction.
+   convert_halo_to_array_form - converts halo argument to :samp:`(ndim, 2) shaped array.
    ShapeSplitter - Splits a given shape into slices.
    shape_split - Splits a specified shape and returns :obj:`numpy.ndarray` of :obj:`slice` elements.
    array_split - Equivalent to :func:`numpy.array_split`.
@@ -520,6 +521,35 @@ def NO_BOUNDS():
     return __NO_BOUNDS
 
 
+def convert_halo_to_array_form(halo, ndim):
+    """
+    Converts the :samp:`{halo}` argument to a :samp:`(ndim, 2)`
+    shaped array.
+
+    :type halo: :samp:`None`, :obj:`int`, an :samp:`{ndim}` length sequence
+        of :samp:`int` or :samp:`({ndim}, 2)` shaped array
+        of :samp:`int`
+    :param halo: Halo to be converted to :samp:`({ndim}, 2)` shaped array form.
+    :type ndim: :obj:`int`
+    :param ndim: Number of dimensions.
+    :rtype: :obj:`numpy.ndarray`
+    :return: A :samp:`({ndim}, 2)` shaped array of :obj:`numpy.int64` elements.
+    """
+    dtyp = _np.int64
+    if halo is None:
+        halo = _np.zeros((ndim, 2), dtype=dtyp)
+    elif is_scalar(halo):
+        halo = _np.zeros((ndim, 2), dtype=dtyp) + halo
+    elif (ndim == 1) and (_np.array(halo).shape == (2,)):
+        halo = _np.array([halo, ], copy=True, dtype=dtyp)
+    elif len(_np.array(halo).shape) == 1:
+        halo = _np.array([halo, halo], dtype=dtyp).T.copy()
+    else:
+        halo = _np.array(halo, copy=True, dtype=dtyp)
+
+    return halo
+
+
 class ShapeSplitter(object):
     """
     Implements array shape splitting. There are three main (top-level) methods:
@@ -639,19 +669,7 @@ class ShapeSplitter(object):
         :rtype: :obj:`numpy.ndarray`
         :return: A :samp:`(len(self.array_shape), 2)` shaped array of :obj:`numpy.int64` elements.
         """
-        ndim = len(self.array_shape)
-        if halo is None:
-            halo = _np.zeros((ndim, 2), dtype="int64")
-        elif is_scalar(halo):
-            halo = _np.zeros((ndim, 2), dtype="int64") + halo
-        elif (ndim == 1) and (_np.array(halo).shape == (2,)):
-            halo = _np.array([halo, ], copy=True, dtype="int64")
-        elif len(_np.array(halo).shape) == 1:
-            halo = _np.array([halo, halo], dtype="int64").T.copy()
-        else:
-            halo = _np.array(halo, copy=True, dtype="int64")
-
-        return halo
+        return convert_halo_to_array_form(halo=halo, ndim=len(self.array_shape))
 
     @property
     def array_shape(self):
