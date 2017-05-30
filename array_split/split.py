@@ -1135,6 +1135,58 @@ class ShapeSplitter(object):
 
         return ret
 
+    def calculate_split_halos_from_extents(self):
+        """
+        Returns :samp:`(self.ndim, 2)` shaped halo array elements indicating
+        the halo for each split. Tiles on the boundary may have the halo trimmed
+        to account for the :attr:`tile_bounds_policy`.
+
+        :rtype: :obj:`numpy.ndarray`
+        :return:
+           A :mod:`numpy` `structured array <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_
+           where each element is a :samp:`(self.ndim, 2)` shaped :obj:`numpy.ndarray`
+           indicating the per-axis and per-direction number of halo elements for each tile
+           in the split.
+        """
+        self.logger.debug("self.split_shape=%s", self.split_shape)
+        self.logger.debug("self.split_begs=%s", self.split_begs)
+        self.logger.debug("self.split_ends=%s", self.split_ends)
+
+        ret = \
+            _np.array(
+                [
+                    (
+                        tuple(
+                            (
+                                min([
+                                    self.split_begs[d][idx[d]] - self.tile_beg_min[d],
+                                    self.halo[d, 0]
+                                    *
+                                    (self.split_ends[d][idx[d]] > self.split_begs[d][idx[d]])
+                                ]),
+                                min([
+                                    self.tile_end_max[d] - self.split_ends[d][idx[d]],
+                                    self.halo[d, 1]
+                                    *
+                                    (self.split_ends[d][idx[d]] > self.split_begs[d][idx[d]])
+                                ])
+                            )
+                            for d in range(len(self.split_shape))
+                        )
+                    )
+                    for idx in
+                    _np.array(
+                        _np.unravel_index(
+                            _np.arange(0, _np.product(self.split_shape)),
+                            self.split_shape
+                        )
+                    ).T
+                ],
+                dtype=[("%d" % d, "2int64") for d in range(len(self.split_shape))]
+            ).reshape(self.split_shape)
+
+        return ret
+
     def calculate_split_by_indices_per_axis(self):
         """
         Returns split calculated using extents obtained
