@@ -1,14 +1,3 @@
-.. _array_split-examples:
-
-+++++++++++++++++++++++++++
-:mod:`array_split` Examples
-+++++++++++++++++++++++++++
-
-.. sectionauthor:: Shane J. Latham
-
-.. toctree::
-   :maxdepth: 4
-
 
 ===========
 Terminology
@@ -569,15 +558,15 @@ For an :samp:`N` dimensional split (i.e. :samp:`N = len(array_shape)`), the :sam
 parameter can be either a
 
    scalar
-      Tiles are extended by :samp:`{halo}` voxels in the negative and positive
+      Tiles are extended by :samp:`{halo}` elements in the negative and positive
       directions for all axes.
 
    1D sequence
-      Tiles are extended by :samp:`{halo[i]}` voxels in the negative and positive
+      Tiles are extended by :samp:`{halo[i]}` elements in the negative and positive
       directions for axis :samp:`i`.
 
    2D sequence
-      Tiles are extended by :samp:`{halo[i][0]}` voxels in the negative direction
+      Tiles are extended by :samp:`{halo[i][0]}` elements in the negative direction
       and :samp:`{halo[i][1]}` in the positive direction for axis :samp:`i`.
 
 For example, in 3D:

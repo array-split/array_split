@@ -84,6 +84,7 @@ def load_tests(loader, tests, pattern):
     suite.addTests(DocTestTestSuite())
     return suite
 
+
 __all__ = [s for s in dir() if not s.startswith('_')]
 
 if __name__ == "__main__":

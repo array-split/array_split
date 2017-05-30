@@ -130,6 +130,17 @@ Latest sphinx generated documentation is at:
 
     http://array-split.readthedocs.io/en/latest
 
+and at github *gh-pages*:
+
+    https://array-split.github.io/array_split/
+
+Sphinx documentation can be built from the source::
+
+   python setup.py build_sphinx
+
+with the HTML generated in `docs/build/html`.
+
+
 Latest source code
 ==================
 

@@ -32,7 +32,7 @@ import numpy as _np
 
 from .split import ShapeSplitter, array_split, shape_split
 from .split import calculate_num_slices_per_axis, shape_factors
-from .split import calculate_tile_shape_for_max_bytes
+from .split import calculate_tile_shape_for_max_bytes, pad_with_object
 from .split import ARRAY_BOUNDS, NO_BOUNDS
 
 __author__ = "Shane J. Latham"
@@ -48,6 +48,15 @@ class SplitTest(_unittest.TestCase):
 
     #: Class attribute for :obj:`logging.Logger` logging.
     logger = _logging.getLogger(__name__ + ".SplitTest")
+
+    def test_pad_with_object(self):
+        """
+        Tests :func:`array_split.split.pad_with_object`.
+        """
+        l = pad_with_object([1, 3, 4, ], 5, obj=1)
+        self.assertSequenceEqual([1, 3, 4, 1, 1], l)
+
+        self.assertRaises(ValueError, pad_with_object, [1, 2, 3, 4], 3)
 
     def test_shape_factors(self):
         """
@@ -1069,6 +1078,144 @@ class SplitTest(_unittest.TestCase):
             ],
             split.tolist()
         )
+
+    def test_calculate_split_with_halo_for_empty_tiles(self):
+        """
+        Tests :func:`array_split.shape_split` for case of
+        empty tiles and non-zero halo to ensure halo elements
+        are not added to empty tiles.
+        """
+        # Zero halo, empty tiles.
+        split = shape_split((5, 12), axis=[8, 1], halo=0)
+        self.assertSequenceEqual(
+            (
+                slice(4, 5, None),
+                slice(0, 12, None)
+            ),
+            split[4, 0].tolist()
+        )
+        for i in range(5, 8):
+            self.assertSequenceEqual(
+                (
+                    slice(5, 5, None),
+                    slice(0, 12, None)
+                ),
+                split[i, 0].tolist()
+            )
+
+        # Now ensure that empty tiles remain empty despite halo=1
+        split = shape_split((5, 12), axis=[8, 1], halo=1)
+        self.assertSequenceEqual(
+            (
+                slice(3, 5, None),
+                slice(0, 12, None)
+            ),
+            split[4, 0].tolist()
+        )
+        for i in range(5, 8):
+            self.assertSequenceEqual(
+                (
+                    slice(5, 5, None),
+                    slice(0, 12, None)
+                ),
+                split[i, 0].tolist()
+            )
+
+        split = shape_split((5, 12), axis=[8, 15], halo=1)
+        self.assertSequenceEqual(
+            (
+                slice(3, 5, None),
+                slice(0, 2, None)
+            ),
+            split[4, 0].tolist()
+        )
+        for i in range(5, 8):
+            for j in range(0, 12):
+                self.assertEqual(
+                    slice(5, 5, None),
+                    split[i, j].tolist()[0]
+                )
+            for j in range(12, 15):
+                self.assertSequenceEqual(
+                    (
+                        slice(5, 5, None),
+                        slice(12, 12, None)
+                    ),
+                    split[i, j].tolist()
+                )
+        for i in range(0, 5):
+            for j in range(12, 15):
+                self.assertEqual(
+                    slice(12, 12, None),
+                    split[i, j].tolist()[1]
+                )
+
+    def test_calculate_split_halos_from_extents(self):
+        """
+        Tests the :meth:`array_split.split.ShapeSplitter.calculate_split_halos_from_extents`
+        method.
+        """
+
+        # Tiles wider than halo width
+        splitter = ShapeSplitter((15, 13), axis=[3, 3], halo=0)
+        splt = splitter.calculate_split()
+        splt_halos = splitter.calculate_split_halos_from_extents()
+        self.assertSequenceEqual(splt.shape, splt_halos.shape)
+        self.assertTrue(_np.all(splt_halos.astype(_np.int64) == 0))
+
+        # Some tiles narrower than halo width
+        splitter = ShapeSplitter((15, 13), axis=[3, 3], halo=5, tile_bounds_policy=ARRAY_BOUNDS)
+        splt = splitter.calculate_split()
+        splt_halos = splitter.calculate_split_halos_from_extents()
+        self.assertSequenceEqual(splt.shape, splt_halos.shape)
+        for i in range(3):
+            self.assertSequenceEqual([0, 5], tuple(splt_halos[0, i][0]))
+            self.assertSequenceEqual([5, 5], tuple(splt_halos[1, i][0]))
+            self.assertSequenceEqual([5, 0], tuple(splt_halos[2, i][0]))
+            self.assertSequenceEqual([0, 5], tuple(splt_halos[i, 0][1]))
+            self.assertSequenceEqual([5, 4], tuple(splt_halos[i, 1][1]))
+            self.assertSequenceEqual([5, 0], tuple(splt_halos[i, 2][1]))
+
+        splitter = ShapeSplitter((15, 13), axis=[3, 3], halo=0)
+        splt = splitter.calculate_split()
+        splt_halos = splitter.calculate_split_halos_from_extents()
+        self.assertSequenceEqual(splt.shape, splt_halos.shape)
+        self.assertTrue(_np.all(splt_halos.astype(_np.int64) == 0))
+
+        # Tiles narrower than halo width
+        splitter = ShapeSplitter((5, 13), axis=[5, 3], halo=5, tile_bounds_policy=ARRAY_BOUNDS)
+        splt = splitter.calculate_split()
+        splt_halos = splitter.calculate_split_halos_from_extents()
+        self.assertSequenceEqual(splt.shape, splt_halos.shape)
+        for i in range(3):
+            self.assertSequenceEqual([0, 4], tuple(splt_halos[0, i][0]))
+            self.assertSequenceEqual([1, 3], tuple(splt_halos[1, i][0]))
+            self.assertSequenceEqual([2, 2], tuple(splt_halos[2, i][0]))
+            self.assertSequenceEqual([3, 1], tuple(splt_halos[3, i][0]))
+            self.assertSequenceEqual([4, 0], tuple(splt_halos[4, i][0]))
+        for i in range(5):
+            self.assertSequenceEqual([0, 5], tuple(splt_halos[i, 0][1]))
+            self.assertSequenceEqual([5, 4], tuple(splt_halos[i, 1][1]))
+            self.assertSequenceEqual([5, 0], tuple(splt_halos[i, 2][1]))
+
+        # Zero sized tiles
+        # Tiles narrower than halo width
+        splitter = ShapeSplitter((5, 13), axis=[7, 3], halo=5, tile_bounds_policy=ARRAY_BOUNDS)
+        splt = splitter.calculate_split()
+        splt_halos = splitter.calculate_split_halos_from_extents()
+        self.assertSequenceEqual(splt.shape, splt_halos.shape)
+        for i in range(3):
+            self.assertSequenceEqual([0, 4], tuple(splt_halos[0, i][0]))
+            self.assertSequenceEqual([1, 3], tuple(splt_halos[1, i][0]))
+            self.assertSequenceEqual([2, 2], tuple(splt_halos[2, i][0]))
+            self.assertSequenceEqual([3, 1], tuple(splt_halos[3, i][0]))
+            self.assertSequenceEqual([4, 0], tuple(splt_halos[4, i][0]))
+            self.assertSequenceEqual([0, 0], tuple(splt_halos[5, i][0]))
+            self.assertSequenceEqual([0, 0], tuple(splt_halos[6, i][0]))
+        for i in range(5):
+            self.assertSequenceEqual([0, 5], tuple(splt_halos[i, 0][1]))
+            self.assertSequenceEqual([5, 4], tuple(splt_halos[i, 1][1]))
+            self.assertSequenceEqual([5, 0], tuple(splt_halos[i, 2][1]))
 
 
 __all__ = [s for s in dir() if not s.startswith('_')]

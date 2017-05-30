@@ -16,6 +16,7 @@ Classes and Functions
    shape_factors - Compute *largest* factors of a given integer.
    calculate_num_slices_per_axis - Computes per-axis divisions for a multi-dimensional shape.
    calculate_tile_shape_for_max_bytes - Calculate a tile shape subject to max bytes restriction.
+   convert_halo_to_array_form - converts halo argument to :samp:`(ndim, 2)` shaped array.
    ShapeSplitter - Splits a given shape into slices.
    shape_split - Splits a specified shape and returns :obj:`numpy.ndarray` of :obj:`slice` elements.
    array_split - Equivalent to :func:`numpy.array_split`.
@@ -215,21 +216,7 @@ def calculate_tile_shape_for_max_bytes(
 
     sub_tile_shape = _np.array(sub_tile_shape, dtype="int64")
 
-    if halo is None:
-        halo = _np.zeros((len(array_shape), 2), dtype="int64")
-    elif is_scalar(halo):
-        halo = _np.zeros((len(array_shape), 2), dtype="int64") + halo
-    else:
-        halo = _np.array(halo, copy=True)
-        if len(halo.shape) == 1:
-            halo = _np.array([halo, halo]).T.copy()
-
-    if halo.shape[0] != len(array_shape):
-        raise ValueError(
-            "Got halo.shape=%s, expecting halo.shape=(%s, 2)"
-            %
-            (halo.shape, array_shape.shape[0])
-        )
+    halo = convert_halo_to_array_form(halo=halo, ndim=len(array_shape))
 
     if _np.any(array_shape < sub_tile_shape):
         raise ValueError(
@@ -411,6 +398,7 @@ def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_pe
         logger.debug("ridx=%s, f=%s, ret_array=%s", ridx, f, ret_array)
     return ret_array
 
+
 _array_shape_param_doc =\
     """
 :type array_shape: sequence of :obj:`int`
@@ -504,6 +492,7 @@ def ARRAY_BOUNDS():
     """
     return __ARRAY_BOUNDS
 
+
 #: Indicates that tiles may extend beyond the array bounds.
 #: See :ref:`the-halo-parameter-examples` examples.
 __NO_BOUNDS = "no_bounds"
@@ -516,6 +505,42 @@ def NO_BOUNDS():
     See :ref:`the-halo-parameter-examples` examples.
     """
     return __NO_BOUNDS
+
+
+def convert_halo_to_array_form(halo, ndim):
+    """
+    Converts the :samp:`{halo}` argument to a :samp:`(ndim, 2)`
+    shaped array.
+
+    :type halo: :samp:`None`, :obj:`int`, an :samp:`{ndim}` length sequence
+        of :samp:`int` or :samp:`({ndim}, 2)` shaped array
+        of :samp:`int`
+    :param halo: Halo to be converted to :samp:`({ndim}, 2)` shaped array form.
+    :type ndim: :obj:`int`
+    :param ndim: Number of dimensions.
+    :rtype: :obj:`numpy.ndarray`
+    :return: A :samp:`({ndim}, 2)` shaped array of :obj:`numpy.int64` elements.
+    """
+    dtyp = _np.int64
+    if halo is None:
+        halo = _np.zeros((ndim, 2), dtype=dtyp)
+    elif is_scalar(halo):
+        halo = _np.zeros((ndim, 2), dtype=dtyp) + halo
+    elif (ndim == 1) and (_np.array(halo).shape == (2,)):
+        halo = _np.array([halo, ], copy=True, dtype=dtyp)
+    elif len(_np.array(halo).shape) == 1:
+        halo = _np.array([halo, halo], dtype=dtyp).T.copy()
+    else:
+        halo = _np.array(halo, copy=True, dtype=dtyp)
+
+    if halo.shape[0] != ndim:
+        raise ValueError(
+            "Got halo.shape=%s, expecting halo.shape=(%s, 2)"
+            %
+            (halo.shape, ndim)
+        )
+
+    return halo
 
 
 class ShapeSplitter(object):
@@ -607,17 +632,7 @@ class ShapeSplitter(object):
 
         self.sub_tile_shape = sub_tile_shape
 
-        if halo is None:
-            halo = _np.zeros((len(self.array_shape), 2), dtype="int64")
-        elif is_scalar(halo):
-            halo = _np.zeros((len(self.array_shape), 2), dtype="int64") + halo
-        elif (len(array_shape) == 1) and (_np.array(halo).shape == (2,)):
-            halo = _np.array([halo, ], copy=True)
-        elif len(_np.array(halo).shape) == 1:
-            halo = _np.array([halo, halo]).T.copy()
-        else:
-            halo = _np.array(halo, copy=True)
-
+        halo = self.convert_halo_to_array_form(halo)
         self.halo = halo
 
         if tile_bounds_policy is None:
@@ -634,6 +649,20 @@ class ShapeSplitter(object):
         self.split_begs = None
 
         self.split_ends = None
+
+    def convert_halo_to_array_form(self, halo):
+        """
+        Converts the :samp:`{halo}` argument to a :samp:`({self}.array_shape.size, 2)`
+        shaped array.
+
+        :type halo: :samp:`None`, :obj:`int`, :samp:`self.array_shape.size` length sequence
+            of :samp:`int` or :samp:`(self.array_shape.size, 2)` shaped array
+            of :samp:`int`
+        :param halo: Halo to be converted to :samp:`(len(self.array_shape), 2)` shaped array form.
+        :rtype: :obj:`numpy.ndarray`
+        :return: A :samp:`(len(self.array_shape), 2)` shaped array of :obj:`numpy.int64` elements.
+        """
+        return convert_halo_to_array_form(halo=halo, ndim=len(self.array_shape))
 
     @property
     def array_shape(self):
@@ -1056,6 +1085,9 @@ class ShapeSplitter(object):
         """
         Returns split calculated using extents obtained
         from :attr:`split_begs` and :attr:`split_ends`.
+        All calls to calculate the split end up here to produce
+        the :mod:`numpy` `structured array <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_
+        of :obj:`tuple`-of-:obj:`slice` elements.
 
         :rtype: :obj:`numpy.ndarray`
         :return:
@@ -1074,12 +1106,16 @@ class ShapeSplitter(object):
                             slice(
                                 max([
                                     self.split_begs[d][idx[d]]
-                                    + self.array_start[d] - self.halo[d, 0],
+                                    + self.array_start[d]
+                                    - self.halo[d, 0]
+                                    * (self.split_ends[d][idx[d]] > self.split_begs[d][idx[d]]),
                                     self.tile_beg_min[d]
                                 ]),
                                 min([
                                     self.split_ends[d][idx[d]]
-                                    + self.array_start[d] + self.halo[d, 1],
+                                    + self.array_start[d]
+                                    + self.halo[d, 1]
+                                    * (self.split_ends[d][idx[d]] > self.split_begs[d][idx[d]]),
                                     self.tile_end_max[d]
                                 ])
                             )
@@ -1095,6 +1131,58 @@ class ShapeSplitter(object):
                     ).T
                 ],
                 dtype=[("%d" % d, "object") for d in range(len(self.split_shape))]
+            ).reshape(self.split_shape)
+
+        return ret
+
+    def calculate_split_halos_from_extents(self):
+        """
+        Returns :samp:`(self.ndim, 2)` shaped halo array elements indicating
+        the halo for each split. Tiles on the boundary may have the halo trimmed
+        to account for the :attr:`tile_bounds_policy`.
+
+        :rtype: :obj:`numpy.ndarray`
+        :return:
+           A :mod:`numpy` `structured array <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_
+           where each element is a :samp:`(self.ndim, 2)` shaped :obj:`numpy.ndarray`
+           indicating the per-axis and per-direction number of halo elements for each tile
+           in the split.
+        """
+        self.logger.debug("self.split_shape=%s", self.split_shape)
+        self.logger.debug("self.split_begs=%s", self.split_begs)
+        self.logger.debug("self.split_ends=%s", self.split_ends)
+
+        ret = \
+            _np.array(
+                [
+                    (
+                        tuple(
+                            (
+                                min([
+                                    self.split_begs[d][idx[d]] - self.tile_beg_min[d],
+                                    self.halo[d, 0]
+                                    *
+                                    (self.split_ends[d][idx[d]] > self.split_begs[d][idx[d]])
+                                ]),
+                                min([
+                                    self.tile_end_max[d] - self.split_ends[d][idx[d]],
+                                    self.halo[d, 1]
+                                    *
+                                    (self.split_ends[d][idx[d]] > self.split_begs[d][idx[d]])
+                                ])
+                            )
+                            for d in range(len(self.split_shape))
+                        )
+                    )
+                    for idx in
+                    _np.array(
+                        _np.unravel_index(
+                            _np.arange(0, _np.product(self.split_shape)),
+                            self.split_shape
+                        )
+                    ).T
+                ],
+                dtype=[("%d" % d, "2int64") for d in range(len(self.split_shape))]
             ).reshape(self.split_shape)
 
         return ret
@@ -1306,6 +1394,7 @@ class ShapeSplitter(object):
         self.set_split_extents()
         return self.calculate_split_from_extents()
 
+
 ShapeSplitter([0, ]).__init__.__func__.__doc__ = \
     """
 Initialises parameters which define a split.
@@ -1338,6 +1427,8 @@ def shape_split(array_shape, *args, **kwargs):
             *args,
             **kwargs
         ).calculate_split()
+
+
 shape_split.__doc__ =\
     """
 Splits specified :samp:`{array_shape}` in tiles, returns array of :obj:`slice` tuples.
@@ -1395,6 +1486,8 @@ def array_split(
             tile_bounds_policy=ARRAY_BOUNDS
         ).flatten()
     ]
+
+
 array_split.__doc__ =\
     """
 Splits the specified array :samp:`{ary}` into sub-arrays, returns list of :obj:`numpy.ndarray`.
