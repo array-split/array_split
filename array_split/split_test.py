@@ -1217,6 +1217,7 @@ class SplitTest(_unittest.TestCase):
             self.assertSequenceEqual([5, 4], tuple(splt_halos[i, 1][1]))
             self.assertSequenceEqual([5, 0], tuple(splt_halos[i, 2][1]))
 
+
 __all__ = [s for s in dir() if not s.startswith('_')]
 
 _unittest.main(__name__)
