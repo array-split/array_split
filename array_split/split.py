@@ -16,7 +16,7 @@ Classes and Functions
    shape_factors - Compute *largest* factors of a given integer.
    calculate_num_slices_per_axis - Computes per-axis divisions for a multi-dimensional shape.
    calculate_tile_shape_for_max_bytes - Calculate a tile shape subject to max bytes restriction.
-   convert_halo_to_array_form - converts halo argument to :samp:`(ndim, 2) shaped array.
+   convert_halo_to_array_form - converts halo argument to :samp:`(ndim, 2)` shaped array.
    ShapeSplitter - Splits a given shape into slices.
    shape_split - Splits a specified shape and returns :obj:`numpy.ndarray` of :obj:`slice` elements.
    array_split - Equivalent to :func:`numpy.array_split`.
@@ -216,21 +216,7 @@ def calculate_tile_shape_for_max_bytes(
 
     sub_tile_shape = _np.array(sub_tile_shape, dtype="int64")
 
-    if halo is None:
-        halo = _np.zeros((len(array_shape), 2), dtype="int64")
-    elif is_scalar(halo):
-        halo = _np.zeros((len(array_shape), 2), dtype="int64") + halo
-    else:
-        halo = _np.array(halo, copy=True)
-        if len(halo.shape) == 1:
-            halo = _np.array([halo, halo]).T.copy()
-
-    if halo.shape[0] != len(array_shape):
-        raise ValueError(
-            "Got halo.shape=%s, expecting halo.shape=(%s, 2)"
-            %
-            (halo.shape, array_shape.shape[0])
-        )
+    halo = convert_halo_to_array_form(halo=halo, ndim=len(array_shape))
 
     if _np.any(array_shape < sub_tile_shape):
         raise ValueError(
@@ -546,6 +532,13 @@ def convert_halo_to_array_form(halo, ndim):
         halo = _np.array([halo, halo], dtype=dtyp).T.copy()
     else:
         halo = _np.array(halo, copy=True, dtype=dtyp)
+
+    if halo.shape[0] != ndim:
+        raise ValueError(
+            "Got halo.shape=%s, expecting halo.shape=(%s, 2)"
+            %
+            (halo.shape, ndim)
+        )
 
     return halo
 

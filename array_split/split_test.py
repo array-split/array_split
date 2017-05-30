@@ -32,7 +32,7 @@ import numpy as _np
 
 from .split import ShapeSplitter, array_split, shape_split
 from .split import calculate_num_slices_per_axis, shape_factors
-from .split import calculate_tile_shape_for_max_bytes
+from .split import calculate_tile_shape_for_max_bytes, pad_with_object
 from .split import ARRAY_BOUNDS, NO_BOUNDS
 
 __author__ = "Shane J. Latham"
@@ -48,6 +48,15 @@ class SplitTest(_unittest.TestCase):
 
     #: Class attribute for :obj:`logging.Logger` logging.
     logger = _logging.getLogger(__name__ + ".SplitTest")
+
+    def test_pad_with_object(self):
+        """
+        Tests :func:`array_split.split.pad_with_object`.
+        """
+        l = pad_with_object([1, 3, 4, ], 5, obj=1)
+        self.assertSequenceEqual([1, 3, 4, 1, 1], l)
+
+        self.assertRaises(ValueError, pad_with_object, [1, 2, 3, 4], 3)
 
     def test_shape_factors(self):
         """
