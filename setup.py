@@ -111,7 +111,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
-    install_requires=["numpy>=1.6", "sphinx_rtd_theme", ],
+    install_requires=["numpy>=1.6", "sphinx>=1.4,<1.6", "sphinx_rtd_theme", ],
     package_data={
         "array_split": ["version.txt", "git_describe.txt", "copyright.txt", "license.txt"]
     },
