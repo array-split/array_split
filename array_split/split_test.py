@@ -1070,6 +1070,77 @@ class SplitTest(_unittest.TestCase):
             split.tolist()
         )
 
+    def test_calculate_split_with_halo_for_empty_tiles(self):
+        """
+        Tests :func:`array_split.shape_split` for case of
+        empty tiles and non-zero halo to ensure halo elements
+        are not added to empty tiles.
+        """
+        # Zero halo, empty tiles.
+        split = shape_split((5, 12), axis=[8, 1], halo=0)
+        self.assertSequenceEqual(
+            (
+                slice(4, 5, None),
+                slice(0, 12, None)
+            ),
+            split[4, 0].tolist()
+        )
+        for i in range(5, 8):
+            self.assertSequenceEqual(
+                (
+                    slice(5, 5, None),
+                    slice(0, 12, None)
+                ),
+                split[i, 0].tolist()
+            )
+
+        # Now ensure that empty tiles remain empty despite halo=1
+        split = shape_split((5, 12), axis=[8, 1], halo=1)
+        self.assertSequenceEqual(
+            (
+                slice(3, 5, None),
+                slice(0, 12, None)
+            ),
+            split[4, 0].tolist()
+        )
+        for i in range(5, 8):
+            self.assertSequenceEqual(
+                (
+                    slice(5, 5, None),
+                    slice(0, 12, None)
+                ),
+                split[i, 0].tolist()
+            )
+
+        split = shape_split((5, 12), axis=[8, 15], halo=1)
+        self.assertSequenceEqual(
+            (
+                slice(3, 5, None),
+                slice(0, 2, None)
+            ),
+            split[4, 0].tolist()
+        )
+        for i in range(5, 8):
+            for j in range(0, 12):
+                self.assertEqual(
+                    slice(5, 5, None),
+                    split[i, j].tolist()[0]
+                )
+            for j in range(12, 15):
+                self.assertSequenceEqual(
+                    (
+                        slice(5, 5, None),
+                        slice(12, 12, None)
+                    ),
+                    split[i, j].tolist()
+                )
+        for i in range(0, 5):
+            for j in range(12, 15):
+                self.assertEqual(
+                    slice(12, 12, None),
+                    split[i, j].tolist()[1]
+                )
+
     def test_calculate_split_halos_from_extents(self):
         """
         Tests the :meth:`array_split.split.ShapeSplitter.calculate_split_halos_from_extents`

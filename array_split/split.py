@@ -1092,6 +1092,9 @@ class ShapeSplitter(object):
         """
         Returns split calculated using extents obtained
         from :attr:`split_begs` and :attr:`split_ends`.
+        All calls to calculate the split end up here to produce
+        the :mod:`numpy` `structured array <http://docs.scipy.org/doc/numpy/user/basics.rec.html>`_
+        of :obj:`tuple`-of-:obj:`slice` elements.
 
         :rtype: :obj:`numpy.ndarray`
         :return:
@@ -1110,12 +1113,16 @@ class ShapeSplitter(object):
                             slice(
                                 max([
                                     self.split_begs[d][idx[d]]
-                                    + self.array_start[d] - self.halo[d, 0],
+                                    + self.array_start[d]
+                                    - self.halo[d, 0]
+                                    * (self.split_ends[d][idx[d]] > self.split_begs[d][idx[d]]),
                                     self.tile_beg_min[d]
                                 ]),
                                 min([
                                     self.split_ends[d][idx[d]]
-                                    + self.array_start[d] + self.halo[d, 1],
+                                    + self.array_start[d]
+                                    + self.halo[d, 1]
+                                    * (self.split_ends[d][idx[d]] > self.split_begs[d][idx[d]]),
                                     self.tile_end_max[d]
                                 ])
                             )
