@@ -17,6 +17,7 @@ Classes
 
 .. autosummary::
    :toctree: generated/
+   :template: autosummary/inherits_TestCase_class.rst
 
    SplitTest - :obj:`unittest.TestCase` for :mod:`array_split.split` functions.
 
