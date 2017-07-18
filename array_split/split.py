@@ -124,7 +124,7 @@ def shape_factors(n, dim=2):
     if dim <= 1:
         factors = [n, ]
     else:
-        for f in range(int(n**(1.0 / float(dim))) + 1, 0, -1):
+        for f in range(int(n ** (1.0 / float(dim))) + 1, 0, -1):
             if ((n % f) == 0):
                 factors = [f, ] + list(shape_factors(n // f, dim=dim - 1))
                 break
@@ -544,6 +544,7 @@ def convert_halo_to_array_form(halo, ndim):
 
 
 class ShapeSplitter(object):
+
     """
     Implements array shape splitting. There are three main (top-level) methods:
 

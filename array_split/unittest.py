@@ -81,6 +81,7 @@ def _fix_docstring_for_sphinx(docstr):
 
 
 class TestCase(_builtin_unittest.TestCase):
+
     """
     Extends :obj:`unittest.TestCase` with the :meth:`assertArraySplitEqual`.
     """
