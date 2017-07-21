@@ -30,6 +30,7 @@ from logging import *  # noqa: F401,F403
 
 
 class _Python2SplitStreamHandler(_builtin_logging.Handler):
+
     """
     A python :obj:`logging.handlers` :samp:`Handler` class for
     splitting logging messages to different streams depending on
@@ -88,6 +89,7 @@ class _Python2SplitStreamHandler(_builtin_logging.Handler):
 
 
 class _Python3SplitStreamHandler(_builtin_logging.Handler):
+
     """
     A python :obj:`logging.handlers` :samp:`Handler` class for
     splitting logging messages to different streams depending on

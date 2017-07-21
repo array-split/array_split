@@ -3,6 +3,6 @@
 .pydevproject
 array_split/git_describe.txt
 *.pyc
-*/build/*
+*/_build/*
 */source/*/generated
 array_split.egg-info

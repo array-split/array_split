@@ -137,7 +137,7 @@ Sphinx documentation can be built from the source::
 
    python setup.py build_sphinx
 
-with the HTML generated in `docs/build/html`.
+with the HTML generated in `docs/_build/html`.
 
 
 Latest source code
