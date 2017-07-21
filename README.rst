@@ -86,17 +86,17 @@ Latest sphinx documentation examples at http://array-split.readthedocs.io/en/lat
 Installation
 ============
 
-Using ``pip``::
+Using ``pip`` (root access required):
 
-   pip install array_split # with root access
+   ``pip install array_split``
    
-or::
+or local user install (no root access required):
    
-   pip install --user array_split # no root/sudo permissions required
+   ``pip install --user array_split``
 
-From latest github source::
+or local user install from latest github source:
 
-   pip install --user git+git://github.com/array-split/array_split.git#egg=array_split
+   ``pip install --user git+git://github.com/array-split/array_split.git#egg=array_split``
 
 
 Requirements
