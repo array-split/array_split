@@ -5,3 +5,4 @@ array_split/git_describe.txt
 *.pyc
 */build/*
 */source/*/generated
+array_split.egg-info
