@@ -96,9 +96,8 @@ or::
 
 From latest github source::
 
-    git clone https://github.com/array-split/array_split.git
-    cd array_split
-    python setup.py install --user
+   pip install --user git+git://github.com/array-split/array_split.git#egg=array_split
+
 
 Requirements
 ============
