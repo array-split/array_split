@@ -53,7 +53,7 @@ Quick Start Example
     array([18, 19, 20, 21, 22, 23, 24, 25, 26]),
     array([27, 28, 29, 30, 31, 32, 33, 34, 35])]
    >>> 
-   >>> shape_split(ary.shape, 4) # 1D split into 4 sections, slice objects instead of numpy.ndarray views 
+   >>> shape_split(ary.shape, 4) # 1D split into 4 parts, returns slice objects 
    array([(slice(0, 9, None),), (slice(9, 18, None),), (slice(18, 27, None),), (slice(27, 36, None),)], 
          dtype=[('0', 'O')])
    >>> 
@@ -69,7 +69,7 @@ Quick Start Example
            (slice(2, 4, None), slice(3, 6, None)),
            (slice(2, 4, None), slice(6, 9, None))]], 
          dtype=[('0', 'O'), ('1', 'O')])
-   >>> sub_arys = [ary[tup] for tup in split.flatten()] # Split ary into sub-array views using the slice tuples.
+   >>> sub_arys = [ary[tup] for tup in split.flatten()] # Create sub-array views from slice tuples.
    >>> sub_arys
    [array([[ 0,  1,  2], [ 9, 10, 11]]),
     array([[ 3,  4,  5], [12, 13, 14]]),
@@ -137,7 +137,7 @@ Sphinx documentation can be built from the source::
 
    python setup.py build_sphinx
 
-with the HTML generated in `docs/_build/html`.
+with the HTML generated in ``docs/_build/html``.
 
 
 Latest source code
@@ -146,6 +146,12 @@ Latest source code
 Source at github:
 
     https://github.com/array-split/array_split
+
+
+Contributing
+============
+
+Check out the `CONTRIBUTING doc <https://github.com/array-split/array_split/blob/dev/CONTRIBUTING.rst>`_.
 
 
 License information

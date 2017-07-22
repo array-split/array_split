@@ -26,3 +26,9 @@ array_split documenation
    :caption: API Reference
 
    reference/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contributing
+
+   contributing/index
