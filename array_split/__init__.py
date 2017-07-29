@@ -5,14 +5,14 @@ The :mod:`array_split` Package
 
 .. currentmodule:: array_split
 
-Small python package for splitting a :obj:`numpy.ndarray` (or just an array shape)
+Python package for splitting a :obj:`numpy.ndarray` (or just an array shape)
 into a number of sub-arrays.
 
 The two main functions are:
 
    :func:`array_split.array_split`
        Similar to :func:`numpy.array_split`, returns a list of
-       *views* of sub-arrays of the input :obj:`numpy.ndarray`.
+       sub-array *views* of the input :obj:`numpy.ndarray`.
        Can split along multiple axes and has more splitting
        criteria (parameters) than :func:`numpy.array_split`.
 

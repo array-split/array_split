@@ -27,12 +27,17 @@
 
 
 The `array_split <http://array-split.readthedocs.io/en/latest>`_ python package is
-a modest enhancement to the
-`numpy.array_split <http://docs.scipy.org/doc/numpy/reference/generated/numpy.array_split.html>`_
-function for sub-dividing multi-dimensional arrays into sub-arrays (slices). The main motivation
-comes from parallel processing where one desires to split (decompose) a large array
-(or multiple arrays) into smaller sub-arrays which can be processed concurrently by
-other processes (`multiprocessing <https://docs.python.org/3/library/multiprocessing.html>`_ or
+an enhancement to existing
+`numpy.ndarray  <http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html>`_ functions,
+such as
+`numpy.array_split <http://docs.scipy.org/doc/numpy/reference/generated/numpy.array_split.html>`_,
+`skimage.util.view_as_blocks <http://scikit-image.org/docs/0.13.x/api/skimage.util.html#view-as-blocks>`_
+and
+`skimage.util.view_as_windows <http://scikit-image.org/docs/0.13.x/api/skimage.util.html#view-as-windows>`_,
+which sub-divide a multi-dimensional array into a number of multi-dimensional sub-arrays (slices).
+The main motivation comes from parallel processing where one desires to split (decompose) a
+large array into smaller sub-arrays which can be processed concurrently by
+multiple processes (`multiprocessing <https://docs.python.org/3/library/multiprocessing.html>`_ or
 `mpi4py <http://pythonhosted.org/mpi4py/>`_) or other memory-limited hardware
 (e.g. GPGPU using `pyopencl <https://mathema.tician.de/software/pyopencl/>`_,
 `pycuda <https://mathema.tician.de/software/pycuda/>`_, etc).
@@ -145,7 +150,15 @@ Latest source code
 
 Source at github:
 
-    https://github.com/array-split/array_split
+   https://github.com/array-split/array_split
+
+
+Bug Reports
+===========
+
+To search for bugs or report them, please use the bug tracker at:
+
+   https://github.com/array-split/array_split/issues
 
 
 Contributing
