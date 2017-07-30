@@ -6,7 +6,7 @@ Terminology
 Definitions:
 
    *tile*
-      A multi-dimensional *sub-array* of an array (e.g. :obj:`numpy.ndarray`) decomposition.
+      A multi-dimensional *sub-array* of a :obj:`numpy.ndarray`.
    *slice*
       A :obj:`tuple` of :obj:`slice` elements defining the extents
       of a tile/sub-array.
@@ -63,9 +63,9 @@ has been issued to :obj:`import` the relevant functions::
    >>> import numpy
    >>> from array_split import array_split, shape_split, ShapeSplitter
 
-=====================================================================================
-Comparison between :samp:`array_split`, :samp:`shape_split` and :samp:`ShapeSplitter`
-=====================================================================================
+==================================================================
+:samp:`array_split`, :samp:`shape_split` and :samp:`ShapeSplitter`
+==================================================================
 
 The :func:`array_split.array_split` function is analogous to
 the :func:`numpy.array_split` function. It takes a :obj:`numpy.ndarray`
@@ -78,7 +78,7 @@ objects) elements::
    [array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]
 
 The :func:`array_split.shape_split` function takes an array *shape* as an
-argument instead of an actual array, and returns
+argument instead of an actual :obj:`numpy.ndarray` object, and returns
 a :mod:`numpy` `structured array`_
 of :obj:`tuple` elements. The tuple elements can then be used to generate
 the tiles from a :obj:`numpy.ndarray` of an equivalent shape::
@@ -91,7 +91,7 @@ the tiles from a :obj:`numpy.ndarray` of an equivalent shape::
    >>> [ary[slyce] for slyce in split.flatten()] # generates tile views of ary
    [array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]
 
-Each :obj:`tuple` array element, of the returned split, has length
+Each :obj:`tuple` element, of the returned split, has length
 equal to the  dimension of the multi-dimensional shape,
 i.e. :samp:`N = len({array_shape})`. Each :obj:`tuple`
 indicates the indexing extent of a tile.
@@ -137,6 +137,9 @@ and for instances of the :obj:`array_split.ShapeSplitter` class.
 Splitting by number of tiles
 ============================
 
+Splitting an array is performed by specifying:
+*total number of tiles* in the final split
+and *per-axis number of slices*.
 
 Single axis number of tiles
 ===========================
@@ -226,6 +229,9 @@ Raises :obj:`ValueError` if the impossible is attempted::
 =================================
 Splitting by per-axis cut indices
 =================================
+
+Array splitting is performed by explicitly specifying the
+indices at which cuts are performed.
 
 Single axis cut indices
 =======================
@@ -331,7 +337,7 @@ the :samp:`max_tile_bytes` parameters. In 1D::
 
    >>> split = shape_split(
    ...   array_shape=[512,],
-   ...   array_itemsize=1,
+   ...   array_itemsize=1,  # Default value
    ...   max_tile_bytes=512 # Equals number of array bytes
    ... )
    ...
@@ -562,12 +568,12 @@ parameter can be either a
       directions for all axes.
 
    1D sequence
-      Tiles are extended by :samp:`{halo[i]}` elements in the negative and positive
-      directions for axis :samp:`i`.
+      Tiles are extended by :samp:`{halo[a]}` elements in the negative and positive
+      directions for axis :samp:`a`.
 
    2D sequence
-      Tiles are extended by :samp:`{halo[i][0]}` elements in the negative direction
-      and :samp:`{halo[i][1]}` in the positive direction for axis :samp:`i`.
+      Tiles are extended by :samp:`{halo[a][0]}` elements in the negative direction
+      and :samp:`{halo[a][1]}` in the positive direction for axis :samp:`a`.
 
 For example, in 3D:
  

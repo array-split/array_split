@@ -33,7 +33,7 @@ import numpy as _np
 
 from .split import ShapeSplitter, array_split, shape_split
 from .split import calculate_num_slices_per_axis, shape_factors
-from .split import calculate_tile_shape_for_max_bytes, pad_with_object
+from .split import calculate_tile_shape_for_max_bytes, pad_with_object, convert_halo_to_array_form
 from .split import ARRAY_BOUNDS, NO_BOUNDS
 
 __author__ = "Shane J. Latham"
@@ -45,11 +45,19 @@ __version__ = _array_split.__version__
 class SplitTest(_unittest.TestCase):
 
     """
-    :obj:`unittest.TestCase` for :mod:`array_split.split` functions.
+    Tests for :mod:`array_split.split` module.
     """
 
     #: Class attribute for :obj:`logging.Logger` logging.
     logger = _logging.getLogger(__name__ + ".SplitTest")
+
+    def test_properties(self):
+        """
+        Test :attr:`array_split.split.ARRAY_BOUNDS`
+        and :attr:`array_split.split.NO_BOUNDS`.
+        """
+        self.assertIsNotNone(_array_split.split.ARRAY_BOUNDS)
+        self.assertIsNotNone(_array_split.split.NO_BOUNDS)
 
     def test_pad_with_object(self):
         """
@@ -59,6 +67,46 @@ class SplitTest(_unittest.TestCase):
         self.assertSequenceEqual([1, 3, 4, 1, 1], l)
 
         self.assertRaises(ValueError, pad_with_object, [1, 2, 3, 4], 3)
+
+    def test_convert_halo_to_array_form(self):
+        """
+        Tests :func:`array_split.split.convert_halo_to_array_form`.
+        """
+        self.assertRaises(
+            ValueError,
+            convert_halo_to_array_form,
+            halo=[0, 2, 4],
+            ndim=2
+        )
+        self.assertRaises(
+            ValueError,
+            convert_halo_to_array_form,
+            halo=[0, 2, 4],
+            ndim=4
+        )
+        self.assertTrue(
+            _np.all(
+                convert_halo_to_array_form(1, 4)
+                ==
+                [[1, 1], [1, 1], [1, 1], [1, 1]]
+            )
+        )
+
+        self.assertTrue(
+            _np.all(
+                convert_halo_to_array_form([1, 2, 3, 4], 4)
+                ==
+                [[1, 1], [2, 2], [3, 3], [4, 4]]
+            )
+        )
+
+        self.assertTrue(
+            _np.all(
+                convert_halo_to_array_form([[1, 2], [3, 4], [5, 6], [7, 8]], 4)
+                ==
+                [[1, 2], [3, 4], [5, 6], [7, 8]]
+            )
+        )
 
     def test_shape_factors(self):
         """
@@ -83,6 +131,14 @@ class SplitTest(_unittest.TestCase):
         """
         Tests for :func:`array_split.split.calculate_num_slices_per_axis`.
         """
+
+        self.assertRaises(
+            ValueError,
+            calculate_num_slices_per_axis,
+            [0, 1, 0],
+            15,
+            [1, 0, 1024]
+        )
 
         spa = calculate_num_slices_per_axis([0, ], 5)
         self.assertEqual(1, len(spa))
@@ -120,11 +176,35 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(3, len(spa))
         self.assertTrue(_np.all(spa == [1, 1, 15]))
 
+        spa = calculate_num_slices_per_axis([0, 1, 0], 16, [1, _np.inf, _np.inf])
+        self.assertEqual(3, len(spa))
+        self.assertTrue(_np.all(spa == [1, 1, 16]))
+
+        spa = calculate_num_slices_per_axis([0, 0, 0], 64, [1, 2, _np.inf])
+        self.assertEqual(3, len(spa))
+        self.assertTrue(_np.all(spa == [1, 2, 32]))
+
+        spa = calculate_num_slices_per_axis([0, 0, 0], 64, [_np.inf, 1, 2])
+        self.assertEqual(3, len(spa))
+        self.assertSequenceEqual([32, 1, 2], spa.tolist())
+
+        spa = calculate_num_slices_per_axis([0, 0, 0], 27, [_np.inf, 2, 2])
+        self.assertEqual(3, len(spa))
+        self.assertSequenceEqual([27, 1, 1], spa.tolist())
+
     def test_calculate_tile_shape_for_max_bytes_1d(self):
         """
         Test case for :func:`array_split.split.calculate_tile_shape_for_max_bytes`,
         where :samp:`array_shape` parameter is 1D, i.e. of the form :samp:`(N,)`.
         """
+        self.assertRaises(
+            ValueError,
+            calculate_tile_shape_for_max_bytes,
+            array_shape=(512, 1024, 1024),
+            array_itemsize=1,
+            max_tile_bytes=2**20,
+            sub_tile_shape=(1024, 128, 128)
+        )
         tile_shape = \
             calculate_tile_shape_for_max_bytes(
                 array_shape=(512,),
@@ -292,6 +372,46 @@ class SplitTest(_unittest.TestCase):
             )
         self.assertSequenceEqual((180, 540), tile_shape.tolist())
 
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(512, 32),
+                array_itemsize=1,
+                max_tile_bytes=2 * 32 * 32,
+                sub_tile_shape=(32, 32)
+            )
+        self.assertSequenceEqual((64, 32), tile_shape.tolist())
+
+        tile_shape = \
+            calculate_tile_shape_for_max_bytes(
+                array_shape=(32, 512),
+                array_itemsize=1,
+                max_tile_bytes=2 * 32 * 32,
+                sub_tile_shape=(32, 32)
+            )
+        self.assertSequenceEqual((32, 64), tile_shape.tolist())
+
+    def test_multiple_parameter_groups_error(self):
+        """
+        Test for case for inconsistent parameter group arguments.
+        """
+
+        splitter = ShapeSplitter((100, ), axis=(3,), max_tile_bytes=30)
+        self.assertRaises(
+            ValueError,
+            splitter.calculate_split
+        )
+
+        splitter = ShapeSplitter((100, ))
+        self.assertRaises(
+            ValueError,
+            splitter.calculate_split
+        )
+
+        self.assertRaises(
+            ValueError,
+            splitter.set_split_extents_by_indices_per_axis
+        )
+
     def test_array_split(self):
         """
         Test for case for :func:`array_split.split.array_split`.
@@ -353,12 +473,16 @@ class SplitTest(_unittest.TestCase):
     def test_split_by_per_axis_indices(self):
         """
         Test for case for splitting by specified
-        indices::
+        indices. For example::
 
            ShapeSplitter(array_shape=(10, 4), indices_or_sections=[[2, 6, 8], ]).calculate_split()
 
-
         """
+        splitter = ShapeSplitter((10, 4), [[2, 6, 8], [1, ], [8, 4]])
+        self.assertRaises(
+            ValueError,
+            splitter.calculate_split
+        )
         splitter = ShapeSplitter((10, 4), [[2, 6, 8], ])
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
@@ -372,6 +496,9 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(0, 4), split[1, 0][1])  # axis 1 slice
         self.assertEqual(slice(0, 4), split[2, 0][1])  # axis 1 slice
         self.assertEqual(slice(0, 4), split[3, 0][1])  # axis 1 slice
+
+        split1 = splitter.calculate_split_by_indices_per_axis()
+        self.assertTrue(_np.all(split == split1))
 
         splitter = ShapeSplitter((10, 13), [None, [2, 5, 8], ])
         split = splitter.calculate_split()
@@ -419,13 +546,34 @@ class SplitTest(_unittest.TestCase):
     def test_split_by_num_slices(self):
         """
         Test for case for splitting by number of
-        slice elements::
+        slice elements. For example::
 
            ShapeSplitter(array_shape=(10, 13), indices_or_sections=3).calculate_split()
            ShapeSplitter(array_shape=(10, 13), axis=[2, 3]).calculate_split()
 
-
         """
+
+        self.assertRaises(
+            ValueError,
+            ShapeSplitter,
+            (10,),
+            axis=[3, 4]
+        )
+
+        splitter = ShapeSplitter((10,), axis=[0, ])
+        self.assertRaises(
+            ValueError,
+            splitter.set_split_extents_by_split_size
+        )
+        
+        splitter = ShapeSplitter((10,), axis=[2, ])
+        splitter.split_num_slices_per_axis = [2, 2]
+        self.assertRaises(
+            ValueError,
+            splitter.check_consistent_parameter_dimensions
+        )
+
+
         splitter = ShapeSplitter((10,), 3)
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
@@ -434,6 +582,9 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(0, 4), split[0][0])  # axis 0 slice
         self.assertEqual(slice(4, 7), split[1][0])  # axis 0 slice
         self.assertEqual(slice(7, 10), split[2][0])  # axis 0 slice
+
+        split1 = splitter.calculate_split_by_split_size()
+        self.assertTrue(_np.all(split == split1))
 
         splitter = ShapeSplitter((10,), axis=[3, ])
         split = splitter.calculate_split()
@@ -555,6 +706,46 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(7, 13), split[1, 1][1])  # axis 1 slice
 
     def test_calculate_split_by_tile_shape_1d(self):
+        """
+        Test for case for splitting by explicit tile shape. For example::
+
+           ShapeSplitter(array_shape=(10, ), tile_shape=(3, )).calculate_split()
+
+        """
+
+        splitter = ShapeSplitter((10, ), tile_shape=(3, 3))
+        self.assertRaises(
+            ValueError,
+            splitter.calculate_split
+        )
+
+        splitter = ShapeSplitter((100, ), max_tile_bytes=25, sub_tile_shape=(5, 5))
+        self.assertRaises(
+            ValueError,
+            splitter.calculate_split
+        )
+
+        splitter = \
+            ShapeSplitter((100, ), max_tile_bytes=25, sub_tile_shape=(5, ), max_tile_shape=(10, 10))
+        self.assertRaises(
+            ValueError,
+            splitter.calculate_split
+        )
+
+        splitter = \
+            ShapeSplitter((100, ), max_tile_shape=(10, ))
+        self.assertRaises(
+            ValueError,
+            splitter.calculate_split
+        )
+
+        splitter = \
+            ShapeSplitter((100, ), sub_tile_shape=(10, ))
+        self.assertRaises(
+            ValueError,
+            splitter.calculate_split
+        )
+
         splitter = ShapeSplitter((10, ), tile_shape=(3,))
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
@@ -564,6 +755,9 @@ class SplitTest(_unittest.TestCase):
             [(slice(0, 3),), (slice(3, 6),), (slice(6, 9),), (slice(9, 10),)],
             split.tolist()
         )
+
+        split1 = splitter.calculate_split_by_tile_shape()
+        self.assertTrue(_np.all(split == split1))
 
         splitter = ShapeSplitter((10, ), tile_shape=(4,))
         split = splitter.calculate_split()
@@ -606,6 +800,13 @@ class SplitTest(_unittest.TestCase):
         )
 
     def test_calculate_split_by_tile_shape_2d(self):
+        """
+        Test for case for splitting by explicit tile shape. For example::
+
+           ShapeSplitter(array_shape=(10, 17), tile_shape=(3, 8)).calculate_split()
+
+        """
+
         splitter = ShapeSplitter((10, 17), tile_shape=(3, 8))
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
@@ -627,6 +828,14 @@ class SplitTest(_unittest.TestCase):
         )
 
     def test_calculate_split_by_tile_max_bytes_1d(self):
+        """
+        Test for case for splitting with maximum number of tile bytes constraint.
+        For example::
+
+           ShapeSplitter((512, ), max_tile_bytes=256, array_itemsize=1).calculate_split()
+
+        """
+
         splitter = ShapeSplitter((512, ), max_tile_bytes=256, array_itemsize=1)
         split = splitter.calculate_split()
         self.logger.info("split.shape = %s", split.shape)
@@ -646,6 +855,9 @@ class SplitTest(_unittest.TestCase):
             [(slice(0, 128),), (slice(128, 256),), (slice(256, 384),), (slice(384, 512),)],
             split.tolist()
         )
+
+        split1 = splitter.calculate_split_by_tile_max_bytes()
+        self.assertTrue(_np.all(split == split1))
 
         splitter = ShapeSplitter((512, ), max_tile_bytes=511, array_itemsize=2)
         split = splitter.calculate_split()
@@ -690,6 +902,20 @@ class SplitTest(_unittest.TestCase):
         )
 
     def test_calculate_split_with_array_start_1d(self):
+        """
+        Test for case for splitting with explicit array start multi-index. For example::
+
+           shape_split((10,), 2, array_start=(32,))
+
+        """
+
+        self.assertRaises(
+            ValueError,
+            shape_split,
+            (10,),
+            2,
+            array_start=(2, 3)
+        )
         split = shape_split((10,), 2, array_start=(0,))
         self.assertSequenceEqual(
             [(slice(0, 5),), (slice(5, 10),)],
@@ -703,6 +929,13 @@ class SplitTest(_unittest.TestCase):
         )
 
     def test_calculate_split_with_array_start_2d(self):
+        """
+        Test for case for splitting with explicit array start multi-index. For example::
+
+           shape_split((10, 12), axis=(2, 2), array_start=(32, 16))
+
+        """
+
         split = shape_split((10, 12), axis=(2, 2), array_start=(0, 0))
         self.assertSequenceEqual(
             [
@@ -722,6 +955,13 @@ class SplitTest(_unittest.TestCase):
         )
 
     def test_calculate_split_with_halo_1d(self):
+        """
+        Test for case for splitting with explicit halo. For example::
+
+           shape_split((10,), 3, halo=[(1, 2), ])
+
+        """
+
         split = shape_split((10,), 3, halo=(0,))
         self.assertSequenceEqual(
             [(slice(0, 4),), (slice(4, 7),), (slice(7, 10),)],
@@ -770,6 +1010,12 @@ class SplitTest(_unittest.TestCase):
             split.tolist()
         )
 
+        split = shape_split((10,), 3, halo=1, tile_bounds_policy=None)
+        self.assertSequenceEqual(
+            [(slice(0, 5),), (slice(3, 8),), (slice(6, 10),)],
+            split.tolist()
+        )
+
         split = shape_split((10,), 3, halo=1, tile_bounds_policy=NO_BOUNDS)
         self.assertSequenceEqual(
             [(slice(-1, 5),), (slice(3, 8),), (slice(6, 11),)],
@@ -789,6 +1035,35 @@ class SplitTest(_unittest.TestCase):
         )
 
     def test_calculate_split_with_halo_2d(self):
+        """
+        Test for case for splitting with explicit halo. For example::
+
+            shape_split(
+                (15, 13),
+                axis=[3, 3],
+                halo=[[1, 2], [2, 3]],
+                tile_bounds_policy=ARRAY_BOUNDS
+            )
+
+        """
+
+        self.assertRaises(
+            ValueError,
+            shape_split,
+            (15, 13),
+            axis=[3, 3],
+            halo=[0, 1, 2]
+        )
+
+        self.assertRaises(
+            ValueError,
+            shape_split,
+            (15, 13),
+            axis=[3, 3],
+            halo=[0, 1],
+            tile_bounds_policy="bogus"
+        )
+
         split = shape_split((15, 13), axis=[3, 3], halo=0)
         self.assertSequenceEqual(
             [

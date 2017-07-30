@@ -27,6 +27,18 @@ Attributes
 .. autodata:: ARRAY_BOUNDS
 .. autodata:: NO_BOUNDS
 
+Utilities
+=========
+
+.. autosummary::
+   :toctree: generated/
+
+   is_scalar - Return :samp:`True` if argument is numeric scalar.
+   is_sequence - Return :samp:`True` if argument is a sequence.
+   is_indices - Return :samp:`True` if argument is a sequence.
+   pad_with_object - End pads a sequence with specified object.
+   pad_with_none - End pads a sequence with :samp:`None` elements.
+
 """
 from __future__ import absolute_import
 from .license import license as _license, copyright as _copyright
@@ -46,6 +58,26 @@ def is_scalar(obj):
     """
     Returns :samp:`True` if argument :samp:`{obj}` is
     a numeric type.
+
+    :type obj: :obj:`object`
+    :param obj: Return :samp:`True` if this is a scalar.
+    :rtype: :obj:`bool`
+    :return: :samp:`True` if :samp:`{obj}` is a numeric scalar.
+
+    Example::
+
+       >>> is_scalar(5)
+       True
+       >>> is_scalar(2.0)
+       True
+       >>> import numpy as np
+       >>> is_scalar(np.ones((10,), dtype="uint16")[0])
+       True
+       >>> is_scalar([1, 2, 3])
+       False
+       >>> is_scalar([i for i in range(0, 3)])
+       False
+
     """
     return hasattr(obj, "__int__") or hasattr(obj, "__long__")
 
@@ -54,14 +86,42 @@ def is_sequence(obj):
     """
     Returns :samp:`True` if argument :samp:`{obj}` is
     a sequence (e.g. a :obj:`list` or :obj:`tuple`, etc).
+
+    :type obj: :obj:`object`
+    :param obj: Return :samp:`True` if this is a sequence.
+    :rtype: :obj:`bool`
+    :return: :samp:`True` if :samp:`{obj}` is a sequence.
+
+    Example::
+
+       >>> is_sequence([1, 2, 3])
+       True
+       >>> is_sequence([i for i in range(0, 3)])
+       True
+       >>> is_sequence(5)
+       False
+
     """
-    return hasattr(obj, "__len__") or hasattr(obj, "__getitem__")
+    return (
+        hasattr(obj, "__len__")
+        or
+        hasattr(obj, "__getitem__")
+        or
+        hasattr(obj, "__iter__")
+    )
 
 
 def is_indices(indices_or_sections):
     """
-    Returns :samp:`True` if argument :samp:`{indices_or_sections}` is
+    Test for the :samp:`{indices_or_sections}` argument of :meth:`ShapeSplitter.__init__`
+    to determine whether it is specifying *total number of tiles* or sequence of
+    *cut* indices. Returns :samp:`True` if argument :samp:`{indices_or_sections}` is
     a sequence (e.g. a :obj:`list` or :obj:`tuple`, etc).
+
+    :type indices_or_sections: :obj:`object`
+    :param indices_or_sections: Return :samp:`True` if this is a sequence.
+    :rtype: :obj:`bool`
+    :return: :samp:`is_sequence({indices_or_sections})`.
     """
     return is_sequence(indices_or_sections)
 
@@ -70,6 +130,23 @@ def pad_with_object(sequence, new_length, obj=None):
     """
     Returns :samp:`sequence` :obj:`list` end-padded with :samp:`{obj}`
     elements so that the length of the returned list equals :samp:`{new_length}`.
+
+    :type sequence: iterable
+    :param sequence: Return *listified* sequence which has been end-padded.
+    :type new_length: :obj:`int`
+    :param new_length: The length of the returned list.
+    :type obj: :obj:`object`
+    :param obj: Object used as padding elements.
+    :rtype: :obj:`list`
+    :return: A :obj:`list` of length :samp:`{new_length}`.
+    :raises ValueError: if :samp:`len({sequence}) > {new_length})`.
+
+    Example::
+
+       >>> pad_with_object([1, 2, 3], 5, obj=0)
+       [1, 2, 3, 0, 0]
+       >>> pad_with_object([1, 2, 3], 5, obj=None)
+       [1, 2, 3, None, None]
 
     """
     if len(sequence) < new_length:
@@ -89,6 +166,14 @@ def pad_with_none(sequence, new_length):
     """
     Returns :samp:`sequence` :obj:`list` end-padded with :samp:`None`
     elements so that the length of the returned list equals :samp:`{new_length}`.
+
+    :type sequence: iterable
+    :param sequence: Return *listified* sequence which has been end-padded.
+    :type new_length: :obj:`int`
+    :param new_length: The length of the returned list.
+    :rtype: :obj:`list`
+    :return: A :obj:`list` of length :samp:`{new_length}`.
+    :raises ValueError: if :samp:`len({sequence}) > {new_length})`.
 
     """
     return pad_with_object(sequence, new_length, obj=None)
@@ -250,11 +335,11 @@ def calculate_tile_shape_for_max_bytes(
             tile_sub_tile_split_shape,
             max_tile_shape // sub_tile_shape
         )
-    logger.debug("tile_sub_tile_split_shape=%s", tile_sub_tile_split_shape)
+    logger.debug("Pre loop: tile_sub_tile_split_shape=%s", tile_sub_tile_split_shape)
 
     current_axis = 0
     while (
-        (current_axis < len(tile_sub_tile_split_shape.shape))
+        (current_axis < len(tile_sub_tile_split_shape))
         and
         (
             (
@@ -266,6 +351,7 @@ def calculate_tile_shape_for_max_bytes(
             max_tile_bytes
         )
     ):
+        logger.debug("Loop: current_axis=%s", current_axis)
         if current_axis < (len(tile_sub_tile_split_shape) - 1):
             tile_sub_tile_split_shape[current_axis] = 1
             tile_sub_tile_split_shape[current_axis] = \
@@ -283,9 +369,8 @@ def calculate_tile_shape_for_max_bytes(
                         array_itemsize
                     )
             )
-            if tile_sub_tile_split_shape[current_axis] <= 0:
-                tile_sub_tile_split_shape[current_axis] = 1
-            current_axis += 1
+            tile_sub_tile_split_shape[current_axis] = \
+                max([1, tile_sub_tile_split_shape[current_axis]])
         else:
             sub_tile_shape_h = sub_tile_shape.copy()
             sub_tile_shape_h[0:current_axis] += _np.sum(halo[0:current_axis, :], axis=1)
@@ -299,8 +384,9 @@ def calculate_tile_shape_for_max_bytes(
                     /
                     float(_np.product(sub_tile_shape_h))
                 ))
+        current_axis += 1
 
-    logger.debug("tile_sub_tile_split_shape=%s", tile_sub_tile_split_shape)
+    logger.debug("Post loop: tile_sub_tile_split_shape=%s", tile_sub_tile_split_shape)
     tile_shape = _np.minimum(array_shape, tile_sub_tile_split_shape * sub_tile_shape)
     logger.debug("pre cannonicalise tile_shape=%s", tile_shape)
 
@@ -386,16 +472,16 @@ def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_pe
             ret_array[ridx] = f
         else:
             for i in range(ridx[0].shape[0]):
-                if f[i] < max_slices_per_axis[ridx[0][i]]:
-                    ret_array[ridx[0][i]] = f[i]
-                else:
+                if f[i] >= max_slices_per_axis[ridx[0][i]]:
                     ret_array[ridx[0][i]] = max_slices_per_axis[ridx[0][i]]
                     prd = _np.product(ret_array[_np.where(ret_array > 0)])
                     while (num_slices % prd) > 0:
                         ret_array[ridx[0][i]] -= 1
                         prd = _np.product(ret_array[_np.where(ret_array > 0)])
-                    break
-        logger.debug("ridx=%s, f=%s, ret_array=%s", ridx, f, ret_array)
+        logger.debug(
+            "ridx=%s, f=%s, ret_array=%s, max_slices_per_axis=%s",
+            ridx, f, ret_array, max_slices_per_axis
+        )
     return ret_array
 
 
@@ -520,6 +606,23 @@ def convert_halo_to_array_form(halo, ndim):
     :param ndim: Number of dimensions.
     :rtype: :obj:`numpy.ndarray`
     :return: A :samp:`({ndim}, 2)` shaped array of :obj:`numpy.int64` elements.
+
+    Examples::
+
+       >>> convert_halo_to_array_form(halo=2, ndim=4)
+       array([[2, 2],
+              [2, 2],
+              [2, 2],
+              [2, 2]])
+       >>> convert_halo_to_array_form(halo=[0, 1, 2], ndim=3)
+       array([[0, 0],
+              [1, 1],
+              [2, 2]])
+       >>> convert_halo_to_array_form(halo=[[0, 1], [2, 3], [3, 4]], ndim=3)
+       array([[0, 1],
+              [2, 3],
+              [3, 4]])
+
     """
     dtyp = _np.int64
     if halo is None:
@@ -558,6 +661,28 @@ class ShapeSplitter(object):
           Calls :meth:`set_split_extents` followed
           by :meth:`calculate_split_from_extents` to
           return the :obj:`numpy.ndarray` of :obj:`tuple` elements (slices).
+
+
+    Example::
+
+       >>> import numpy as np
+       >>> ary = np.arange(0, 10)
+       >>> splitter = ShapeSplitter(ary.shape, 3)
+       >>> split = splitter.calculate_split()
+       >>> split.shape
+       (3,)
+       >>> split
+       array([(slice(0, 4, None),), (slice(4, 7, None),), (slice(7, 10, None),)],
+             dtype=[('0', 'O')])
+       >>> [ary[slyce] for slyce in split.flatten()]
+       [array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]
+       >>>
+       >>> splitter.split_shape # equivalent to split.shape above
+       array([3])
+       >>> splitter.split_begs  # start indices for tile extents
+       [array([0, 4, 7])]
+       >>> splitter.split_ends  # stop indices for tile extents
+       [array([ 4,  7, 10])]
 
     """
 
@@ -802,7 +927,7 @@ class ShapeSplitter(object):
 
     @halo.setter
     def halo(self, halo):
-        self.__halo = halo
+        self.__halo = convert_halo_to_array_form(halo, ndim=self.array_shape.size)
 
     @property
     def tile_bounds_policy(self):
@@ -877,24 +1002,6 @@ class ShapeSplitter(object):
     @split_ends.setter
     def split_ends(self, split_ends):
         self.__split_ends = split_ends
-
-    def check_halo(self):
-        """
-        Raises :obj:`ValueError` if there is an inconsistency
-        between shapes of :attr:`array_shape` and :attr:`halo`.
-        """
-        if (
-            (len(self.halo.shape) != 2)
-            or
-            (self.halo.shape[0] != len(self.array_shape))
-            or
-            (self.halo.shape[1] != 2)
-        ):
-            raise ValueError(
-                "Got halo.shape=%s, expecting halo.shape=(%s, 2)"
-                %
-                (self.halo.shape, self.array_shape.shape[0])
-            )
 
     def check_tile_bounds_policy(self):
         """
@@ -996,6 +1103,8 @@ class ShapeSplitter(object):
                 parameter_groups["max_tile_bytes"] = {}
             parameter_groups["max_tile_bytes"]["self.sub_tile_shape"] = self.sub_tile_shape
 
+        self.logger.debug("parameter_groups=%s", parameter_groups)
+
         if (len(parameter_groups.keys()) > 1):
             group_keys = sorted(parameter_groups.keys())
             raise ValueError(
@@ -1030,7 +1139,6 @@ class ShapeSplitter(object):
         :raises ValueError: For conflicting or absent parameters.
         """
 
-        self.check_halo()
         self.check_tile_bounds_policy()
         self.check_consistent_parameter_dimensions()
         self.check_consistent_parameter_grouping()
