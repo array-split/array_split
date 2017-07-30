@@ -8,6 +8,10 @@ array_split documenation
 :Version: |version|
 :Date: |today|
 
+.. include:: ../../README.rst
+   :start-after: start badges.
+   :end-before: end badges.
+
 .. toctree::
    :maxdepth: 2
    :caption: Read Me

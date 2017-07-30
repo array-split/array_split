@@ -5,6 +5,7 @@
 
 .. Start of sphinx doc include.
 .. start long description.
+.. start badges.
 
 .. image:: https://img.shields.io/pypi/v/array_split.svg
    :target: https://pypi.python.org/pypi/array_split/
@@ -25,6 +26,7 @@
    :target: https://pypi.python.org/pypi/array_split/
    :alt: array_split python package
 
+.. end badges.
 
 The `array_split <http://array-split.readthedocs.io/en/latest>`_ python package is
 an enhancement to existing
