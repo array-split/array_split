@@ -71,6 +71,8 @@ if (
     (int(sys.version_info[0]) < 2)
     or
     ((int(sys.version_info[0]) == 2) and (int(sys.version_info[1]) <= 6))
+    or
+    ((int(sys.version_info[0]) == 3) and (int(sys.version_info[1]) <= 3))
 ):
     sphinx_requires = []
 
