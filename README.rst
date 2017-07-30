@@ -35,12 +35,43 @@ such as
 and
 `skimage.util.view_as_windows <http://scikit-image.org/docs/0.13.x/api/skimage.util.html#view-as-windows>`_,
 which sub-divide a multi-dimensional array into a number of multi-dimensional sub-arrays (slices).
-The main motivation comes from parallel processing where one desires to split (decompose) a
-large array into smaller sub-arrays which can be processed concurrently by
-multiple processes (`multiprocessing <https://docs.python.org/3/library/multiprocessing.html>`_ or
-`mpi4py <http://pythonhosted.org/mpi4py/>`_) or other memory-limited hardware
-(e.g. GPGPU using `pyopencl <https://mathema.tician.de/software/pyopencl/>`_,
-`pycuda <https://mathema.tician.de/software/pycuda/>`_, etc).
+Example application areas include:
+
+**Parallel Processing**
+   A large (dense) array is partitioned into smaller sub-arrays which can be
+   processed concurrently by multiple processes
+   (`multiprocessing <https://docs.python.org/3/library/multiprocessing.html>`_
+   or `mpi4py <http://pythonhosted.org/mpi4py/>`_) or other memory-limited hardware
+   (e.g. GPGPU using `pyopencl <https://mathema.tician.de/software/pyopencl/>`_,
+   `pycuda <https://mathema.tician.de/software/pycuda/>`_, etc).
+   For GPGPU, it is necessary for sub-array not to exceed the GPU memory and
+   desirable for the sub-array shape to be a multiple of the *work-group*
+   (`OpenCL <https://en.wikipedia.org/wiki/OpenCL>`_)
+   or *thread-block* (`CUDA <https://en.wikipedia.org/wiki/CUDA>`_) size.
+
+**File I/O**
+   A large (dense) array is partitioned into smaller sub-arrays which can be
+   written to individual files
+   (e.g. `HDF5 Virtual Datasets <https://support.hdfgroup.org/HDF5/docNewFeatures/NewFeaturesVirtualDatasetDocs.html>`_).
+   It is often desirable for the individual files not to exceed a specified number
+   of (Giga) bytes and, for `HDF5 <https://support.hdfgroup.org/HDF5/>`_, it is desirable
+   to have the individual file sub-array shape a multiple of
+   the `chunk shape <https://support.hdfgroup.org/HDF5/doc1.8/Advanced/Chunking/index.html>`_.
+
+
+The `array_split <http://array-split.readthedocs.io/en/latest>`_ package provides the
+means to partition an array (or array shape) using any of the following criteria:
+
+- Per-axis indicies indicating the *cut* positions.
+- Per-axis number of sub-arrays.
+- Total number of sub-arrays (with optional per-axis *number of sections* constraints).
+- Specific sub-array shape.
+- Specification of *halo* (*ghost*) elements for sub-arrays.
+- Arbitrary *start index* for the shape to be partitioned.
+- Maximum number of bytes for a sub-array with constraints:
+
+   - sub-arrays are an even multiple of a specified sub-tile shape
+   - upper limit on the per-axis sub-array shape
 
 
 Quick Start Example

@@ -22,8 +22,9 @@ The two main functions are:
       objects which indicate the extents of the sub-arrays.
 
 These two functions use an instance of the :obj:`array_split.ShapeSplitter` class
-which contains the bulk of the *split* implementation and maintains
-some state related to the computed split.
+which contains the bulk of the *split* implementation.
+Instances of :obj:`array_split.ShapeSplitter` also
+maintain state related to the computed split.
 
 Splitting of multi-dimensional arrays can be performed according to several criteria:
 
@@ -31,6 +32,8 @@ Splitting of multi-dimensional arrays can be performed according to several crit
    * Per-axis number of sub-arrays.
    * Total number of sub-arrays (with optional per-axis *number of sections* constraints).
    * Specific sub-array shape.
+   * Specification of *halo* (*ghost*) elements for sub-arrays.
+   * Arbitrary *start index* for the shape to be partitioned.
    * Maximum number of bytes for a sub-array with constraints:
 
         - sub-arrays are an even multiple of a specified sub-tile shape

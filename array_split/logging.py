@@ -222,6 +222,16 @@ def initialise_loggers(names, log_level=_builtin_logging.WARNING, handler_class=
     :param handler_class: The handler class for output of log messages,
        for example :obj:`SplitStreamHandler` or :obj:`logging.StreamHandler`.
 
+    Example::
+
+       >>> from array_split import logging
+       >>> logging.initialise_loggers(["my_logger",], log_level=logging.INFO)
+       >>> logger = logging.getLogger("my_logger")
+       >>> logger.info("This is info logging.")
+       16:35:09|ARRSPLT| This is info logging.
+       >>> logger.debug("Not logged at logging.INFO level.")
+       >>>
+
     """
     frmttr = get_formatter()
     for name in names:

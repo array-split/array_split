@@ -19,7 +19,7 @@ __version__ = _pkg_resources.resource_string("array_split", "version.txt").decod
 
 def version():
     """
-    Returns version string.
+    Returns :mod:`array_split` version string.
 
     :rtype: :obj:`str`
     :return: Version string.
@@ -73,9 +73,9 @@ Functions
 .. autosummary::
    :toctree: generated/
 
-   license - Function which returns :mod:`array_split` license string.
-   copyright - Function which returns :mod:`array_split` copyright string.
-
+   license - Returns :mod:`array_split` license string.
+   copyright - Returns :mod:`array_split` copyright string.
+   version - Returns :mod:`array_split` version string.
 
 """ % (license(), copyright())
 
