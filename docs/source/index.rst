@@ -1,16 +1,17 @@
-########################
-array_split documenation
-########################
+#########################
+array_split documentation
+#########################
 
 .. sectionauthor:: Shane J. Latham
 
-:Release: |release|
-:Version: |version|
-:Date: |today|
 
 .. include:: ../../README.rst
    :start-after: start badges.
    :end-before: end badges.
+
+:Release: |release|
+:Version: |version|
+:Date: |today|
 
 .. toctree::
    :maxdepth: 2
