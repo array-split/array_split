@@ -12,15 +12,16 @@ Execute as::
 .. currentmodule:: array_split.tests
 
 """
+# pylint: disable=unused-import
 from __future__ import absolute_import
-from .license import license as _license, copyright as _copyright
 import unittest as _unittest
 import doctest as _doctest
+import os.path
 import array_split as _array_split
 from array_split import split as _split
 
-from .split_test import *  # noqa: F401,F403
-import os.path
+from .license import license as _license, copyright as _copyright
+from .split_test import SplitTest  # noqa: F401,F403
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
@@ -30,7 +31,15 @@ __version__ = _array_split.__version__
 
 class DocTestTestSuite(_unittest.TestSuite):
 
+    """
+    Adds :mod:`array_split` doctests as `unittest.TestCase` objects.
+    """
+
     def __init__(self):
+        """
+        Uses :meth:`unittest.TestSuite.addTests` to add :obj:`doctest.DocFileSuite`
+        and :obj:`doctest.DocTestSuite` tests.
+        """
         readme_file_name = \
             os.path.realpath(
                 os.path.join(os.path.dirname(__file__), "..", "README.rst")
@@ -79,7 +88,11 @@ class DocTestTestSuite(_unittest.TestSuite):
         _unittest.TestSuite.__init__(self, suite)
 
 
-def load_tests(loader, tests, pattern):
+def load_tests(loader, tests, pattern):  # pylint: disable=unused-argument
+    """
+    Loads :mod:`array_split.split_test` tests and :obj:`DocTestTestSuite`
+    tests.
+    """
     suite = loader.loadTestsFromNames(["array_split.split_test", ])
     suite.addTests(DocTestTestSuite())
     return suite

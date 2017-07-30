@@ -24,6 +24,16 @@ import unittest as _builtin_unittest
 import array_split.logging
 import numpy as _np
 
+# pylint: disable=invalid-name
+# pylint: disable=arguments-differ
+# pylint: disable=trailing-whitespace
+# pylint: disable=no-member
+# pylint: disable=deprecated-method
+# pylint: disable=broad-except
+# pylint: disable=too-many-locals
+# pylint: disable=protected-access
+# pylint: disable=too-many-branches
+
 
 def main(module_name, log_level=array_split.logging.DEBUG, init_logger_names=None):
     """
@@ -62,10 +72,10 @@ def main(module_name, log_level=array_split.logging.DEBUG, init_logger_names=Non
 
     """
     if module_name == "__main__":
-        if (init_logger_names is None):
+        if init_logger_names is None:
             init_logger_names = [module_name, "array_split"]
 
-        if (len(init_logger_names) > 0):
+        if len(init_logger_names) > 0:
             array_split.logging.initialise_loggers(
                 init_logger_names, log_level=log_level)
 
@@ -73,6 +83,9 @@ def main(module_name, log_level=array_split.logging.DEBUG, init_logger_names=Non
 
 
 def _fix_docstring_for_sphinx(docstr):
+    """
+    Remove 8-space indentation from lines of specified :samp:`{docstr}` string.
+    """
     lines = docstr.split("\n")
     for i in range(len(lines)):
         if lines[i].find(" " * 8) == 0:
@@ -164,6 +177,9 @@ if not hasattr(TestCase, "assertSequenceEqual"):
     _MAX_LENGTH = 80
 
     def safe_repr(obj, short=False):
+        """
+        Returns :func:`repr` string for :samp:`{obj}`.
+        """
         try:
             result = repr(obj)
         except Exception:
@@ -173,6 +189,9 @@ if not hasattr(TestCase, "assertSequenceEqual"):
         return result[:_MAX_LENGTH] + ' [truncated]...'
 
     def strclass(cls):
+        """
+        Returns name string of :samp:`{cls}` as `<modulename>.<classname>`.
+        """
         return "%s.%s" % (cls.__module__, cls.__name__)
 
     def assertSequenceEqual(self, seq1, seq2, msg=None, seq_type=None):

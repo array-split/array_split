@@ -41,12 +41,11 @@ Utilities
 
 """
 from __future__ import absolute_import
-from .license import license as _license, copyright as _copyright
-
 import array_split as _array_split
-import array_split.logging as _logging
 import numpy as _np
 
+from .license import license as _license, copyright as _copyright
+from . import logging as _logging
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
@@ -210,7 +209,7 @@ def shape_factors(n, dim=2):
         factors = [n, ]
     else:
         for f in range(int(n ** (1.0 / float(dim))) + 1, 0, -1):
-            if ((n % f) == 0):
+            if (n % f) == 0:
                 factors = [f, ] + list(shape_factors(n // f, dim=dim - 1))
                 break
 
@@ -570,7 +569,7 @@ __ARRAY_BOUNDS = "array_bounds"
 
 
 @property
-def ARRAY_BOUNDS():
+def ARRAY_BOUNDS():  # pylint: disable=invalid-name
     """
     Indicates that tiles are always within the array bounds,
     resulting in tiles which have truncated halos.
@@ -585,7 +584,7 @@ __NO_BOUNDS = "no_bounds"
 
 
 @property
-def NO_BOUNDS():
+def NO_BOUNDS():  # pylint: disable=invalid-name
     """
     Indicates that tiles may have halos which extend beyond the array bounds.
     See :ref:`the-halo-parameter-examples` examples.
@@ -707,6 +706,26 @@ class ShapeSplitter(object):
         halo=None,
         tile_bounds_policy=ARRAY_BOUNDS
     ):
+        # Initialise *private* attributes.
+        self.__array_shape = None
+        self.__array_start = None
+        self.__array_itemsize = None
+        self.__indices_per_axis = None
+        self.__split_size = None
+        self.__split_num_slices_per_axis = None
+        self.__tile_shape = None
+        self.__max_tile_bytes = None
+        self.__max_tile_shape = None
+        self.__sub_tile_shape = None
+        self.__halo = None
+        self.__tile_bounds_policy = None
+        self.__tile_beg_min = None
+        self.__tile_end_max = None
+        self.__split_shape = None
+        self.__split_begs = None
+        self.__split_ends = None
+
+        # Now set properties from arguments
         self.array_shape = _np.array(array_shape)
 
         if array_start is None:
@@ -1008,7 +1027,7 @@ class ShapeSplitter(object):
         Raises :obj:`ValueError` if :attr:`tile_bounds_policy`
         is not in :samp:`[{self}.ARRAY_BOUNDS, {self}.NO_BOUNDS]`.
         """
-        if not (self.tile_bounds_policy in self.valid_tile_bounds_policies):
+        if self.tile_bounds_policy not in self.valid_tile_bounds_policies:
             raise ValueError(
                 "Got self.tile_bounds_policy=%s, which is not in %s."
                 %
@@ -1105,7 +1124,7 @@ class ShapeSplitter(object):
 
         self.logger.debug("parameter_groups=%s", parameter_groups)
 
-        if (len(parameter_groups.keys()) > 1):
+        if len(parameter_groups.keys()) > 1:
             group_keys = sorted(parameter_groups.keys())
             raise ValueError(
                 "Got conflicting parameter groups specified, "
@@ -1125,7 +1144,7 @@ class ShapeSplitter(object):
                     )
                 )
             )
-        if (len(parameter_groups.keys()) <= 0):
+        if len(parameter_groups.keys()) <= 0:
             raise ValueError(
                 "No split parameters specified, need parameters from one of the groups: "
                 +
@@ -1530,6 +1549,7 @@ Initialises parameters which define a split.
 
 
 def shape_split(array_shape, *args, **kwargs):
+    "To be replaced."
     return \
         ShapeSplitter(
             array_shape,
@@ -1578,6 +1598,7 @@ def array_split(
     sub_tile_shape=None,
     halo=None
 ):
+    "To be replaced."
     return [
         ary[slyce]
         for slyce in

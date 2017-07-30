@@ -22,6 +22,10 @@ Classes and Functions
    get_formatter - "Returns :obj:`logging.Formatter` with time prefix string.
 """
 
+# pylint: disable=unused-wildcard-import
+# pylint: disable=wildcard-import
+# pylint: disable=invalid-name
+
 from __future__ import absolute_import
 
 import sys
@@ -156,14 +160,22 @@ class _Python3SplitStreamHandler(_builtin_logging.Handler):
             self.handleError(record)
 
 
-if (sys.version_info[0] <= 2):
+if sys.version_info[0] <= 2:
     class SplitStreamHandler(_Python2SplitStreamHandler):
+
+        """
+        To be replaced.
+        """
+
         __doc__ = _Python2SplitStreamHandler.__doc__
-        pass
 else:
     class SplitStreamHandler(_Python3SplitStreamHandler):
+
+        """
+        To be replaced.
+        """
+
         __doc__ = _Python3SplitStreamHandler.__doc__
-        pass
 
 
 def get_formatter(prefix_string="ARRSPLT| "):
@@ -176,7 +188,7 @@ def get_formatter(prefix_string="ARRSPLT| "):
     :rtype: :obj:`logging.Formatter`
     :return: Regular formatter for logging.
     """
-    if (prefix_string is None):
+    if prefix_string is None:
         prefix_string = ""
     formatter = \
         _builtin_logging.Formatter(

@@ -24,12 +24,12 @@ Classes
 
 """
 from __future__ import absolute_import
-from .license import license as _license, copyright as _copyright
-import array_split.unittest as _unittest
-import array_split.logging as _logging
 import array_split as _array_split
-
 import numpy as _np
+
+from .license import license as _license, copyright as _copyright
+from . import unittest as _unittest
+from . import logging as _logging
 
 from .split import ShapeSplitter, array_split, shape_split
 from .split import calculate_num_slices_per_axis, shape_factors
@@ -56,15 +56,15 @@ class SplitTest(_unittest.TestCase):
         Test :attr:`array_split.split.ARRAY_BOUNDS`
         and :attr:`array_split.split.NO_BOUNDS`.
         """
-        self.assertIsNotNone(_array_split.split.ARRAY_BOUNDS)
-        self.assertIsNotNone(_array_split.split.NO_BOUNDS)
+        self.assertNotEqual(None, _array_split.split.ARRAY_BOUNDS)
+        self.assertNotEqual(None, _array_split.split.NO_BOUNDS)
 
     def test_pad_with_object(self):
         """
         Tests :func:`array_split.split.pad_with_object`.
         """
-        l = pad_with_object([1, 3, 4, ], 5, obj=1)
-        self.assertSequenceEqual([1, 3, 4, 1, 1], l)
+        lst = pad_with_object([1, 3, 4, ], 5, obj=1)
+        self.assertSequenceEqual([1, 3, 4, 1, 1], lst)
 
         self.assertRaises(ValueError, pad_with_object, [1, 2, 3, 4], 3)
 
@@ -543,13 +543,13 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(6, 8), split[2][0])  # axis 0 slice
         self.assertEqual(slice(8, 10), split[3][0])  # axis 0 slice
 
-    def test_split_by_num_slices(self):
+    def test_split_by_num_slices_1d(self):
         """
         Test for case for splitting by number of
         slice elements. For example::
 
-           ShapeSplitter(array_shape=(10, 13), indices_or_sections=3).calculate_split()
-           ShapeSplitter(array_shape=(10, 13), axis=[2, 3]).calculate_split()
+           ShapeSplitter(array_shape=(10, ), indices_or_sections=3).calculate_split()
+           ShapeSplitter(array_shape=(10, ), axis=[2, ]).calculate_split()
 
         """
 
@@ -620,19 +620,14 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(0, 5), split[0][0])  # axis 0 slice
         self.assertEqual(slice(5, 10), split[1][0])  # axis 0 slice
 
-        splitter = ShapeSplitter((10, 13), 4, axis=[1, 0])
-        split = splitter.calculate_split()
-        self.logger.info("split.shape = %s", split.shape)
-        self.logger.info("split =\n%s", split)
-        self.assertTrue(_np.all(_np.array(split.shape) == [1, 4]))
-        self.assertEqual(slice(0, 10), split[0, 0][0])  # axis 0 slice
-        self.assertEqual(slice(0, 10), split[0, 1][0])  # axis 0 slice
-        self.assertEqual(slice(0, 10), split[0, 2][0])  # axis 0 slice
-        self.assertEqual(slice(0, 10), split[0, 3][0])  # axis 0 slice
-        self.assertEqual(slice(0, 4), split[0, 0][1])  # axis 1 slice
-        self.assertEqual(slice(4, 7), split[0, 1][1])  # axis 1 slice
-        self.assertEqual(slice(7, 10), split[0, 2][1])  # axis 1 slice
-        self.assertEqual(slice(10, 13), split[0, 3][1])  # axis 1 slice
+    def test_split_by_num_slices_2d_non_0_axis_elems(self):
+        """
+        Test for case for splitting by number of
+        slice elements. For example::
+
+           ShapeSplitter(array_shape=(10, 13), axis=[2, 3]).calculate_split()
+
+        """
 
         splitter = ShapeSplitter((10, 13), axis=[2, 2])
         split = splitter.calculate_split()
@@ -661,6 +656,29 @@ class SplitTest(_unittest.TestCase):
         self.assertEqual(slice(7, 13), split[0, 1][1])  # axis 1 slice
         self.assertEqual(slice(0, 7), split[1, 0][1])  # axis 1 slice
         self.assertEqual(slice(7, 13), split[1, 1][1])  # axis 1 slice
+
+    def test_split_by_num_slices_2d_0_axis_elems(self):
+        """
+        Test for case for splitting by number of
+        slice elements. For example::
+
+           ShapeSplitter(array_shape=(10, 13), 4, axis=[2, 0]).calculate_split()
+
+        """
+
+        splitter = ShapeSplitter((10, 13), 4, axis=[1, 0])
+        split = splitter.calculate_split()
+        self.logger.info("split.shape = %s", split.shape)
+        self.logger.info("split =\n%s", split)
+        self.assertTrue(_np.all(_np.array(split.shape) == [1, 4]))
+        self.assertEqual(slice(0, 10), split[0, 0][0])  # axis 0 slice
+        self.assertEqual(slice(0, 10), split[0, 1][0])  # axis 0 slice
+        self.assertEqual(slice(0, 10), split[0, 2][0])  # axis 0 slice
+        self.assertEqual(slice(0, 10), split[0, 3][0])  # axis 0 slice
+        self.assertEqual(slice(0, 4), split[0, 0][1])  # axis 1 slice
+        self.assertEqual(slice(4, 7), split[0, 1][1])  # axis 1 slice
+        self.assertEqual(slice(7, 10), split[0, 2][1])  # axis 1 slice
+        self.assertEqual(slice(10, 13), split[0, 3][1])  # axis 1 slice
 
         splitter = ShapeSplitter((10, 13), 4, axis=[0, 2])
         split = splitter.calculate_split()

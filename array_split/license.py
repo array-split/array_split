@@ -1,3 +1,7 @@
+"""
+To be replaced.
+"""
+# pylint: disable=redefined-builtin
 from __future__ import absolute_import
 import pkg_resources as _pkg_resources
 
