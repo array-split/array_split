@@ -565,14 +565,13 @@ class SplitTest(_unittest.TestCase):
             ValueError,
             splitter.set_split_extents_by_split_size
         )
-        
+
         splitter = ShapeSplitter((10,), axis=[2, ])
         splitter.split_num_slices_per_axis = [2, 2]
         self.assertRaises(
             ValueError,
             splitter.check_consistent_parameter_dimensions
         )
-
 
         splitter = ShapeSplitter((10,), 3)
         split = splitter.calculate_split()
