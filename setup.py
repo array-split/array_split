@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
+import sys
 import os
 import os.path
 import subprocess
@@ -66,7 +67,7 @@ create_git_describe()
 _long_description = read_readme()
 
 sphinx_requires = ["sphinx>=1.4,<1.6", "sphinx_rtd_theme", ]
-if (sys.version[0] < 2) or ((sys.version[0] == 2) and (sys.version[1] <= 6)):
+if (int(sys.version[0]) < 2) or ((int(sys.version[0]) == 2) and (int(sys.version[1]) <= 6)):
     sphinx_requires = []
 
 setup(
