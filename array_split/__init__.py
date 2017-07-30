@@ -58,7 +58,6 @@ Attributes
 
 """
 from __future__ import absolute_import
-import pkg_resources as _pkg_resources
 from .license import license as _license, copyright as _copyright, version as _version
 from . import split  # noqa: E402,F401
 from .split import array_split, shape_split, ShapeSplitter  # noqa: E402,F401
