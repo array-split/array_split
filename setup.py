@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 import os
+import os.path
 import subprocess
 
 
@@ -25,7 +26,7 @@ def read_readme():
 
 def create_git_describe():
     try:
-        cmd = ["/usr/bin/env", "git", "describe"]
+        cmd = ["git", "describe"]
         p = \
             subprocess.Popen(
                 cmd,
@@ -43,11 +44,13 @@ def create_git_describe():
 
             raise e
         # Write the git describe to text file
-        open("array_split/git_describe.txt", "wt").write(p.communicate()[0].decode())
+        open(os.path.join("array_split", "git_describe.txt"), "wt").write(
+            p.communicate()[0].decode()
+        )
     except (Exception,) as e:
         # Try and make up a git-describe like string.
         print("Problem with '%s': %s: %s" % (" ".join(cmd), e, e.output))
-        version_str = open("array_split/version.txt", "rt").read().strip()
+        version_str = open(os.path.join("array_split", "version.txt"), "rt").read().strip()
         if ("TRAVIS_TAG" in os.environ.keys()) and (len(os.environ["TRAVIS_TAG"]) > 0):
             version_str = os.environ["TRAVIS_TAG"]
         else:
@@ -56,7 +59,7 @@ def create_git_describe():
             if ("TRAVIS_COMMIT" in os.environ.keys()) and (len(os.environ["TRAVIS_COMMIT"]) > 0):
                 version_str += "-" + \
                     os.environ["TRAVIS_COMMIT"][0:min([7, len(os.environ["TRAVIS_COMMIT"])])]
-        open("array_split/git_describe.txt", "wt").write(version_str)
+        open(os.path.join("array_split", "git_describe.txt"), "wt").write(version_str)
 
 create_git_describe()
 
@@ -64,7 +67,7 @@ _long_description = read_readme()
 
 setup(
     name="array_split",
-    version=open("array_split/version.txt", "rt").read().strip(),
+    version=open(os.path.join("array_split", "version.txt"), "rt").read().strip(),
     packages=find_packages(),
     # metadata for upload to PyPI
     author="Shane J. Latham",
