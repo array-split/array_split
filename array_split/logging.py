@@ -22,14 +22,25 @@ Classes and Functions
    get_formatter - "Returns :obj:`logging.Formatter` with time prefix string.
 """
 
+# pylint: disable=unused-wildcard-import
+# pylint: disable=wildcard-import
+# pylint: disable=invalid-name
+
 from __future__ import absolute_import
 
 import sys
 import logging as _builtin_logging
 from logging import *  # noqa: F401,F403
+from .license import license as _license, copyright as _copyright, version as _version
+
+__author__ = "Shane J. Latham"
+__license__ = _license()
+__copyright__ = _copyright()
+__version__ = _version()
 
 
 class _Python2SplitStreamHandler(_builtin_logging.Handler):
+
     """
     A python :obj:`logging.handlers` :samp:`Handler` class for
     splitting logging messages to different streams depending on
@@ -88,6 +99,7 @@ class _Python2SplitStreamHandler(_builtin_logging.Handler):
 
 
 class _Python3SplitStreamHandler(_builtin_logging.Handler):
+
     """
     A python :obj:`logging.handlers` :samp:`Handler` class for
     splitting logging messages to different streams depending on
@@ -154,14 +166,22 @@ class _Python3SplitStreamHandler(_builtin_logging.Handler):
             self.handleError(record)
 
 
-if (sys.version_info[0] <= 2):
+if sys.version_info[0] <= 2:
     class SplitStreamHandler(_Python2SplitStreamHandler):
+
+        """
+        To be replaced.
+        """
+
         __doc__ = _Python2SplitStreamHandler.__doc__
-        pass
 else:
     class SplitStreamHandler(_Python3SplitStreamHandler):
+
+        """
+        To be replaced.
+        """
+
         __doc__ = _Python3SplitStreamHandler.__doc__
-        pass
 
 
 def get_formatter(prefix_string="ARRSPLT| "):
@@ -174,7 +194,7 @@ def get_formatter(prefix_string="ARRSPLT| "):
     :rtype: :obj:`logging.Formatter`
     :return: Regular formatter for logging.
     """
-    if (prefix_string is None):
+    if prefix_string is None:
         prefix_string = ""
     formatter = \
         _builtin_logging.Formatter(
@@ -201,6 +221,16 @@ def initialise_loggers(names, log_level=_builtin_logging.WARNING, handler_class=
     :type handler_class: One of the :obj:`logging.handlers` classes.
     :param handler_class: The handler class for output of log messages,
        for example :obj:`SplitStreamHandler` or :obj:`logging.StreamHandler`.
+
+    Example::
+
+       >>> from array_split import logging
+       >>> logging.initialise_loggers(["my_logger",], log_level=logging.INFO)
+       >>> logger = logging.getLogger("my_logger")
+       >>> logger.info("This is info logging.")
+       16:35:09|ARRSPLT| This is info logging.
+       >>> logger.debug("Not logged at logging.INFO level.")
+       >>>
 
     """
     frmttr = get_formatter()

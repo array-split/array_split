@@ -1,8 +1,13 @@
-########################
-array_split documenation
-########################
+#########################
+array_split documentation
+#########################
 
 .. sectionauthor:: Shane J. Latham
+
+
+.. include:: ../../README.rst
+   :start-after: start badges.
+   :end-before: end badges.
 
 :Release: |release|
 :Version: |version|
@@ -26,3 +31,9 @@ array_split documenation
    :caption: API Reference
 
    reference/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contributing
+
+   contributing/index

@@ -5,14 +5,14 @@ The :mod:`array_split` Package
 
 .. currentmodule:: array_split
 
-Small python package for splitting a :obj:`numpy.ndarray` (or just an array shape)
+Python package for splitting a :obj:`numpy.ndarray` (or just an array shape)
 into a number of sub-arrays.
 
 The two main functions are:
 
    :func:`array_split.array_split`
        Similar to :func:`numpy.array_split`, returns a list of
-       *views* of sub-arrays of the input :obj:`numpy.ndarray`.
+       sub-array *views* of the input :obj:`numpy.ndarray`.
        Can split along multiple axes and has more splitting
        criteria (parameters) than :func:`numpy.array_split`.
 
@@ -22,8 +22,9 @@ The two main functions are:
       objects which indicate the extents of the sub-arrays.
 
 These two functions use an instance of the :obj:`array_split.ShapeSplitter` class
-which contains the bulk of the *split* implementation and maintains
-some state related to the computed split.
+which contains the bulk of the *split* implementation.
+Instances of :obj:`array_split.ShapeSplitter` also
+maintain state related to the computed split.
 
 Splitting of multi-dimensional arrays can be performed according to several criteria:
 
@@ -31,6 +32,8 @@ Splitting of multi-dimensional arrays can be performed according to several crit
    * Per-axis number of sub-arrays.
    * Total number of sub-arrays (with optional per-axis *number of sections* constraints).
    * Specific sub-array shape.
+   * Specification of *halo* (*ghost*) elements for sub-arrays.
+   * Arbitrary *start index* for the shape to be partitioned.
    * Maximum number of bytes for a sub-array with constraints:
 
         - sub-arrays are an even multiple of a specified sub-tile shape
@@ -58,16 +61,15 @@ Attributes
 
 """
 from __future__ import absolute_import
-from .license import license as _license, copyright as _copyright
-import pkg_resources as _pkg_resources
+from .license import license as _license, copyright as _copyright, version as _version
+from . import split  # noqa: E402,F401
+from .split import array_split, shape_split, ShapeSplitter  # noqa: E402,F401
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
 __copyright__ = _copyright()
-__version__ = _pkg_resources.resource_string("array_split", "version.txt").decode()
+__version__ = _version()
 
-from . import split  # noqa: E402,F401
-from .split import array_split, shape_split, ShapeSplitter  # noqa: E402,F401
 
 #: See :data:`array_split.split.ARRAY_BOUNDS`
 ARRAY_BOUNDS = split.ARRAY_BOUNDS
