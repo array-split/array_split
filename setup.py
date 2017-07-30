@@ -65,6 +65,10 @@ create_git_describe()
 
 _long_description = read_readme()
 
+sphinx_requires = ["sphinx>=1.4,<1.6", "sphinx_rtd_theme", ]
+if (sys.version[0] < 2) or ((sys.version[0] == 2) and (sys.version[1] <= 6)):
+    sphinx_requires = []
+
 setup(
     name="array_split",
     version=open(os.path.join("array_split", "version.txt"), "rt").read().strip(),
@@ -82,7 +86,7 @@ setup(
     long_description=_long_description,
     license="MIT",
     keywords=(
-        "sub-array tile tiling splitting split array "
+        "sub-array tile tiling splitting split array partition partitioning"
         +
         "scipy numpy ndarray domain-decomposition array-decomposition"
     ),
@@ -113,7 +117,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
-    install_requires=["numpy>=1.6", "sphinx>=1.4,<1.6", "sphinx_rtd_theme", ],
+    install_requires=["numpy>=1.6", ] + sphinx_requires,
     package_data={
         "array_split": ["version.txt", "git_describe.txt", "copyright.txt", "license.txt"]
     },

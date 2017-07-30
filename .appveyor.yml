@@ -53,6 +53,7 @@ install:
   # target Python version and architecture
   - "python setup.py install"
 
+build: false
 
 test_script:
   # Run the project tests
