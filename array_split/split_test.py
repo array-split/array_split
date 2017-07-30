@@ -27,7 +27,7 @@ from __future__ import absolute_import
 import array_split as _array_split
 import numpy as _np
 
-from .license import license as _license, copyright as _copyright
+from .license import license as _license, copyright as _copyright, version as _version
 from . import unittest as _unittest
 from . import logging as _logging
 
@@ -39,7 +39,7 @@ from .split import ARRAY_BOUNDS, NO_BOUNDS
 __author__ = "Shane J. Latham"
 __license__ = _license()
 __copyright__ = _copyright()
-__version__ = _array_split.__version__
+__version__ = _version()
 
 
 class SplitTest(_unittest.TestCase):

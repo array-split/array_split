@@ -14,6 +14,17 @@ __license__ = (
     _pkg_resources.resource_string("array_split", "license.txt").decode()
 )
 __author__ = "Shane J. Latham"
+__version__ = _pkg_resources.resource_string("array_split", "version.txt").decode().strip()
+
+
+def version():
+    """
+    Returns version string.
+
+    :rtype: :obj:`str`
+    :return: Version string.
+    """
+    return __version__
 
 
 def license():

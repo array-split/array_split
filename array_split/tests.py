@@ -20,13 +20,13 @@ import os.path
 import array_split as _array_split
 from array_split import split as _split
 
-from .license import license as _license, copyright as _copyright
+from .license import license as _license, copyright as _copyright, version as _version
 from .split_test import SplitTest  # noqa: F401,F403
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
 __copyright__ = _copyright()
-__version__ = _array_split.__version__
+__version__ = _version()
 
 
 class DocTestTestSuite(_unittest.TestSuite):

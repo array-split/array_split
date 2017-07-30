@@ -21,8 +21,14 @@ Classes and Functions
 from __future__ import absolute_import
 
 import unittest as _builtin_unittest
-import array_split.logging
 import numpy as _np
+from .license import license as _license, copyright as _copyright, version as _version
+from . import logging as _logging
+
+__author__ = "Shane J. Latham"
+__license__ = _license()
+__copyright__ = _copyright()
+__version__ = _version()
 
 # pylint: disable=invalid-name
 # pylint: disable=arguments-differ
@@ -35,7 +41,7 @@ import numpy as _np
 # pylint: disable=too-many-branches
 
 
-def main(module_name, log_level=array_split.logging.DEBUG, init_logger_names=None):
+def main(module_name, log_level=_logging.DEBUG, init_logger_names=None):
     """
     Small wrapper for :func:`unittest.main` which initialises :mod:`logging.Logger` objects.
     Loads a set of tests from module and runs them;
@@ -76,7 +82,7 @@ def main(module_name, log_level=array_split.logging.DEBUG, init_logger_names=Non
             init_logger_names = [module_name, "array_split"]
 
         if len(init_logger_names) > 0:
-            array_split.logging.initialise_loggers(
+            _logging.initialise_loggers(
                 init_logger_names, log_level=log_level)
 
         _builtin_unittest.main()
