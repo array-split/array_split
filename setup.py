@@ -67,7 +67,11 @@ create_git_describe()
 _long_description = read_readme()
 
 sphinx_requires = ["sphinx>=1.4,<1.6", "sphinx_rtd_theme", ]
-if (int(sys.version[0]) < 2) or ((int(sys.version[0]) == 2) and (int(sys.version[1]) <= 6)):
+if (
+    (int(sys.version_info[0]) < 2)
+    or
+    ((int(sys.version_info[0]) == 2) and (int(sys.version_info[1]) <= 6))
+):
     sphinx_requires = []
 
 setup(
