@@ -59,17 +59,15 @@ Attributes
 """
 from __future__ import absolute_import
 import pkg_resources as _pkg_resources
-__version__ = _pkg_resources.resource_string("array_split", "version.txt").decode()
-
 from .license import license as _license, copyright as _copyright
+from . import split  # noqa: E402,F401
+from .split import array_split, shape_split, ShapeSplitter  # noqa: E402,F401
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
 __copyright__ = _copyright()
+__version__ = _pkg_resources.resource_string("array_split", "version.txt").decode()
 
-
-from . import split  # noqa: E402,F401
-from .split import array_split, shape_split, ShapeSplitter  # noqa: E402,F401
 
 #: See :data:`array_split.split.ARRAY_BOUNDS`
 ARRAY_BOUNDS = split.ARRAY_BOUNDS
