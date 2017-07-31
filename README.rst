@@ -12,7 +12,10 @@
    :alt: array_split python package
 .. image:: https://travis-ci.org/array-split/array_split.svg?branch=dev
    :target: https://travis-ci.org/array-split/array_split
-   :alt: Build Status
+   :alt: TravisCI Status
+.. image:: https://ci.appveyor.com/api/projects/status/oprsw5rfr07m77o0?svg=true
+   :target: https://ci.appveyor.com/api/projects/status/oprsw5rfr07m77o0
+   :alt: Appveyor Status
 .. image:: https://readthedocs.org/projects/array-split/badge/?version=stable
    :target: http://array-split.readthedocs.io/en/stable
    :alt: Documentation Status

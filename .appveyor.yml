@@ -6,12 +6,12 @@ environment:
     # a later point release.
     # See: http://www.appveyor.com/docs/installed-software#python
 
-    - PYTHON: "C:\\Python27-x64"
-      PYTHON_VERSION: "2.7"
-      PYTHON_ARCH: "64"
-
     - PYTHON: "C:\\Python34-x64"
       PYTHON_VERSION: "3.4"
+      PYTHON_ARCH: "64"
+
+    - PYTHON: "C:\\Python27-x64"
+      PYTHON_VERSION: "2.7"
       PYTHON_ARCH: "64"
 
     - PYTHON: "C:\\Python35-x64"
@@ -39,7 +39,7 @@ install:
   # about it being out of date.
   - "pip install --disable-pip-version-check --user --upgrade pip"
 
-  - if [%PYTHON_VERSION%] == [3.4] pip install \"numpy<1.11\" 
+  - if [%PYTHON_VERSION%]==[3.4] pip install numpy<1.11
 
   # Install the build dependencies of the project. If some dependencies contain
   # compiled extensions and are not provided as pre-built wheel packages,
