@@ -348,7 +348,6 @@ def calculate_tile_shape_for_max_bytes(
             max_tile_bytes
         )
     ):
-        logger.debug("Loop: current_axis=%s", current_axis)
         if current_axis < (len(tile_sub_tile_split_shape) - 1):
             tile_sub_tile_split_shape[current_axis] = 1
             tile_sub_tile_split_shape[current_axis] = \
