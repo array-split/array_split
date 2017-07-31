@@ -57,11 +57,17 @@ Example application areas include:
 **File I/O**
    A large (dense) array is partitioned into smaller sub-arrays which can be
    written to individual files
-   (e.g. `HDF5 Virtual Datasets <https://support.hdfgroup.org/HDF5/docNewFeatures/NewFeaturesVirtualDatasetDocs.html>`_).
+   (as, for example, a
+   `HDF5 Virtual Dataset <https://support.hdfgroup.org/HDF5/docNewFeatures/NewFeaturesVirtualDatasetDocs.html>`_).
    It is often desirable for the individual files not to exceed a specified number
    of (Giga) bytes and, for `HDF5 <https://support.hdfgroup.org/HDF5/>`_, it is desirable
    to have the individual file sub-array shape a multiple of
    the `chunk shape <https://support.hdfgroup.org/HDF5/doc1.8/Advanced/Chunking/index.html>`_.
+   Similarly, `out of core <https://en.wikipedia.org/wiki/Out-of-core_algorithm>`_
+   algorithms for large dense arrays often involve processing the entire data-set as
+   a series of *in-core* sub-arrays. Again, it is desirable for the individual sub-array shape
+   to be a multiple of the
+   `chunk shape <https://support.hdfgroup.org/HDF5/doc1.8/Advanced/Chunking/index.html>`_.  
 
 
 The `array_split <http://array-split.readthedocs.io/en/latest>`_ package provides the
@@ -120,7 +126,8 @@ Quick Start Example
     array([[24, 25, 26], [33, 34, 35]])]
 
 
-Latest sphinx documentation examples at http://array-split.readthedocs.io/en/latest/examples/.
+Latest sphinx documentation (including more examples)
+at http://array-split.readthedocs.io/en/latest/.
 
 .. end long description.
 
