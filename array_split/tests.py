@@ -14,6 +14,8 @@ Execute as::
 """
 # pylint: disable=unused-import
 from __future__ import absolute_import
+import sys as _sys
+import re as _re
 import unittest as _unittest
 import doctest as _doctest
 import os.path
@@ -28,6 +30,28 @@ __license__ = _license()
 __copyright__ = _copyright()
 __version__ = _version()
 
+_doctest_OuputChecker = _doctest.OutputChecker
+
+class MultiPlatformAnd23Checker(_doctest_OuputChecker):
+    
+    """
+    Overrides the :meth:`doctest.OutputChecker.check_output` method
+    to remove the :samp:`'L'` from integer literals
+    """
+    
+    def check_output(self, want, got, optionflags):
+        """
+        For python-2 replaces "124L" with "124". For python 2 and 3,
+        replaces :samp:`", dtype=int64)"` with :samp:`")"`
+        """
+        if _sys.version_info[0] <= 2:
+            got = _re.sub("([0-9]+)L", "\\1", got)
+
+        got = _re.sub(", dtype=int64\\)", ")", got)
+
+        return _doctest_OuputChecker.check_output(self, want, got, optionflags)
+
+_doctest.OutputChecker = MultiPlatformAnd23Checker
 
 class DocTestTestSuite(_unittest.TestSuite):
 
