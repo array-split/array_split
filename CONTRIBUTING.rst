@@ -60,7 +60,7 @@ Coding Guidelines
 2. Ensure `unittest <https://docs.python.org/3/library/unittest.html>`_ coverage is good (``>90%``)
    by using the `coverage <https://pypi.python.org/pypi/coverage>`_ tool::
    
-      $ coverage run --source=array_split --omit='*logging*,*unittest*,*rtd*' -m mpi_array.tests
+      $ coverage run --source=array_split --omit='*logging*,*unittest*,*rtd*' -m array_split.tests
       $ coverage report -m
 
 3. Ensure style by using `autopep8 <https://pypi.python.org/pypi/autopep8>`_
