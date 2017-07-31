@@ -85,7 +85,20 @@ create_git_describe()
 
 _long_description = read_readme()
 
-sphinx_requires = ["sphinx>=1.4,<1.6", "sphinx_rtd_theme", ]
+sphinx_requires = []
+
+# Only require sphinx for CI and readthedocs.org. 
+if (
+    (os.environ.get('READTHEDOCS', None) is not None)
+    or
+    (os.environ.get('CI', None) is not None)
+    or
+    (os.environ.get('TRAVIS', None) is not None)
+    or
+    (os.environ.get('APPVEYOR', None) is not None)
+):
+    sphinx_requires = ["sphinx>=1.4,<1.6", "sphinx_rtd_theme", ]
+
 if (
     (int(sys.version_info[0]) < 2)
     or
@@ -112,9 +125,9 @@ setup(
     long_description=_long_description,
     license="MIT",
     keywords=(
-        "sub-array tile tiling splitting split array partition partitioning"
+        "multi-dimendional-array  array sub-array tile tiling splitting split partition"
         +
-        "scipy numpy ndarray domain-decomposition array-decomposition"
+        "partitioning scipy numpy ndarray domain-decomposition array-decomposition"
     ),
     url="http://github.com/array-split/array_split",   # project home page
     classifiers=[
