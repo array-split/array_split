@@ -25,6 +25,21 @@ def read_readme():
     return ld_text
 
 
+class CalledProcessError(subprocess.CalledProcessError):
+
+    """
+    Adds :samp:`output` attribute to :obj:`subprocess.CalledProcessError`.
+    """
+
+    def __init__(self, *args, **kwargs):
+        """
+        Adds :samp:`output` attribute to :samp:`self` if it doesn't exist.
+        """
+        subprocess.CalledProcessError.__init__(self, *args, **kwargs)
+        if not hasattr(self, "output"):
+            self.output = None
+
+
 def create_git_describe():
     try:
         cmd = ["git", "describe"]
@@ -37,7 +52,7 @@ def create_git_describe():
         p.wait()
         if p.returncode != 0:
             e = \
-                subprocess.CalledProcessError(
+                CalledProcessError(
                     returncode=p.returncode,
                     cmd=cmd
                 )
@@ -50,7 +65,10 @@ def create_git_describe():
         )
     except (Exception,) as e:
         # Try and make up a git-describe like string.
-        print("Problem with '%s': %s: %s" % (" ".join(cmd), e, e.output))
+        output = ""
+        if hasattr(e, "output"):
+            output = e.output
+        print("Problem with '%s': %s: %s" % (" ".join(cmd), e, output))
         version_str = open(os.path.join("array_split", "version.txt"), "rt").read().strip()
         if ("TRAVIS_TAG" in os.environ.keys()) and (len(os.environ["TRAVIS_TAG"]) > 0):
             version_str = os.environ["TRAVIS_TAG"]
@@ -61,6 +79,7 @@ def create_git_describe():
                 version_str += "-" + \
                     os.environ["TRAVIS_COMMIT"][0:min([7, len(os.environ["TRAVIS_COMMIT"])])]
         open(os.path.join("array_split", "git_describe.txt"), "wt").write(version_str)
+
 
 create_git_describe()
 
@@ -123,6 +142,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Natural Language :: English',
     ],
     install_requires=["numpy>=1.6", ] + sphinx_requires,
     package_data={
