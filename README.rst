@@ -14,8 +14,8 @@
    :target: https://travis-ci.org/array-split/array_split
    :alt: TravisCI Status
 .. image:: https://ci.appveyor.com/api/projects/status/oprsw5rfr07m77o0?svg=true
-   :target: https://ci.appveyor.com/api/projects/status/oprsw5rfr07m77o0
-   :alt: Appveyor Status
+   :target: https://ci.appveyor.com/project/array-split/array-split
+   :alt: AppVeyor Status
 .. image:: https://readthedocs.org/projects/array-split/badge/?version=stable
    :target: http://array-split.readthedocs.io/en/stable
    :alt: Documentation Status
@@ -160,8 +160,11 @@ or, from the source tree, run::
 
 Travis CI at:
 
-    https://travis-ci.org/array-split/array_split/
+   https://travis-ci.org/array-split/array_split/
 
+and AppVeyor at:
+
+   https://ci.appveyor.com/project/array-split/array-split
 
 Documentation
 =============
