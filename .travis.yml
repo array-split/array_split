@@ -32,7 +32,7 @@ matrix:
       language: generic
 
 
-install: |
+install:
   - #  Manually install python on osx
   - if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
   -   brew update;
