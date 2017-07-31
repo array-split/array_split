@@ -1,6 +1,12 @@
 language: python
+
+os:
+  - osx
+  - linux
+
 git:
   depth: 200
+
 python:
   - '2.6'
   - '2.7'
