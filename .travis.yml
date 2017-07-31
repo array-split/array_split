@@ -1,18 +1,7 @@
 language: python
 
-os:
-  - osx
-  - linux
-
 git:
   depth: 200
-
-python:
-  - "2.6"
-  - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.6"
 
 matrix:
   include:
@@ -34,12 +23,12 @@ matrix:
 
 install:
   - #  Manually install python on osx
-  - if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
-  -   brew update;
-  -   brew install python3;
-  -   python3 -m venv venv;
-  -   source venv/bin/activate;
-  - fi
+  - if [[ $TRAVIS_OS_NAME == 'osx' ]]; then \
+      brew update; \
+      brew install python3; \
+      python3 -m venv venv; \ 
+      source venv/bin/activate; \
+    fi
 
   - git config --global user.name array-split
   - git config --global user.email array-split@users.noreply.github.com
