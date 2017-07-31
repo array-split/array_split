@@ -27,13 +27,12 @@ matrix:
 
 install: |
   #  Manually install python on osx
-  if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
-
+  - if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
       brew update;
       brew install python3;
       python3 -m venv venv;
       source venv/bin/activate;
-  fi
+  - fi
 
   - git config --global user.name array-split
   - git config --global user.email array-split@users.noreply.github.com
