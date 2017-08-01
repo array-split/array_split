@@ -1,0 +1,23 @@
+{
+  "@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
+  "@type": "Code",
+  "author": [
+    {
+      "@id": "0000-0001-8033-4665",
+      "@type": "Person",
+      "email": "shane.latham@anu.edu.au",
+      "name": "Shane-J-Latham",
+      "affiliation": "Department of Applied Mathematics, Research School of Physics and Engineering, The Australian National University"
+    }
+  ],
+  "identifier": "",
+  "codeRepository": "https://github.com/array-split/array_split",
+  "datePublished": "2017-08-01",
+  "dateModified": "2017-08-01",
+  "dateCreated": "2017-08-01",
+  "description": "Python package for partitioning arrays",
+  "keywords": "multi-dimensional array, partitioning, tiling, domain decomposition, python, ndarray, numpy",
+  "license": "MIT",
+  "title": "array_split",
+  "version": ""
+}
