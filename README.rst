@@ -73,7 +73,7 @@ Example application areas include:
 The `array_split <http://array-split.readthedocs.io/en/latest>`_ package provides the
 means to partition an array (or array shape) using any of the following criteria:
 
-- Per-axis indicies indicating the *cut* positions.
+- Per-axis indices indicating the *cut* positions.
 - Per-axis number of sub-arrays.
 - Total number of sub-arrays (with optional per-axis *number of sections* constraints).
 - Specific sub-array shape.

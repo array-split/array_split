@@ -28,7 +28,7 @@ maintain state related to the computed split.
 
 Splitting of multi-dimensional arrays can be performed according to several criteria:
 
-   * Per-axis indicies indicating the *cut* positions.
+   * Per-axis indices indicating the *cut* positions.
    * Per-axis number of sub-arrays.
    * Total number of sub-arrays (with optional per-axis *number of sections* constraints).
    * Specific sub-array shape.
