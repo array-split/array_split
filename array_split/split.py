@@ -348,7 +348,6 @@ def calculate_tile_shape_for_max_bytes(
             max_tile_bytes
         )
     ):
-        logger.debug("Loop: current_axis=%s", current_axis)
         if current_axis < (len(tile_sub_tile_split_shape) - 1):
             tile_sub_tile_split_shape[current_axis] = 1
             tile_sub_tile_split_shape[current_axis] = \
@@ -523,7 +522,7 @@ _ShapeSplitter__init__params_doc =\
 :type indices_or_sections: :samp:`None`, :obj:`int` or sequence of :obj:`int`
 :param indices_or_sections: If an integer, indicates the number of
     elements in the calculated *split* array. If a sequence, indicates
-    the indicies (per axis) at which the splits occur.
+    the indices (per axis) at which the splits occur.
     See :ref:`splitting-by-number-of-tiles-examples` examples.
 :type axis: :samp:`None`, :obj:`int` or sequence of :obj:`int`
 :param axis: If an integer, indicates the axis which is to be split.

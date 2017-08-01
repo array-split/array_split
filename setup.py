@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
+import sys
 import os
+import os.path
 import subprocess
 
 
@@ -23,9 +25,24 @@ def read_readme():
     return ld_text
 
 
+class CalledProcessError(subprocess.CalledProcessError):
+
+    """
+    Adds :samp:`output` attribute to :obj:`subprocess.CalledProcessError`.
+    """
+
+    def __init__(self, *args, **kwargs):
+        """
+        Adds :samp:`output` attribute to :samp:`self` if it doesn't exist.
+        """
+        subprocess.CalledProcessError.__init__(self, *args, **kwargs)
+        if not hasattr(self, "output"):
+            self.output = None
+
+
 def create_git_describe():
     try:
-        cmd = ["/usr/bin/env", "git", "describe"]
+        cmd = ["git", "describe"]
         p = \
             subprocess.Popen(
                 cmd,
@@ -35,7 +52,7 @@ def create_git_describe():
         p.wait()
         if p.returncode != 0:
             e = \
-                subprocess.CalledProcessError(
+                CalledProcessError(
                     returncode=p.returncode,
                     cmd=cmd
                 )
@@ -43,11 +60,16 @@ def create_git_describe():
 
             raise e
         # Write the git describe to text file
-        open("array_split/git_describe.txt", "wt").write(p.communicate()[0].decode())
+        open(os.path.join("array_split", "git_describe.txt"), "wt").write(
+            p.communicate()[0].decode()
+        )
     except (Exception,) as e:
         # Try and make up a git-describe like string.
-        print("Problem with '%s': %s: %s" % (" ".join(cmd), e, e.output))
-        version_str = open("array_split/version.txt", "rt").read().strip()
+        output = ""
+        if hasattr(e, "output"):
+            output = e.output
+        print("Problem with '%s': %s: %s" % (" ".join(cmd), e, output))
+        version_str = open(os.path.join("array_split", "version.txt"), "rt").read().strip()
         if ("TRAVIS_TAG" in os.environ.keys()) and (len(os.environ["TRAVIS_TAG"]) > 0):
             version_str = os.environ["TRAVIS_TAG"]
         else:
@@ -56,15 +78,39 @@ def create_git_describe():
             if ("TRAVIS_COMMIT" in os.environ.keys()) and (len(os.environ["TRAVIS_COMMIT"]) > 0):
                 version_str += "-" + \
                     os.environ["TRAVIS_COMMIT"][0:min([7, len(os.environ["TRAVIS_COMMIT"])])]
-        open("array_split/git_describe.txt", "wt").write(version_str)
+        open(os.path.join("array_split", "git_describe.txt"), "wt").write(version_str)
+
 
 create_git_describe()
 
 _long_description = read_readme()
 
+sphinx_requires = []
+
+# Only require sphinx for CI and readthedocs.org. 
+if (
+    (os.environ.get('READTHEDOCS', None) is not None)
+    or
+    (os.environ.get('CI', None) is not None)
+    or
+    (os.environ.get('TRAVIS', None) is not None)
+    or
+    (os.environ.get('APPVEYOR', None) is not None)
+):
+    sphinx_requires = ["sphinx>=1.4,<1.6", "sphinx_rtd_theme", ]
+
+if (
+    (int(sys.version_info[0]) < 2)
+    or
+    ((int(sys.version_info[0]) == 2) and (int(sys.version_info[1]) <= 6))
+    or
+    ((int(sys.version_info[0]) == 3) and (int(sys.version_info[1]) <= 3))
+):
+    sphinx_requires = []
+
 setup(
     name="array_split",
-    version=open("array_split/version.txt", "rt").read().strip(),
+    version=open(os.path.join("array_split", "version.txt"), "rt").read().strip(),
     packages=find_packages(),
     # metadata for upload to PyPI
     author="Shane J. Latham",
@@ -79,9 +125,9 @@ setup(
     long_description=_long_description,
     license="MIT",
     keywords=(
-        "sub-array tile tiling splitting split array "
+        "multi-dimendional-array  array sub-array tile tiling splitting split partition"
         +
-        "scipy numpy ndarray domain-decomposition array-decomposition"
+        "partitioning scipy numpy ndarray domain-decomposition array-decomposition"
     ),
     url="http://github.com/array-split/array_split",   # project home page
     classifiers=[
@@ -109,8 +155,9 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Natural Language :: English',
     ],
-    install_requires=["numpy>=1.6", "sphinx>=1.4,<1.6", "sphinx_rtd_theme", ],
+    install_requires=["numpy>=1.6", ] + sphinx_requires,
     package_data={
         "array_split": ["version.txt", "git_describe.txt", "copyright.txt", "license.txt"]
     },
