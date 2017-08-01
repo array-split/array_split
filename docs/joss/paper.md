@@ -35,17 +35,17 @@ partitioning with an upper bound on the resulting sub-array number of bytes.
 Application areas include:
 
 Parallel Processing
-:  Data parallelism by partitioning array for multi-process concurrency
-   (e.g. `multiprocessing` [@pythonmultiprocessingmodule] or `mpi4py` [@dalcin2011parallel])
-   based on number of cores,
-   or partitioning for accelerator hardware concurrency
-   (e.g. `pyopencl` or `pycuda` [kloeckner_pycuda_2012]) based on hardware memory limits.
+:   Data parallelism by partitioning array for multi-process concurrency
+    (e.g. `multiprocessing` [@pythonmultiprocessingmodule] or `mpi4py` [@dalcin2011parallel])
+    based on number of cores,
+    or partitioning for accelerator hardware concurrency
+    (e.g. `pyopencl` or `pycuda` [kloeckner_pycuda_2012]) based on hardware memory limits.
 
 File I/O
-:  Partitioning large arrays for output to separate files
-   (e.g as part of a
-   [virtual dataset](https://support.hdfgroup.org/HDF5/docNewFeatures/NewFeaturesVirtualDatasetDocs.html "HDF5 Virtual Dataset (VDS) Documentation")
-   [@hdf5, @collette_python_hdf5_2014]) based on maximum file size, or out-of-core partitioning
-   based on in-core memory limits.
+:   Partitioning large arrays for output to separate files
+    (e.g as part of a
+    [virtual dataset](https://support.hdfgroup.org/HDF5/docNewFeatures/NewFeaturesVirtualDatasetDocs.html "HDF5 Virtual Dataset (VDS) Documentation")
+    [@hdf5, @collette_python_hdf5_2014]) based on maximum file size, or out-of-core partitioning
+    based on in-core memory limits.
 
 # References
