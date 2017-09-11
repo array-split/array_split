@@ -10,14 +10,14 @@
       "affiliation": "Department of Applied Mathematics, Research School of Physics and Engineering, The Australian National University"
     }
   ],
-  "identifier": "",
+  "identifier": "10.5281/zenodo.889075",
   "codeRepository": "https://github.com/array-split/array_split",
-  "datePublished": "2017-08-01",
-  "dateModified": "2017-08-01",
-  "dateCreated": "2017-08-01",
+  "datePublished": "2017-09-12",
+  "dateModified": "2017-09-12",
+  "dateCreated": "2017-09-12",
   "description": "Python package for partitioning arrays",
   "keywords": "multi-dimensional array, partitioning, tiling, domain decomposition, python, ndarray, numpy",
   "license": "MIT",
   "title": "array_split",
-  "version": ""
+  "version": "0.5.1"
 }
