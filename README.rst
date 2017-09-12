@@ -30,6 +30,8 @@
    :alt: array_split python package
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.889078.svg
    :target: https://doi.org/10.5281/zenodo.889078
+.. image:: http://joss.theoj.org/papers/10.21105/joss.00373/status.svg
+   :target: http://joss.theoj.org/papers/4b59c7430176ef78c80c6a1100031eb6
 
 .. end badges.
 
