@@ -28,6 +28,8 @@
 .. image:: https://img.shields.io/pypi/pyversions/array_split.svg
    :target: https://pypi.python.org/pypi/array_split/
    :alt: array_split python package
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.889078.svg
+   :target: https://doi.org/10.5281/zenodo.889078
 
 .. end badges.
 
