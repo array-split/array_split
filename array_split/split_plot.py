@@ -36,8 +36,8 @@ class SplitPlotter(object):
         """
         pass
 
+
 def plot(split):
     """
     Plots a split.
     """
-
