@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.shortDescription
+==================================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.shortDescription

@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.assertTupleEqual
+==================================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.assertTupleEqual

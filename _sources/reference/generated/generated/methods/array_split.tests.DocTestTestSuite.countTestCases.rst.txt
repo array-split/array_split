@@ -1,0 +1,6 @@
+array\_split\.tests\.DocTestTestSuite\.countTestCases
+=====================================================
+
+.. currentmodule:: array_split.tests
+
+.. automethod:: DocTestTestSuite.countTestCases

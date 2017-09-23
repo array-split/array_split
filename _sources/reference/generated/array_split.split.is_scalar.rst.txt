@@ -1,0 +1,6 @@
+array\_split\.split\.is\_scalar
+===============================
+
+.. currentmodule:: array_split.split
+
+.. autofunction:: is_scalar

@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.skipTest
+==========================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.skipTest

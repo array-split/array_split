@@ -1,0 +1,6 @@
+array\_split\.license\.license
+==============================
+
+.. currentmodule:: array_split.license
+
+.. autofunction:: license

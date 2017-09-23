@@ -1,0 +1,6 @@
+array\_split\.split\_test\.SplitTest\.test\_calculate\_tile\_shape\_for\_max\_bytes\_2d
+=======================================================================================
+
+.. currentmodule:: array_split.split_test
+
+.. automethod:: SplitTest.test_calculate_tile_shape_for_max_bytes_2d

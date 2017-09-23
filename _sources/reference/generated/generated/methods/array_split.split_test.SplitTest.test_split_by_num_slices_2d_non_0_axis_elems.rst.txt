@@ -1,0 +1,6 @@
+array\_split\.split\_test\.SplitTest\.test\_split\_by\_num\_slices\_2d\_non\_0\_axis\_elems
+===========================================================================================
+
+.. currentmodule:: array_split.split_test
+
+.. automethod:: SplitTest.test_split_by_num_slices_2d_non_0_axis_elems

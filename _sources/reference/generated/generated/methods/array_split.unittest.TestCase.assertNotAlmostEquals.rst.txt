@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.assertNotAlmostEquals
+=======================================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.assertNotAlmostEquals

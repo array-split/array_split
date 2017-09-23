@@ -1,0 +1,6 @@
+array\_split\.split\_test\.SplitTest\.longMessage
+=================================================
+
+.. currentmodule:: array_split.split_test
+
+.. autoattribute:: SplitTest.longMessage

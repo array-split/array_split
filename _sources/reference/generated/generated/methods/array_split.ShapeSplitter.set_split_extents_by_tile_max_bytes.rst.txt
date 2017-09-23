@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.set\_split\_extents\_by\_tile\_max\_bytes
+======================================================================
+
+.. currentmodule:: array_split
+
+.. automethod:: ShapeSplitter.set_split_extents_by_tile_max_bytes

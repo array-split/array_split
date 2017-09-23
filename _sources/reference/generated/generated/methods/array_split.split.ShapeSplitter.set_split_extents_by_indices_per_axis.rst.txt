@@ -1,0 +1,6 @@
+array\_split\.split\.ShapeSplitter\.set\_split\_extents\_by\_indices\_per\_axis
+===============================================================================
+
+.. currentmodule:: array_split.split
+
+.. automethod:: ShapeSplitter.set_split_extents_by_indices_per_axis

@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.calculate\_axis\_split\_extents
+============================================================
+
+.. currentmodule:: array_split
+
+.. automethod:: ShapeSplitter.calculate_axis_split_extents

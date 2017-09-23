@@ -1,0 +1,6 @@
+array\_split\.split\.shape\_factors
+===================================
+
+.. currentmodule:: array_split.split
+
+.. autofunction:: shape_factors

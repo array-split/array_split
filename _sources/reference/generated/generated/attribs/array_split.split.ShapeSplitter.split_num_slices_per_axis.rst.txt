@@ -1,0 +1,6 @@
+array\_split\.split\.ShapeSplitter\.split\_num\_slices\_per\_axis
+=================================================================
+
+.. currentmodule:: array_split.split
+
+.. autoattribute:: ShapeSplitter.split_num_slices_per_axis

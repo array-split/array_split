@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.assertIs
+==========================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.assertIs

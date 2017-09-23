@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.assertSequenceEqual
+=====================================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.assertSequenceEqual

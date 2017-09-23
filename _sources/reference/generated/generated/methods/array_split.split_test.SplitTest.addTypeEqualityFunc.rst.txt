@@ -1,0 +1,6 @@
+array\_split\.split\_test\.SplitTest\.addTypeEqualityFunc
+=========================================================
+
+.. currentmodule:: array_split.split_test
+
+.. automethod:: SplitTest.addTypeEqualityFunc

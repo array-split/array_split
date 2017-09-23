@@ -1,0 +1,6 @@
+array\_split\.split\.ShapeSplitter\.\_\_init\_\_
+================================================
+
+.. currentmodule:: array_split.split
+
+.. automethod:: ShapeSplitter.__init__

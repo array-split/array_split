@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.check\_tile\_bounds\_policy
+========================================================
+
+.. currentmodule:: array_split
+
+.. automethod:: ShapeSplitter.check_tile_bounds_policy

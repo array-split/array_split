@@ -1,0 +1,6 @@
+array\_split\.split\.ShapeSplitter\.tile\_beg\_min
+==================================================
+
+.. currentmodule:: array_split.split
+
+.. autoattribute:: ShapeSplitter.tile_beg_min

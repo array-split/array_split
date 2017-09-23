@@ -1,0 +1,6 @@
+array\_split\.unittest\.main
+============================
+
+.. currentmodule:: array_split.unittest
+
+.. autofunction:: main

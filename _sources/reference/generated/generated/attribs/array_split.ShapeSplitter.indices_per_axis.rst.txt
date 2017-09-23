@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.indices\_per\_axis
+===============================================
+
+.. currentmodule:: array_split
+
+.. autoattribute:: ShapeSplitter.indices_per_axis

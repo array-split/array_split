@@ -1,0 +1,6 @@
+array\_split\.split\.ShapeSplitter\.check\_consistent\_parameter\_dimensions
+============================================================================
+
+.. currentmodule:: array_split.split
+
+.. automethod:: ShapeSplitter.check_consistent_parameter_dimensions

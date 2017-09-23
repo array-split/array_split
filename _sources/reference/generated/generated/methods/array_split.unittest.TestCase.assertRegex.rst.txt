@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.assertRegex
+=============================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.assertRegex

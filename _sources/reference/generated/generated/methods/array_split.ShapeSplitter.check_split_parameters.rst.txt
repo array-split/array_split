@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.check\_split\_parameters
+=====================================================
+
+.. currentmodule:: array_split
+
+.. automethod:: ShapeSplitter.check_split_parameters

@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.assertNotIsInstance
+=====================================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.assertNotIsInstance

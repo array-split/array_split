@@ -1,0 +1,1379 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Index &mdash; array_split 0.6.xdev2-9-ge07abe3
+ documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="#"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="array_split 0.6.xdev2-9-ge07abe3
+ documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> array_split
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.xdev2
+
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Read Me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about/index.html#quick-start-example">Quick Start Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about/index.html#requirements">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about/index.html#testing">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about/index.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about/index.html#latest-source-code">Latest source code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about/index.html#bug-reports">Bug Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about/index.html#contributing">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about/index.html#license-information">License information</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html#parameter-categories">Parameter Categories</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html#import-statements-for-the-examples">Import statements for the examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html#array-split-shape-split-and-shapesplitter"><code class="samp docutils literal"><span class="pre">array_split</span></code>, <code class="samp docutils literal"><span class="pre">shape_split</span></code> and <code class="samp docutils literal"><span class="pre">ShapeSplitter</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html#splitting-by-number-of-tiles">Splitting by number of tiles</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#single-axis-number-of-tiles">Single axis number of tiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#multiple-axes-number-of-tiles">Multiple axes number of tiles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html#splitting-by-per-axis-cut-indices">Splitting by per-axis cut indices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#single-axis-cut-indices">Single axis cut indices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#multiple-axes-cut-indices">Multiple axes cut indices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html#splitting-by-tile-shape">Splitting by tile shape</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html#splitting-by-maximum-bytes-per-tile">Splitting by maximum bytes per tile</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#tile-shape-upper-bound-constraint">Tile shape upper bound constraint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#sub-tile-shape-constraint">Sub-tile shape constraint</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html#the-array-start-parameter">The <code class="samp docutils literal"><em><span class="pre">array_start</span></em></code> parameter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html#the-halo-parameter">The <code class="samp docutils literal"><em><span class="pre">halo</span></em></code> parameter</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/array_split.html">The <code class="docutils literal"><span class="pre">array_split</span></code> Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/array_split.html#classes-and-functions">Classes and Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.shape_split.html">array_split.shape_split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.array_split.html">array_split.array_split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.ShapeSplitter.html">array_split.ShapeSplitter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.__init__.html">array_split.ShapeSplitter.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_axis_split_extents.html">array_split.ShapeSplitter.calculate_axis_split_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split.html">array_split.ShapeSplitter.calculate_split</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_by_indices_per_axis.html">array_split.ShapeSplitter.calculate_split_by_indices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_by_split_size.html">array_split.ShapeSplitter.calculate_split_by_split_size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_by_tile_max_bytes.html">array_split.ShapeSplitter.calculate_split_by_tile_max_bytes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_by_tile_shape.html">array_split.ShapeSplitter.calculate_split_by_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_from_extents.html">array_split.ShapeSplitter.calculate_split_from_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_halos_from_extents.html">array_split.ShapeSplitter.calculate_split_halos_from_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.check_consistent_parameter_dimensions.html">array_split.ShapeSplitter.check_consistent_parameter_dimensions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.check_consistent_parameter_grouping.html">array_split.ShapeSplitter.check_consistent_parameter_grouping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.check_split_parameters.html">array_split.ShapeSplitter.check_split_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.check_tile_bounds_policy.html">array_split.ShapeSplitter.check_tile_bounds_policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.convert_halo_to_array_form.html">array_split.ShapeSplitter.convert_halo_to_array_form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents.html">array_split.ShapeSplitter.set_split_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents_by_indices_per_axis.html">array_split.ShapeSplitter.set_split_extents_by_indices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents_by_split_size.html">array_split.ShapeSplitter.set_split_extents_by_split_size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents_by_tile_max_bytes.html">array_split.ShapeSplitter.set_split_extents_by_tile_max_bytes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents_by_tile_shape.html">array_split.ShapeSplitter.set_split_extents_by_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.ShapeSplitter.update_tile_extent_bounds.html">array_split.ShapeSplitter.update_tile_extent_bounds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.array_itemsize.html">array_split.ShapeSplitter.array_itemsize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.array_shape.html">array_split.ShapeSplitter.array_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.array_start.html">array_split.ShapeSplitter.array_start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.halo.html">array_split.ShapeSplitter.halo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.indices_per_axis.html">array_split.ShapeSplitter.indices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.logger.html">array_split.ShapeSplitter.logger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.max_tile_bytes.html">array_split.ShapeSplitter.max_tile_bytes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.max_tile_shape.html">array_split.ShapeSplitter.max_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.split_begs.html">array_split.ShapeSplitter.split_begs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.split_ends.html">array_split.ShapeSplitter.split_ends</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.split_num_slices_per_axis.html">array_split.ShapeSplitter.split_num_slices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.split_shape.html">array_split.ShapeSplitter.split_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.split_size.html">array_split.ShapeSplitter.split_size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.sub_tile_shape.html">array_split.ShapeSplitter.sub_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.tile_beg_min.html">array_split.ShapeSplitter.tile_beg_min</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.tile_bounds_policy.html">array_split.ShapeSplitter.tile_bounds_policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.tile_end_max.html">array_split.ShapeSplitter.tile_end_max</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.tile_shape.html">array_split.ShapeSplitter.tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.ShapeSplitter.valid_tile_bounds_policies.html">array_split.ShapeSplitter.valid_tile_bounds_policies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/array_split.html#attributes">Attributes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/array_split_split.html">The <code class="docutils literal"><span class="pre">array_split.split</span></code> Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/array_split_split.html#classes-and-functions">Classes and Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.split.shape_factors.html">array_split.split.shape_factors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.split.calculate_num_slices_per_axis.html">array_split.split.calculate_num_slices_per_axis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.split.calculate_tile_shape_for_max_bytes.html">array_split.split.calculate_tile_shape_for_max_bytes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.split.convert_halo_to_array_form.html">array_split.split.convert_halo_to_array_form</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.split.ShapeSplitter.html">array_split.split.ShapeSplitter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.__init__.html">array_split.split.ShapeSplitter.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_axis_split_extents.html">array_split.split.ShapeSplitter.calculate_axis_split_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split.html">array_split.split.ShapeSplitter.calculate_split</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_by_indices_per_axis.html">array_split.split.ShapeSplitter.calculate_split_by_indices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_by_split_size.html">array_split.split.ShapeSplitter.calculate_split_by_split_size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_by_tile_max_bytes.html">array_split.split.ShapeSplitter.calculate_split_by_tile_max_bytes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_by_tile_shape.html">array_split.split.ShapeSplitter.calculate_split_by_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_from_extents.html">array_split.split.ShapeSplitter.calculate_split_from_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_halos_from_extents.html">array_split.split.ShapeSplitter.calculate_split_halos_from_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.check_consistent_parameter_dimensions.html">array_split.split.ShapeSplitter.check_consistent_parameter_dimensions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.check_consistent_parameter_grouping.html">array_split.split.ShapeSplitter.check_consistent_parameter_grouping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.check_split_parameters.html">array_split.split.ShapeSplitter.check_split_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.check_tile_bounds_policy.html">array_split.split.ShapeSplitter.check_tile_bounds_policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.convert_halo_to_array_form.html">array_split.split.ShapeSplitter.convert_halo_to_array_form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents.html">array_split.split.ShapeSplitter.set_split_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents_by_indices_per_axis.html">array_split.split.ShapeSplitter.set_split_extents_by_indices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents_by_split_size.html">array_split.split.ShapeSplitter.set_split_extents_by_split_size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents_by_tile_max_bytes.html">array_split.split.ShapeSplitter.set_split_extents_by_tile_max_bytes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents_by_tile_shape.html">array_split.split.ShapeSplitter.set_split_extents_by_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split.ShapeSplitter.update_tile_extent_bounds.html">array_split.split.ShapeSplitter.update_tile_extent_bounds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.array_itemsize.html">array_split.split.ShapeSplitter.array_itemsize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.array_shape.html">array_split.split.ShapeSplitter.array_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.array_start.html">array_split.split.ShapeSplitter.array_start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.halo.html">array_split.split.ShapeSplitter.halo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.indices_per_axis.html">array_split.split.ShapeSplitter.indices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.logger.html">array_split.split.ShapeSplitter.logger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.max_tile_bytes.html">array_split.split.ShapeSplitter.max_tile_bytes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.max_tile_shape.html">array_split.split.ShapeSplitter.max_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_begs.html">array_split.split.ShapeSplitter.split_begs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_ends.html">array_split.split.ShapeSplitter.split_ends</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_num_slices_per_axis.html">array_split.split.ShapeSplitter.split_num_slices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_shape.html">array_split.split.ShapeSplitter.split_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_size.html">array_split.split.ShapeSplitter.split_size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.sub_tile_shape.html">array_split.split.ShapeSplitter.sub_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.tile_beg_min.html">array_split.split.ShapeSplitter.tile_beg_min</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.tile_bounds_policy.html">array_split.split.ShapeSplitter.tile_bounds_policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.tile_end_max.html">array_split.split.ShapeSplitter.tile_end_max</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.tile_shape.html">array_split.split.ShapeSplitter.tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.valid_tile_bounds_policies.html">array_split.split.ShapeSplitter.valid_tile_bounds_policies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.split.shape_split.html">array_split.split.shape_split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.split.array_split.html">array_split.split.array_split</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference/array_split_split.html#attributes">Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/array_split_split.html#utilities">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.split.is_scalar.html">array_split.split.is_scalar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.split.is_sequence.html">array_split.split.is_sequence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.split.is_indices.html">array_split.split.is_indices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.split.pad_with_object.html">array_split.split.pad_with_object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.split.pad_with_none.html">array_split.split.pad_with_none</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/array_split_split_test.html">The <code class="docutils literal"><span class="pre">array_split.split_test</span></code> Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/array_split_split_test.html#classes">Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.split_test.SplitTest.html">array_split.split_test.SplitTest</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.__init__.html">array_split.split_test.SplitTest.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.addCleanup.html">array_split.split_test.SplitTest.addCleanup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.addTypeEqualityFunc.html">array_split.split_test.SplitTest.addTypeEqualityFunc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.assertArraySplitEqual.html">array_split.split_test.SplitTest.assertArraySplitEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.countTestCases.html">array_split.split_test.SplitTest.countTestCases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.debug.html">array_split.split_test.SplitTest.debug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.defaultTestResult.html">array_split.split_test.SplitTest.defaultTestResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.doCleanups.html">array_split.split_test.SplitTest.doCleanups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.id.html">array_split.split_test.SplitTest.id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.run.html">array_split.split_test.SplitTest.run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.setUp.html">array_split.split_test.SplitTest.setUp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.setUpClass.html">array_split.split_test.SplitTest.setUpClass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.shortDescription.html">array_split.split_test.SplitTest.shortDescription</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.skipTest.html">array_split.split_test.SplitTest.skipTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.subTest.html">array_split.split_test.SplitTest.subTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.tearDown.html">array_split.split_test.SplitTest.tearDown</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.tearDownClass.html">array_split.split_test.SplitTest.tearDownClass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_array_split.html">array_split.split_test.SplitTest.test_array_split</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_num_slices_per_axis.html">array_split.split_test.SplitTest.test_calculate_num_slices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_by_tile_max_bytes_1d.html">array_split.split_test.SplitTest.test_calculate_split_by_tile_max_bytes_1d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_by_tile_shape_1d.html">array_split.split_test.SplitTest.test_calculate_split_by_tile_shape_1d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_by_tile_shape_2d.html">array_split.split_test.SplitTest.test_calculate_split_by_tile_shape_2d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_halos_from_extents.html">array_split.split_test.SplitTest.test_calculate_split_halos_from_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_array_start_1d.html">array_split.split_test.SplitTest.test_calculate_split_with_array_start_1d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_array_start_2d.html">array_split.split_test.SplitTest.test_calculate_split_with_array_start_2d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_halo_1d.html">array_split.split_test.SplitTest.test_calculate_split_with_halo_1d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_halo_2d.html">array_split.split_test.SplitTest.test_calculate_split_with_halo_2d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_halo_for_empty_tiles.html">array_split.split_test.SplitTest.test_calculate_split_with_halo_for_empty_tiles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_tile_shape_for_max_bytes_1d.html">array_split.split_test.SplitTest.test_calculate_tile_shape_for_max_bytes_1d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_tile_shape_for_max_bytes_2d.html">array_split.split_test.SplitTest.test_calculate_tile_shape_for_max_bytes_2d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_convert_halo_to_array_form.html">array_split.split_test.SplitTest.test_convert_halo_to_array_form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_multiple_parameter_groups_error.html">array_split.split_test.SplitTest.test_multiple_parameter_groups_error</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_pad_with_object.html">array_split.split_test.SplitTest.test_pad_with_object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_properties.html">array_split.split_test.SplitTest.test_properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_shape_factors.html">array_split.split_test.SplitTest.test_shape_factors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_split_by_num_slices_1d.html">array_split.split_test.SplitTest.test_split_by_num_slices_1d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_split_by_num_slices_2d_0_axis_elems.html">array_split.split_test.SplitTest.test_split_by_num_slices_2d_0_axis_elems</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_split_by_num_slices_2d_non_0_axis_elems.html">array_split.split_test.SplitTest.test_split_by_num_slices_2d_non_0_axis_elems</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_split_by_per_axis_indices.html">array_split.split_test.SplitTest.test_split_by_per_axis_indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split_test.SplitTest.logger.html">array_split.split_test.SplitTest.logger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split_test.SplitTest.longMessage.html">array_split.split_test.SplitTest.longMessage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.split_test.SplitTest.maxDiff.html">array_split.split_test.SplitTest.maxDiff</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/array_split_tests.html">The <code class="docutils literal"><span class="pre">array_split.tests</span></code> Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/array_split_tests.html#classes-and-functions">Classes and Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.tests.MultiPlatformAnd23Checker.html">array_split.tests.MultiPlatformAnd23Checker</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.tests.MultiPlatformAnd23Checker.check_output.html">array_split.tests.MultiPlatformAnd23Checker.check_output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.tests.MultiPlatformAnd23Checker.output_difference.html">array_split.tests.MultiPlatformAnd23Checker.output_difference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.tests.DocTestTestSuite.html">array_split.tests.DocTestTestSuite</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.tests.DocTestTestSuite.__init__.html">array_split.tests.DocTestTestSuite.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.tests.DocTestTestSuite.addTest.html">array_split.tests.DocTestTestSuite.addTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.tests.DocTestTestSuite.addTests.html">array_split.tests.DocTestTestSuite.addTests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.tests.DocTestTestSuite.countTestCases.html">array_split.tests.DocTestTestSuite.countTestCases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.tests.DocTestTestSuite.debug.html">array_split.tests.DocTestTestSuite.debug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.tests.DocTestTestSuite.run.html">array_split.tests.DocTestTestSuite.run</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.tests.load_tests.html">array_split.tests.load_tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/array_split_logging.html">The <code class="docutils literal"><span class="pre">array_split.logging</span></code> Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/array_split_logging.html#classes-and-functions">Classes and Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.logging.SplitStreamHandler.html">array_split.logging.SplitStreamHandler</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.__init__.html">array_split.logging.SplitStreamHandler.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.acquire.html">array_split.logging.SplitStreamHandler.acquire</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.addFilter.html">array_split.logging.SplitStreamHandler.addFilter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.close.html">array_split.logging.SplitStreamHandler.close</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.createLock.html">array_split.logging.SplitStreamHandler.createLock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.emit.html">array_split.logging.SplitStreamHandler.emit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.filter.html">array_split.logging.SplitStreamHandler.filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.flush.html">array_split.logging.SplitStreamHandler.flush</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.format.html">array_split.logging.SplitStreamHandler.format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.get_name.html">array_split.logging.SplitStreamHandler.get_name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.handle.html">array_split.logging.SplitStreamHandler.handle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.handleError.html">array_split.logging.SplitStreamHandler.handleError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.release.html">array_split.logging.SplitStreamHandler.release</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.removeFilter.html">array_split.logging.SplitStreamHandler.removeFilter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.setFormatter.html">array_split.logging.SplitStreamHandler.setFormatter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.setLevel.html">array_split.logging.SplitStreamHandler.setLevel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.set_name.html">array_split.logging.SplitStreamHandler.set_name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.logging.SplitStreamHandler.name.html">array_split.logging.SplitStreamHandler.name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.logging.SplitStreamHandler.terminator.html">array_split.logging.SplitStreamHandler.terminator</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.logging.initialise_loggers.html">array_split.logging.initialise_loggers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.logging.get_formatter.html">array_split.logging.get_formatter</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/array_split_unittest.html">The <code class="docutils literal"><span class="pre">array_split.unittest</span></code> Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/array_split_unittest.html#classes-and-functions">Classes and Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.unittest.main.html">array_split.unittest.main</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.unittest.TestCase.html">array_split.unittest.TestCase</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.__init__.html">array_split.unittest.TestCase.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.addCleanup.html">array_split.unittest.TestCase.addCleanup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.addTypeEqualityFunc.html">array_split.unittest.TestCase.addTypeEqualityFunc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertAlmostEqual.html">array_split.unittest.TestCase.assertAlmostEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertAlmostEquals.html">array_split.unittest.TestCase.assertAlmostEquals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertArraySplitEqual.html">array_split.unittest.TestCase.assertArraySplitEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertCountEqual.html">array_split.unittest.TestCase.assertCountEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertDictContainsSubset.html">array_split.unittest.TestCase.assertDictContainsSubset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertDictEqual.html">array_split.unittest.TestCase.assertDictEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertEqual.html">array_split.unittest.TestCase.assertEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertEquals.html">array_split.unittest.TestCase.assertEquals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertFalse.html">array_split.unittest.TestCase.assertFalse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertGreater.html">array_split.unittest.TestCase.assertGreater</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertGreaterEqual.html">array_split.unittest.TestCase.assertGreaterEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertIn.html">array_split.unittest.TestCase.assertIn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertIs.html">array_split.unittest.TestCase.assertIs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertIsInstance.html">array_split.unittest.TestCase.assertIsInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertIsNone.html">array_split.unittest.TestCase.assertIsNone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertIsNot.html">array_split.unittest.TestCase.assertIsNot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertIsNotNone.html">array_split.unittest.TestCase.assertIsNotNone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertItemsEqual.html">array_split.unittest.TestCase.assertItemsEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertLess.html">array_split.unittest.TestCase.assertLess</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertLessEqual.html">array_split.unittest.TestCase.assertLessEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertListEqual.html">array_split.unittest.TestCase.assertListEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertLogs.html">array_split.unittest.TestCase.assertLogs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertMultiLineEqual.html">array_split.unittest.TestCase.assertMultiLineEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotAlmostEqual.html">array_split.unittest.TestCase.assertNotAlmostEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotAlmostEquals.html">array_split.unittest.TestCase.assertNotAlmostEquals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotEqual.html">array_split.unittest.TestCase.assertNotEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotEquals.html">array_split.unittest.TestCase.assertNotEquals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotIn.html">array_split.unittest.TestCase.assertNotIn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotIsInstance.html">array_split.unittest.TestCase.assertNotIsInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotRegex.html">array_split.unittest.TestCase.assertNotRegex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotRegexpMatches.html">array_split.unittest.TestCase.assertNotRegexpMatches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertRaises.html">array_split.unittest.TestCase.assertRaises</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertRaisesRegex.html">array_split.unittest.TestCase.assertRaisesRegex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertRaisesRegexp.html">array_split.unittest.TestCase.assertRaisesRegexp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertRegex.html">array_split.unittest.TestCase.assertRegex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertRegexpMatches.html">array_split.unittest.TestCase.assertRegexpMatches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertSequenceEqual.html">array_split.unittest.TestCase.assertSequenceEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertSetEqual.html">array_split.unittest.TestCase.assertSetEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertTrue.html">array_split.unittest.TestCase.assertTrue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertTupleEqual.html">array_split.unittest.TestCase.assertTupleEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertWarns.html">array_split.unittest.TestCase.assertWarns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assertWarnsRegex.html">array_split.unittest.TestCase.assertWarnsRegex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.assert_.html">array_split.unittest.TestCase.assert_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.countTestCases.html">array_split.unittest.TestCase.countTestCases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.debug.html">array_split.unittest.TestCase.debug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.defaultTestResult.html">array_split.unittest.TestCase.defaultTestResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.doCleanups.html">array_split.unittest.TestCase.doCleanups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.fail.html">array_split.unittest.TestCase.fail</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.failIf.html">array_split.unittest.TestCase.failIf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.failIfAlmostEqual.html">array_split.unittest.TestCase.failIfAlmostEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.failIfEqual.html">array_split.unittest.TestCase.failIfEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.failUnless.html">array_split.unittest.TestCase.failUnless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.failUnlessAlmostEqual.html">array_split.unittest.TestCase.failUnlessAlmostEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.failUnlessEqual.html">array_split.unittest.TestCase.failUnlessEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.failUnlessRaises.html">array_split.unittest.TestCase.failUnlessRaises</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.id.html">array_split.unittest.TestCase.id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.run.html">array_split.unittest.TestCase.run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.setUp.html">array_split.unittest.TestCase.setUp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.setUpClass.html">array_split.unittest.TestCase.setUpClass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.shortDescription.html">array_split.unittest.TestCase.shortDescription</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.skipTest.html">array_split.unittest.TestCase.skipTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.subTest.html">array_split.unittest.TestCase.subTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.tearDown.html">array_split.unittest.TestCase.tearDown</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/methods/array_split.unittest.TestCase.tearDownClass.html">array_split.unittest.TestCase.tearDownClass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.unittest.TestCase.longMessage.html">array_split.unittest.TestCase.longMessage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="reference/generated/generated/attribs/array_split.unittest.TestCase.maxDiff.html">array_split.unittest.TestCase.maxDiff</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/array_split_license.html">The <code class="docutils literal"><span class="pre">array_split.license</span></code> Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/array_split_license.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/array_split_license.html#copyright">Copyright</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/array_split_license.html#functions">Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.license.license.html">array_split.license.license</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.license.copyright.html">array_split.license.copyright</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/generated/array_split.license.version.html">array_split.license.version</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing/index.html">How to contribute</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing/index.html#workflow">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing/index.html#coding-guidelines">Coding Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing/index.html#code-of-conduct">Code of Conduct</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">array_split</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Index</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#_"><strong>_</strong></a>
+ | <a href="#A"><strong>A</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ 
+</div>
+<h2 id="_">_</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.__init__.html#array_split.logging.SplitStreamHandler.__init__">__init__() (array_split.logging.SplitStreamHandler method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.__init__.html#array_split.ShapeSplitter.__init__">(array_split.ShapeSplitter method)</a>
+</li>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.__init__.html#array_split.split.ShapeSplitter.__init__">(array_split.split.ShapeSplitter method)</a>
+</li>
+        <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.__init__.html#array_split.split_test.SplitTest.__init__">(array_split.split_test.SplitTest method)</a>
+</li>
+        <li><a href="reference/generated/generated/methods/array_split.tests.DocTestTestSuite.__init__.html#array_split.tests.DocTestTestSuite.__init__">(array_split.tests.DocTestTestSuite method)</a>
+</li>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.__init__.html#array_split.unittest.TestCase.__init__">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.acquire.html#array_split.logging.SplitStreamHandler.acquire">acquire() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.addCleanup.html#array_split.split_test.SplitTest.addCleanup">addCleanup() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.addCleanup.html#array_split.unittest.TestCase.addCleanup">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.addFilter.html#array_split.logging.SplitStreamHandler.addFilter">addFilter() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.tests.DocTestTestSuite.addTest.html#array_split.tests.DocTestTestSuite.addTest">addTest() (array_split.tests.DocTestTestSuite method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.tests.DocTestTestSuite.addTests.html#array_split.tests.DocTestTestSuite.addTests">addTests() (array_split.tests.DocTestTestSuite method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.addTypeEqualityFunc.html#array_split.split_test.SplitTest.addTypeEqualityFunc">addTypeEqualityFunc() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.addTypeEqualityFunc.html#array_split.unittest.TestCase.addTypeEqualityFunc">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/array_split.html#array_split.ARRAY_BOUNDS">ARRAY_BOUNDS (in module array_split)</a>
+
+      <ul>
+        <li><a href="reference/array_split_split.html#array_split.split.ARRAY_BOUNDS">(in module array_split.split)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.array_itemsize.html#array_split.ShapeSplitter.array_itemsize">array_itemsize (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.array_itemsize.html#array_split.split.ShapeSplitter.array_itemsize">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.array_shape.html#array_split.ShapeSplitter.array_shape">array_shape (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.array_shape.html#array_split.split.ShapeSplitter.array_shape">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/array_split.html#module-array_split">array_split (module)</a>
+</li>
+      <li><a href="reference/generated/array_split.array_split.html#array_split.array_split">array_split() (in module array_split)</a>
+
+      <ul>
+        <li><a href="reference/generated/array_split.split.array_split.html#array_split.split.array_split">(in module array_split.split)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/array_split_license.html#module-array_split.license">array_split.license (module)</a>
+</li>
+      <li><a href="reference/array_split_logging.html#module-array_split.logging">array_split.logging (module)</a>
+</li>
+      <li><a href="reference/array_split_split.html#module-array_split.split">array_split.split (module)</a>
+</li>
+      <li><a href="reference/array_split_split_test.html#module-array_split.split_test">array_split.split_test (module)</a>
+</li>
+      <li><a href="reference/array_split_tests.html#module-array_split.tests">array_split.tests (module)</a>
+</li>
+      <li><a href="reference/array_split_unittest.html#module-array_split.unittest">array_split.unittest (module)</a>
+</li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.array_start.html#array_split.ShapeSplitter.array_start">array_start (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.array_start.html#array_split.split.ShapeSplitter.array_start">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assert_.html#array_split.unittest.TestCase.assert_">assert_() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertAlmostEqual.html#array_split.unittest.TestCase.assertAlmostEqual">assertAlmostEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertAlmostEquals.html#array_split.unittest.TestCase.assertAlmostEquals">assertAlmostEquals() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.assertArraySplitEqual.html#array_split.split_test.SplitTest.assertArraySplitEqual">assertArraySplitEqual() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertArraySplitEqual.html#array_split.unittest.TestCase.assertArraySplitEqual">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertCountEqual.html#array_split.unittest.TestCase.assertCountEqual">assertCountEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertDictContainsSubset.html#array_split.unittest.TestCase.assertDictContainsSubset">assertDictContainsSubset() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertDictEqual.html#array_split.unittest.TestCase.assertDictEqual">assertDictEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertEqual.html#array_split.unittest.TestCase.assertEqual">assertEqual() (array_split.unittest.TestCase method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertEquals.html#array_split.unittest.TestCase.assertEquals">assertEquals() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertFalse.html#array_split.unittest.TestCase.assertFalse">assertFalse() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertGreater.html#array_split.unittest.TestCase.assertGreater">assertGreater() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertGreaterEqual.html#array_split.unittest.TestCase.assertGreaterEqual">assertGreaterEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertIn.html#array_split.unittest.TestCase.assertIn">assertIn() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertIs.html#array_split.unittest.TestCase.assertIs">assertIs() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertIsInstance.html#array_split.unittest.TestCase.assertIsInstance">assertIsInstance() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertIsNone.html#array_split.unittest.TestCase.assertIsNone">assertIsNone() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertIsNot.html#array_split.unittest.TestCase.assertIsNot">assertIsNot() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertIsNotNone.html#array_split.unittest.TestCase.assertIsNotNone">assertIsNotNone() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertItemsEqual.html#array_split.unittest.TestCase.assertItemsEqual">assertItemsEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertLess.html#array_split.unittest.TestCase.assertLess">assertLess() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertLessEqual.html#array_split.unittest.TestCase.assertLessEqual">assertLessEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertListEqual.html#array_split.unittest.TestCase.assertListEqual">assertListEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertLogs.html#array_split.unittest.TestCase.assertLogs">assertLogs() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertMultiLineEqual.html#array_split.unittest.TestCase.assertMultiLineEqual">assertMultiLineEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotAlmostEqual.html#array_split.unittest.TestCase.assertNotAlmostEqual">assertNotAlmostEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotAlmostEquals.html#array_split.unittest.TestCase.assertNotAlmostEquals">assertNotAlmostEquals() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotEqual.html#array_split.unittest.TestCase.assertNotEqual">assertNotEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotEquals.html#array_split.unittest.TestCase.assertNotEquals">assertNotEquals() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotIn.html#array_split.unittest.TestCase.assertNotIn">assertNotIn() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotIsInstance.html#array_split.unittest.TestCase.assertNotIsInstance">assertNotIsInstance() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotRegex.html#array_split.unittest.TestCase.assertNotRegex">assertNotRegex() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertNotRegexpMatches.html#array_split.unittest.TestCase.assertNotRegexpMatches">assertNotRegexpMatches() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertRaises.html#array_split.unittest.TestCase.assertRaises">assertRaises() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertRaisesRegex.html#array_split.unittest.TestCase.assertRaisesRegex">assertRaisesRegex() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertRaisesRegexp.html#array_split.unittest.TestCase.assertRaisesRegexp">assertRaisesRegexp() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertRegex.html#array_split.unittest.TestCase.assertRegex">assertRegex() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertRegexpMatches.html#array_split.unittest.TestCase.assertRegexpMatches">assertRegexpMatches() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertSequenceEqual.html#array_split.unittest.TestCase.assertSequenceEqual">assertSequenceEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertSetEqual.html#array_split.unittest.TestCase.assertSetEqual">assertSetEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertTrue.html#array_split.unittest.TestCase.assertTrue">assertTrue() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertTupleEqual.html#array_split.unittest.TestCase.assertTupleEqual">assertTupleEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertWarns.html#array_split.unittest.TestCase.assertWarns">assertWarns() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.assertWarnsRegex.html#array_split.unittest.TestCase.assertWarnsRegex">assertWarnsRegex() (array_split.unittest.TestCase method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_axis_split_extents.html#array_split.ShapeSplitter.calculate_axis_split_extents">calculate_axis_split_extents() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_axis_split_extents.html#array_split.split.ShapeSplitter.calculate_axis_split_extents">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/array_split.split.calculate_num_slices_per_axis.html#array_split.split.calculate_num_slices_per_axis">calculate_num_slices_per_axis() (in module array_split.split)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split.html#array_split.ShapeSplitter.calculate_split">calculate_split() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split.html#array_split.split.ShapeSplitter.calculate_split">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_by_indices_per_axis.html#array_split.ShapeSplitter.calculate_split_by_indices_per_axis">calculate_split_by_indices_per_axis() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_by_indices_per_axis.html#array_split.split.ShapeSplitter.calculate_split_by_indices_per_axis">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_by_split_size.html#array_split.ShapeSplitter.calculate_split_by_split_size">calculate_split_by_split_size() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_by_split_size.html#array_split.split.ShapeSplitter.calculate_split_by_split_size">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_by_tile_max_bytes.html#array_split.ShapeSplitter.calculate_split_by_tile_max_bytes">calculate_split_by_tile_max_bytes() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_by_tile_max_bytes.html#array_split.split.ShapeSplitter.calculate_split_by_tile_max_bytes">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_by_tile_shape.html#array_split.ShapeSplitter.calculate_split_by_tile_shape">calculate_split_by_tile_shape() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_by_tile_shape.html#array_split.split.ShapeSplitter.calculate_split_by_tile_shape">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_from_extents.html#array_split.ShapeSplitter.calculate_split_from_extents">calculate_split_from_extents() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_from_extents.html#array_split.split.ShapeSplitter.calculate_split_from_extents">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_halos_from_extents.html#array_split.ShapeSplitter.calculate_split_halos_from_extents">calculate_split_halos_from_extents() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_halos_from_extents.html#array_split.split.ShapeSplitter.calculate_split_halos_from_extents">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/array_split.split.calculate_tile_shape_for_max_bytes.html#array_split.split.calculate_tile_shape_for_max_bytes">calculate_tile_shape_for_max_bytes() (in module array_split.split)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.check_consistent_parameter_dimensions.html#array_split.ShapeSplitter.check_consistent_parameter_dimensions">check_consistent_parameter_dimensions() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.check_consistent_parameter_dimensions.html#array_split.split.ShapeSplitter.check_consistent_parameter_dimensions">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.check_consistent_parameter_grouping.html#array_split.ShapeSplitter.check_consistent_parameter_grouping">check_consistent_parameter_grouping() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.check_consistent_parameter_grouping.html#array_split.split.ShapeSplitter.check_consistent_parameter_grouping">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.tests.MultiPlatformAnd23Checker.check_output.html#array_split.tests.MultiPlatformAnd23Checker.check_output">check_output() (array_split.tests.MultiPlatformAnd23Checker method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.check_split_parameters.html#array_split.ShapeSplitter.check_split_parameters">check_split_parameters() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.check_split_parameters.html#array_split.split.ShapeSplitter.check_split_parameters">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.check_tile_bounds_policy.html#array_split.ShapeSplitter.check_tile_bounds_policy">check_tile_bounds_policy() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.check_tile_bounds_policy.html#array_split.split.ShapeSplitter.check_tile_bounds_policy">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.close.html#array_split.logging.SplitStreamHandler.close">close() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.convert_halo_to_array_form.html#array_split.ShapeSplitter.convert_halo_to_array_form">convert_halo_to_array_form() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.convert_halo_to_array_form.html#array_split.split.ShapeSplitter.convert_halo_to_array_form">(array_split.split.ShapeSplitter method)</a>
+</li>
+        <li><a href="reference/generated/array_split.split.convert_halo_to_array_form.html#array_split.split.convert_halo_to_array_form">(in module array_split.split)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/array_split.license.copyright.html#array_split.license.copyright">copyright() (in module array_split.license)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.countTestCases.html#array_split.split_test.SplitTest.countTestCases">countTestCases() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.tests.DocTestTestSuite.countTestCases.html#array_split.tests.DocTestTestSuite.countTestCases">(array_split.tests.DocTestTestSuite method)</a>
+</li>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.countTestCases.html#array_split.unittest.TestCase.countTestCases">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.createLock.html#array_split.logging.SplitStreamHandler.createLock">createLock() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.debug.html#array_split.split_test.SplitTest.debug">debug() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.tests.DocTestTestSuite.debug.html#array_split.tests.DocTestTestSuite.debug">(array_split.tests.DocTestTestSuite method)</a>
+</li>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.debug.html#array_split.unittest.TestCase.debug">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.defaultTestResult.html#array_split.split_test.SplitTest.defaultTestResult">defaultTestResult() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.defaultTestResult.html#array_split.unittest.TestCase.defaultTestResult">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.doCleanups.html#array_split.split_test.SplitTest.doCleanups">doCleanups() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.doCleanups.html#array_split.unittest.TestCase.doCleanups">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/array_split.tests.DocTestTestSuite.html#array_split.tests.DocTestTestSuite">DocTestTestSuite (class in array_split.tests)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.emit.html#array_split.logging.SplitStreamHandler.emit">emit() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.fail.html#array_split.unittest.TestCase.fail">fail() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.failIf.html#array_split.unittest.TestCase.failIf">failIf() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.failIfAlmostEqual.html#array_split.unittest.TestCase.failIfAlmostEqual">failIfAlmostEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.failIfEqual.html#array_split.unittest.TestCase.failIfEqual">failIfEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.failUnless.html#array_split.unittest.TestCase.failUnless">failUnless() (array_split.unittest.TestCase method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.failUnlessAlmostEqual.html#array_split.unittest.TestCase.failUnlessAlmostEqual">failUnlessAlmostEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.failUnlessEqual.html#array_split.unittest.TestCase.failUnlessEqual">failUnlessEqual() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.failUnlessRaises.html#array_split.unittest.TestCase.failUnlessRaises">failUnlessRaises() (array_split.unittest.TestCase method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.filter.html#array_split.logging.SplitStreamHandler.filter">filter() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.flush.html#array_split.logging.SplitStreamHandler.flush">flush() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.format.html#array_split.logging.SplitStreamHandler.format">format() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/array_split.logging.get_formatter.html#array_split.logging.get_formatter">get_formatter() (in module array_split.logging)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.get_name.html#array_split.logging.SplitStreamHandler.get_name">get_name() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.halo.html#array_split.ShapeSplitter.halo">halo (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.halo.html#array_split.split.ShapeSplitter.halo">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.handle.html#array_split.logging.SplitStreamHandler.handle">handle() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.handleError.html#array_split.logging.SplitStreamHandler.handleError">handleError() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.id.html#array_split.split_test.SplitTest.id">id() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.id.html#array_split.unittest.TestCase.id">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.indices_per_axis.html#array_split.ShapeSplitter.indices_per_axis">indices_per_axis (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.indices_per_axis.html#array_split.split.ShapeSplitter.indices_per_axis">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/array_split.logging.initialise_loggers.html#array_split.logging.initialise_loggers">initialise_loggers() (in module array_split.logging)</a>
+</li>
+      <li><a href="reference/generated/array_split.split.is_indices.html#array_split.split.is_indices">is_indices() (in module array_split.split)</a>
+</li>
+      <li><a href="reference/generated/array_split.split.is_scalar.html#array_split.split.is_scalar">is_scalar() (in module array_split.split)</a>
+</li>
+      <li><a href="reference/generated/array_split.split.is_sequence.html#array_split.split.is_sequence">is_sequence() (in module array_split.split)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/array_split.license.license.html#array_split.license.license">license() (in module array_split.license)</a>
+</li>
+      <li><a href="reference/generated/array_split.tests.load_tests.html#array_split.tests.load_tests">load_tests() (in module array_split.tests)</a>
+</li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.logger.html#array_split.ShapeSplitter.logger">logger (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.logger.html#array_split.split.ShapeSplitter.logger">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+        <li><a href="reference/generated/generated/attribs/array_split.split_test.SplitTest.logger.html#array_split.split_test.SplitTest.logger">(array_split.split_test.SplitTest attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/attribs/array_split.split_test.SplitTest.longMessage.html#array_split.split_test.SplitTest.longMessage">longMessage (array_split.split_test.SplitTest attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.unittest.TestCase.longMessage.html#array_split.unittest.TestCase.longMessage">(array_split.unittest.TestCase attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/array_split.unittest.main.html#array_split.unittest.main">main() (in module array_split.unittest)</a>
+</li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.max_tile_bytes.html#array_split.ShapeSplitter.max_tile_bytes">max_tile_bytes (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.max_tile_bytes.html#array_split.split.ShapeSplitter.max_tile_bytes">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.max_tile_shape.html#array_split.ShapeSplitter.max_tile_shape">max_tile_shape (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.max_tile_shape.html#array_split.split.ShapeSplitter.max_tile_shape">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/attribs/array_split.split_test.SplitTest.maxDiff.html#array_split.split_test.SplitTest.maxDiff">maxDiff (array_split.split_test.SplitTest attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.unittest.TestCase.maxDiff.html#array_split.unittest.TestCase.maxDiff">(array_split.unittest.TestCase attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/array_split.tests.MultiPlatformAnd23Checker.html#array_split.tests.MultiPlatformAnd23Checker">MultiPlatformAnd23Checker (class in array_split.tests)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/attribs/array_split.logging.SplitStreamHandler.name.html#array_split.logging.SplitStreamHandler.name">name (array_split.logging.SplitStreamHandler attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/array_split.html#array_split.NO_BOUNDS">NO_BOUNDS (in module array_split)</a>
+
+      <ul>
+        <li><a href="reference/array_split_split.html#array_split.split.NO_BOUNDS">(in module array_split.split)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.tests.MultiPlatformAnd23Checker.output_difference.html#array_split.tests.MultiPlatformAnd23Checker.output_difference">output_difference() (array_split.tests.MultiPlatformAnd23Checker method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/array_split.split.pad_with_none.html#array_split.split.pad_with_none">pad_with_none() (in module array_split.split)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/array_split.split.pad_with_object.html#array_split.split.pad_with_object">pad_with_object() (in module array_split.split)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.release.html#array_split.logging.SplitStreamHandler.release">release() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.removeFilter.html#array_split.logging.SplitStreamHandler.removeFilter">removeFilter() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.run.html#array_split.split_test.SplitTest.run">run() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.tests.DocTestTestSuite.run.html#array_split.tests.DocTestTestSuite.run">(array_split.tests.DocTestTestSuite method)</a>
+</li>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.run.html#array_split.unittest.TestCase.run">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.set_name.html#array_split.logging.SplitStreamHandler.set_name">set_name() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents.html#array_split.ShapeSplitter.set_split_extents">set_split_extents() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents.html#array_split.split.ShapeSplitter.set_split_extents">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents_by_indices_per_axis.html#array_split.ShapeSplitter.set_split_extents_by_indices_per_axis">set_split_extents_by_indices_per_axis() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents_by_indices_per_axis.html#array_split.split.ShapeSplitter.set_split_extents_by_indices_per_axis">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents_by_split_size.html#array_split.ShapeSplitter.set_split_extents_by_split_size">set_split_extents_by_split_size() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents_by_split_size.html#array_split.split.ShapeSplitter.set_split_extents_by_split_size">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents_by_tile_max_bytes.html#array_split.ShapeSplitter.set_split_extents_by_tile_max_bytes">set_split_extents_by_tile_max_bytes() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents_by_tile_max_bytes.html#array_split.split.ShapeSplitter.set_split_extents_by_tile_max_bytes">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents_by_tile_shape.html#array_split.ShapeSplitter.set_split_extents_by_tile_shape">set_split_extents_by_tile_shape() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents_by_tile_shape.html#array_split.split.ShapeSplitter.set_split_extents_by_tile_shape">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.setFormatter.html#array_split.logging.SplitStreamHandler.setFormatter">setFormatter() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.logging.SplitStreamHandler.setLevel.html#array_split.logging.SplitStreamHandler.setLevel">setLevel() (array_split.logging.SplitStreamHandler method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.setUp.html#array_split.split_test.SplitTest.setUp">setUp() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.setUp.html#array_split.unittest.TestCase.setUp">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.setUpClass.html#array_split.split_test.SplitTest.setUpClass">setUpClass() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.setUpClass.html#array_split.unittest.TestCase.setUpClass">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/array_split.split.shape_factors.html#array_split.split.shape_factors">shape_factors() (in module array_split.split)</a>
+</li>
+      <li><a href="reference/generated/array_split.shape_split.html#array_split.shape_split">shape_split() (in module array_split)</a>
+
+      <ul>
+        <li><a href="reference/generated/array_split.split.shape_split.html#array_split.split.shape_split">(in module array_split.split)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/array_split.ShapeSplitter.html#array_split.ShapeSplitter">ShapeSplitter (class in array_split)</a>
+
+      <ul>
+        <li><a href="reference/generated/array_split.split.ShapeSplitter.html#array_split.split.ShapeSplitter">(class in array_split.split)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.shortDescription.html#array_split.split_test.SplitTest.shortDescription">shortDescription() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.shortDescription.html#array_split.unittest.TestCase.shortDescription">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.skipTest.html#array_split.split_test.SplitTest.skipTest">skipTest() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.skipTest.html#array_split.unittest.TestCase.skipTest">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.split_begs.html#array_split.ShapeSplitter.split_begs">split_begs (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_begs.html#array_split.split.ShapeSplitter.split_begs">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.split_ends.html#array_split.ShapeSplitter.split_ends">split_ends (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_ends.html#array_split.split.ShapeSplitter.split_ends">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.split_num_slices_per_axis.html#array_split.ShapeSplitter.split_num_slices_per_axis">split_num_slices_per_axis (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_num_slices_per_axis.html#array_split.split.ShapeSplitter.split_num_slices_per_axis">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.split_shape.html#array_split.ShapeSplitter.split_shape">split_shape (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_shape.html#array_split.split.ShapeSplitter.split_shape">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.split_size.html#array_split.ShapeSplitter.split_size">split_size (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_size.html#array_split.split.ShapeSplitter.split_size">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/array_split.logging.SplitStreamHandler.html#array_split.logging.SplitStreamHandler">SplitStreamHandler (class in array_split.logging)</a>
+</li>
+      <li><a href="reference/generated/array_split.split_test.SplitTest.html#array_split.split_test.SplitTest">SplitTest (class in array_split.split_test)</a>
+</li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.sub_tile_shape.html#array_split.ShapeSplitter.sub_tile_shape">sub_tile_shape (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.sub_tile_shape.html#array_split.split.ShapeSplitter.sub_tile_shape">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.subTest.html#array_split.split_test.SplitTest.subTest">subTest() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.subTest.html#array_split.unittest.TestCase.subTest">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.tearDown.html#array_split.split_test.SplitTest.tearDown">tearDown() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.tearDown.html#array_split.unittest.TestCase.tearDown">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.tearDownClass.html#array_split.split_test.SplitTest.tearDownClass">tearDownClass() (array_split.split_test.SplitTest method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.unittest.TestCase.tearDownClass.html#array_split.unittest.TestCase.tearDownClass">(array_split.unittest.TestCase method)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/attribs/array_split.logging.SplitStreamHandler.terminator.html#array_split.logging.SplitStreamHandler.terminator">terminator (array_split.logging.SplitStreamHandler attribute)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_array_split.html#array_split.split_test.SplitTest.test_array_split">test_array_split() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_num_slices_per_axis.html#array_split.split_test.SplitTest.test_calculate_num_slices_per_axis">test_calculate_num_slices_per_axis() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_by_tile_max_bytes_1d.html#array_split.split_test.SplitTest.test_calculate_split_by_tile_max_bytes_1d">test_calculate_split_by_tile_max_bytes_1d() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_by_tile_shape_1d.html#array_split.split_test.SplitTest.test_calculate_split_by_tile_shape_1d">test_calculate_split_by_tile_shape_1d() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_by_tile_shape_2d.html#array_split.split_test.SplitTest.test_calculate_split_by_tile_shape_2d">test_calculate_split_by_tile_shape_2d() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_halos_from_extents.html#array_split.split_test.SplitTest.test_calculate_split_halos_from_extents">test_calculate_split_halos_from_extents() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_array_start_1d.html#array_split.split_test.SplitTest.test_calculate_split_with_array_start_1d">test_calculate_split_with_array_start_1d() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_array_start_2d.html#array_split.split_test.SplitTest.test_calculate_split_with_array_start_2d">test_calculate_split_with_array_start_2d() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_halo_1d.html#array_split.split_test.SplitTest.test_calculate_split_with_halo_1d">test_calculate_split_with_halo_1d() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_halo_2d.html#array_split.split_test.SplitTest.test_calculate_split_with_halo_2d">test_calculate_split_with_halo_2d() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_halo_for_empty_tiles.html#array_split.split_test.SplitTest.test_calculate_split_with_halo_for_empty_tiles">test_calculate_split_with_halo_for_empty_tiles() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_tile_shape_for_max_bytes_1d.html#array_split.split_test.SplitTest.test_calculate_tile_shape_for_max_bytes_1d">test_calculate_tile_shape_for_max_bytes_1d() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_tile_shape_for_max_bytes_2d.html#array_split.split_test.SplitTest.test_calculate_tile_shape_for_max_bytes_2d">test_calculate_tile_shape_for_max_bytes_2d() (array_split.split_test.SplitTest method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_convert_halo_to_array_form.html#array_split.split_test.SplitTest.test_convert_halo_to_array_form">test_convert_halo_to_array_form() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_multiple_parameter_groups_error.html#array_split.split_test.SplitTest.test_multiple_parameter_groups_error">test_multiple_parameter_groups_error() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_pad_with_object.html#array_split.split_test.SplitTest.test_pad_with_object">test_pad_with_object() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_properties.html#array_split.split_test.SplitTest.test_properties">test_properties() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_shape_factors.html#array_split.split_test.SplitTest.test_shape_factors">test_shape_factors() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_split_by_num_slices_1d.html#array_split.split_test.SplitTest.test_split_by_num_slices_1d">test_split_by_num_slices_1d() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_split_by_num_slices_2d_0_axis_elems.html#array_split.split_test.SplitTest.test_split_by_num_slices_2d_0_axis_elems">test_split_by_num_slices_2d_0_axis_elems() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_split_by_num_slices_2d_non_0_axis_elems.html#array_split.split_test.SplitTest.test_split_by_num_slices_2d_non_0_axis_elems">test_split_by_num_slices_2d_non_0_axis_elems() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/generated/methods/array_split.split_test.SplitTest.test_split_by_per_axis_indices.html#array_split.split_test.SplitTest.test_split_by_per_axis_indices">test_split_by_per_axis_indices() (array_split.split_test.SplitTest method)</a>
+</li>
+      <li><a href="reference/generated/array_split.unittest.TestCase.html#array_split.unittest.TestCase">TestCase (class in array_split.unittest)</a>
+</li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.tile_beg_min.html#array_split.ShapeSplitter.tile_beg_min">tile_beg_min (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.tile_beg_min.html#array_split.split.ShapeSplitter.tile_beg_min">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.tile_bounds_policy.html#array_split.ShapeSplitter.tile_bounds_policy">tile_bounds_policy (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.tile_bounds_policy.html#array_split.split.ShapeSplitter.tile_bounds_policy">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.tile_end_max.html#array_split.ShapeSplitter.tile_end_max">tile_end_max (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.tile_end_max.html#array_split.split.ShapeSplitter.tile_end_max">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.tile_shape.html#array_split.ShapeSplitter.tile_shape">tile_shape (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.tile_shape.html#array_split.split.ShapeSplitter.tile_shape">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/methods/array_split.ShapeSplitter.update_tile_extent_bounds.html#array_split.ShapeSplitter.update_tile_extent_bounds">update_tile_extent_bounds() (array_split.ShapeSplitter method)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/methods/array_split.split.ShapeSplitter.update_tile_extent_bounds.html#array_split.split.ShapeSplitter.update_tile_extent_bounds">(array_split.split.ShapeSplitter method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/generated/attribs/array_split.ShapeSplitter.valid_tile_bounds_policies.html#array_split.ShapeSplitter.valid_tile_bounds_policies">valid_tile_bounds_policies (array_split.ShapeSplitter attribute)</a>
+
+      <ul>
+        <li><a href="reference/generated/generated/attribs/array_split.split.ShapeSplitter.valid_tile_bounds_policies.html#array_split.split.ShapeSplitter.valid_tile_bounds_policies">(array_split.split.ShapeSplitter attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/array_split.license.version.html#array_split.license.version">version() (in module array_split.license)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright  2017 The Australian National University.
+.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.6.xdev2-9-ge07abe3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

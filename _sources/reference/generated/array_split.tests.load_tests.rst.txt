@@ -1,0 +1,6 @@
+array\_split\.tests\.load\_tests
+================================
+
+.. currentmodule:: array_split.tests
+
+.. autofunction:: load_tests

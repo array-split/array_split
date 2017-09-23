@@ -1,0 +1,6 @@
+array\_split\.split\_test\.SplitTest\.setUpClass
+================================================
+
+.. currentmodule:: array_split.split_test
+
+.. automethod:: SplitTest.setUpClass

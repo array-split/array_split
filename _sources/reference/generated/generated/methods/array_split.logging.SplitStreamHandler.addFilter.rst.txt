@@ -1,0 +1,6 @@
+array\_split\.logging\.SplitStreamHandler\.addFilter
+====================================================
+
+.. currentmodule:: array_split.logging
+
+.. automethod:: SplitStreamHandler.addFilter

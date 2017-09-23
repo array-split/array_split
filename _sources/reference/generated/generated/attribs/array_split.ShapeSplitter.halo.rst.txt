@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.halo
+=================================
+
+.. currentmodule:: array_split
+
+.. autoattribute:: ShapeSplitter.halo

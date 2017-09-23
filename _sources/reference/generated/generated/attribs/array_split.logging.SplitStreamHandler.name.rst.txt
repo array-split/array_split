@@ -1,0 +1,6 @@
+array\_split\.logging\.SplitStreamHandler\.name
+===============================================
+
+.. currentmodule:: array_split.logging
+
+.. autoattribute:: SplitStreamHandler.name

@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.assertNotRegex
+================================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.assertNotRegex

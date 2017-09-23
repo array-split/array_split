@@ -1,0 +1,6 @@
+array\_split\.split\_test\.SplitTest\.test\_shape\_factors
+==========================================================
+
+.. currentmodule:: array_split.split_test
+
+.. automethod:: SplitTest.test_shape_factors

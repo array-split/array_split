@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.tile\_bounds\_policy
+=================================================
+
+.. currentmodule:: array_split
+
+.. autoattribute:: ShapeSplitter.tile_bounds_policy

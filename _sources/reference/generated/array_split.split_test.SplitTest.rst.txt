@@ -1,0 +1,70 @@
+array_split.split_test.SplitTest
+================================
+
+.. currentmodule:: array_split.split_test
+
+.. autoclass:: SplitTest
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: generated/methods
+
+   
+      ~SplitTest.__init__
+      ~SplitTest.addCleanup
+      ~SplitTest.addTypeEqualityFunc
+      ~SplitTest.assertArraySplitEqual
+      ~SplitTest.countTestCases
+      ~SplitTest.debug
+      ~SplitTest.defaultTestResult
+      ~SplitTest.doCleanups
+      ~SplitTest.id
+      ~SplitTest.run
+      ~SplitTest.setUp
+      ~SplitTest.setUpClass
+      ~SplitTest.shortDescription
+      ~SplitTest.skipTest
+      ~SplitTest.subTest
+      ~SplitTest.tearDown
+      ~SplitTest.tearDownClass
+      ~SplitTest.test_array_split
+      ~SplitTest.test_calculate_num_slices_per_axis
+      ~SplitTest.test_calculate_split_by_tile_max_bytes_1d
+      ~SplitTest.test_calculate_split_by_tile_shape_1d
+      ~SplitTest.test_calculate_split_by_tile_shape_2d
+      ~SplitTest.test_calculate_split_halos_from_extents
+      ~SplitTest.test_calculate_split_with_array_start_1d
+      ~SplitTest.test_calculate_split_with_array_start_2d
+      ~SplitTest.test_calculate_split_with_halo_1d
+      ~SplitTest.test_calculate_split_with_halo_2d
+      ~SplitTest.test_calculate_split_with_halo_for_empty_tiles
+      ~SplitTest.test_calculate_tile_shape_for_max_bytes_1d
+      ~SplitTest.test_calculate_tile_shape_for_max_bytes_2d
+      ~SplitTest.test_convert_halo_to_array_form
+      ~SplitTest.test_multiple_parameter_groups_error
+      ~SplitTest.test_pad_with_object
+      ~SplitTest.test_properties
+      ~SplitTest.test_shape_factors
+      ~SplitTest.test_split_by_num_slices_1d
+      ~SplitTest.test_split_by_num_slices_2d_0_axis_elems
+      ~SplitTest.test_split_by_num_slices_2d_non_0_axis_elems
+      ~SplitTest.test_split_by_per_axis_indices
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+      :toctree: generated/attribs
+   
+      ~SplitTest.logger
+      ~SplitTest.longMessage
+      ~SplitTest.maxDiff
+   
+   

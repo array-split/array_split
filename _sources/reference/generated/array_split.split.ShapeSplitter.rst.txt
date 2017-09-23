@@ -1,0 +1,67 @@
+array_split.split.ShapeSplitter
+===============================
+
+.. currentmodule:: array_split.split
+
+.. autoclass:: ShapeSplitter
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: generated/methods
+
+   
+      ~ShapeSplitter.__init__
+      ~ShapeSplitter.calculate_axis_split_extents
+      ~ShapeSplitter.calculate_split
+      ~ShapeSplitter.calculate_split_by_indices_per_axis
+      ~ShapeSplitter.calculate_split_by_split_size
+      ~ShapeSplitter.calculate_split_by_tile_max_bytes
+      ~ShapeSplitter.calculate_split_by_tile_shape
+      ~ShapeSplitter.calculate_split_from_extents
+      ~ShapeSplitter.calculate_split_halos_from_extents
+      ~ShapeSplitter.check_consistent_parameter_dimensions
+      ~ShapeSplitter.check_consistent_parameter_grouping
+      ~ShapeSplitter.check_split_parameters
+      ~ShapeSplitter.check_tile_bounds_policy
+      ~ShapeSplitter.convert_halo_to_array_form
+      ~ShapeSplitter.set_split_extents
+      ~ShapeSplitter.set_split_extents_by_indices_per_axis
+      ~ShapeSplitter.set_split_extents_by_split_size
+      ~ShapeSplitter.set_split_extents_by_tile_max_bytes
+      ~ShapeSplitter.set_split_extents_by_tile_shape
+      ~ShapeSplitter.update_tile_extent_bounds
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+      :toctree: generated/attribs
+   
+      ~ShapeSplitter.array_itemsize
+      ~ShapeSplitter.array_shape
+      ~ShapeSplitter.array_start
+      ~ShapeSplitter.halo
+      ~ShapeSplitter.indices_per_axis
+      ~ShapeSplitter.logger
+      ~ShapeSplitter.max_tile_bytes
+      ~ShapeSplitter.max_tile_shape
+      ~ShapeSplitter.split_begs
+      ~ShapeSplitter.split_ends
+      ~ShapeSplitter.split_num_slices_per_axis
+      ~ShapeSplitter.split_shape
+      ~ShapeSplitter.split_size
+      ~ShapeSplitter.sub_tile_shape
+      ~ShapeSplitter.tile_beg_min
+      ~ShapeSplitter.tile_bounds_policy
+      ~ShapeSplitter.tile_end_max
+      ~ShapeSplitter.tile_shape
+      ~ShapeSplitter.valid_tile_bounds_policies
+   
+   

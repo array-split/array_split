@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.split\_ends
+========================================
+
+.. currentmodule:: array_split
+
+.. autoattribute:: ShapeSplitter.split_ends

@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.tile\_shape
+========================================
+
+.. currentmodule:: array_split
+
+.. autoattribute:: ShapeSplitter.tile_shape

@@ -1,0 +1,6 @@
+array\_split\.split\.pad\_with\_none
+====================================
+
+.. currentmodule:: array_split.split
+
+.. autofunction:: pad_with_none

@@ -1,0 +1,6 @@
+array\_split\.split\.shape\_split
+=================================
+
+.. currentmodule:: array_split.split
+
+.. autofunction:: shape_split

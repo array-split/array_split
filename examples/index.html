@@ -1,0 +1,1169 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Terminology &mdash; array_split 0.6.xdev2-9-ge07abe3
+ documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="array_split 0.6.xdev2-9-ge07abe3
+ documentation" href="../index.html"/>
+        <link rel="next" title="&lt;no title&gt;" href="../reference/index.html"/>
+        <link rel="prev" title="Introduction" href="../about/index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> array_split
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.xdev2
+
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Read Me</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html#quick-start-example">Quick Start Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html#requirements">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html#testing">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html#latest-source-code">Latest source code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html#bug-reports">Bug Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html#contributing">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/index.html#license-information">License information</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#parameter-categories">Parameter Categories</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#import-statements-for-the-examples">Import statements for the examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#array-split-shape-split-and-shapesplitter"><code class="samp docutils literal"><span class="pre">array_split</span></code>, <code class="samp docutils literal"><span class="pre">shape_split</span></code> and <code class="samp docutils literal"><span class="pre">ShapeSplitter</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="#splitting-by-number-of-tiles">Splitting by number of tiles</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#single-axis-number-of-tiles">Single axis number of tiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multiple-axes-number-of-tiles">Multiple axes number of tiles</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#splitting-by-per-axis-cut-indices">Splitting by per-axis cut indices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#single-axis-cut-indices">Single axis cut indices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multiple-axes-cut-indices">Multiple axes cut indices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#splitting-by-tile-shape">Splitting by tile shape</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#splitting-by-maximum-bytes-per-tile">Splitting by maximum bytes per tile</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tile-shape-upper-bound-constraint">Tile shape upper bound constraint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sub-tile-shape-constraint">Sub-tile shape constraint</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#the-array-start-parameter">The <code class="samp docutils literal"><em><span class="pre">array_start</span></em></code> parameter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#the-halo-parameter">The <code class="samp docutils literal"><em><span class="pre">halo</span></em></code> parameter</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/array_split.html">The <code class="docutils literal"><span class="pre">array_split</span></code> Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/array_split.html#classes-and-functions">Classes and Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.shape_split.html">array_split.shape_split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.array_split.html">array_split.array_split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.ShapeSplitter.html">array_split.ShapeSplitter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.__init__.html">array_split.ShapeSplitter.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.calculate_axis_split_extents.html">array_split.ShapeSplitter.calculate_axis_split_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split.html">array_split.ShapeSplitter.calculate_split</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_by_indices_per_axis.html">array_split.ShapeSplitter.calculate_split_by_indices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_by_split_size.html">array_split.ShapeSplitter.calculate_split_by_split_size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_by_tile_max_bytes.html">array_split.ShapeSplitter.calculate_split_by_tile_max_bytes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_by_tile_shape.html">array_split.ShapeSplitter.calculate_split_by_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_from_extents.html">array_split.ShapeSplitter.calculate_split_from_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split_halos_from_extents.html">array_split.ShapeSplitter.calculate_split_halos_from_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.check_consistent_parameter_dimensions.html">array_split.ShapeSplitter.check_consistent_parameter_dimensions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.check_consistent_parameter_grouping.html">array_split.ShapeSplitter.check_consistent_parameter_grouping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.check_split_parameters.html">array_split.ShapeSplitter.check_split_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.check_tile_bounds_policy.html">array_split.ShapeSplitter.check_tile_bounds_policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.convert_halo_to_array_form.html">array_split.ShapeSplitter.convert_halo_to_array_form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents.html">array_split.ShapeSplitter.set_split_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents_by_indices_per_axis.html">array_split.ShapeSplitter.set_split_extents_by_indices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents_by_split_size.html">array_split.ShapeSplitter.set_split_extents_by_split_size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents_by_tile_max_bytes.html">array_split.ShapeSplitter.set_split_extents_by_tile_max_bytes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.set_split_extents_by_tile_shape.html">array_split.ShapeSplitter.set_split_extents_by_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.update_tile_extent_bounds.html">array_split.ShapeSplitter.update_tile_extent_bounds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.array_itemsize.html">array_split.ShapeSplitter.array_itemsize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.array_shape.html">array_split.ShapeSplitter.array_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.array_start.html">array_split.ShapeSplitter.array_start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.halo.html">array_split.ShapeSplitter.halo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.indices_per_axis.html">array_split.ShapeSplitter.indices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.logger.html">array_split.ShapeSplitter.logger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.max_tile_bytes.html">array_split.ShapeSplitter.max_tile_bytes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.max_tile_shape.html">array_split.ShapeSplitter.max_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.split_begs.html">array_split.ShapeSplitter.split_begs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.split_ends.html">array_split.ShapeSplitter.split_ends</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.split_num_slices_per_axis.html">array_split.ShapeSplitter.split_num_slices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.split_shape.html">array_split.ShapeSplitter.split_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.split_size.html">array_split.ShapeSplitter.split_size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.sub_tile_shape.html">array_split.ShapeSplitter.sub_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.tile_beg_min.html">array_split.ShapeSplitter.tile_beg_min</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.tile_bounds_policy.html">array_split.ShapeSplitter.tile_bounds_policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.tile_end_max.html">array_split.ShapeSplitter.tile_end_max</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.tile_shape.html">array_split.ShapeSplitter.tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.ShapeSplitter.valid_tile_bounds_policies.html">array_split.ShapeSplitter.valid_tile_bounds_policies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/array_split.html#attributes">Attributes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/array_split_split.html">The <code class="docutils literal"><span class="pre">array_split.split</span></code> Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/array_split_split.html#classes-and-functions">Classes and Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.split.shape_factors.html">array_split.split.shape_factors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.split.calculate_num_slices_per_axis.html">array_split.split.calculate_num_slices_per_axis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.split.calculate_tile_shape_for_max_bytes.html">array_split.split.calculate_tile_shape_for_max_bytes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.split.convert_halo_to_array_form.html">array_split.split.convert_halo_to_array_form</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.split.ShapeSplitter.html">array_split.split.ShapeSplitter</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.__init__.html">array_split.split.ShapeSplitter.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_axis_split_extents.html">array_split.split.ShapeSplitter.calculate_axis_split_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split.html">array_split.split.ShapeSplitter.calculate_split</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_by_indices_per_axis.html">array_split.split.ShapeSplitter.calculate_split_by_indices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_by_split_size.html">array_split.split.ShapeSplitter.calculate_split_by_split_size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_by_tile_max_bytes.html">array_split.split.ShapeSplitter.calculate_split_by_tile_max_bytes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_by_tile_shape.html">array_split.split.ShapeSplitter.calculate_split_by_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_from_extents.html">array_split.split.ShapeSplitter.calculate_split_from_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.calculate_split_halos_from_extents.html">array_split.split.ShapeSplitter.calculate_split_halos_from_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.check_consistent_parameter_dimensions.html">array_split.split.ShapeSplitter.check_consistent_parameter_dimensions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.check_consistent_parameter_grouping.html">array_split.split.ShapeSplitter.check_consistent_parameter_grouping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.check_split_parameters.html">array_split.split.ShapeSplitter.check_split_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.check_tile_bounds_policy.html">array_split.split.ShapeSplitter.check_tile_bounds_policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.convert_halo_to_array_form.html">array_split.split.ShapeSplitter.convert_halo_to_array_form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents.html">array_split.split.ShapeSplitter.set_split_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents_by_indices_per_axis.html">array_split.split.ShapeSplitter.set_split_extents_by_indices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents_by_split_size.html">array_split.split.ShapeSplitter.set_split_extents_by_split_size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents_by_tile_max_bytes.html">array_split.split.ShapeSplitter.set_split_extents_by_tile_max_bytes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.set_split_extents_by_tile_shape.html">array_split.split.ShapeSplitter.set_split_extents_by_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split.ShapeSplitter.update_tile_extent_bounds.html">array_split.split.ShapeSplitter.update_tile_extent_bounds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.array_itemsize.html">array_split.split.ShapeSplitter.array_itemsize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.array_shape.html">array_split.split.ShapeSplitter.array_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.array_start.html">array_split.split.ShapeSplitter.array_start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.halo.html">array_split.split.ShapeSplitter.halo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.indices_per_axis.html">array_split.split.ShapeSplitter.indices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.logger.html">array_split.split.ShapeSplitter.logger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.max_tile_bytes.html">array_split.split.ShapeSplitter.max_tile_bytes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.max_tile_shape.html">array_split.split.ShapeSplitter.max_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_begs.html">array_split.split.ShapeSplitter.split_begs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_ends.html">array_split.split.ShapeSplitter.split_ends</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_num_slices_per_axis.html">array_split.split.ShapeSplitter.split_num_slices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_shape.html">array_split.split.ShapeSplitter.split_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.split_size.html">array_split.split.ShapeSplitter.split_size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.sub_tile_shape.html">array_split.split.ShapeSplitter.sub_tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.tile_beg_min.html">array_split.split.ShapeSplitter.tile_beg_min</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.tile_bounds_policy.html">array_split.split.ShapeSplitter.tile_bounds_policy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.tile_end_max.html">array_split.split.ShapeSplitter.tile_end_max</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.tile_shape.html">array_split.split.ShapeSplitter.tile_shape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split.ShapeSplitter.valid_tile_bounds_policies.html">array_split.split.ShapeSplitter.valid_tile_bounds_policies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.split.shape_split.html">array_split.split.shape_split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.split.array_split.html">array_split.split.array_split</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/array_split_split.html#attributes">Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/array_split_split.html#utilities">Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.split.is_scalar.html">array_split.split.is_scalar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.split.is_sequence.html">array_split.split.is_sequence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.split.is_indices.html">array_split.split.is_indices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.split.pad_with_object.html">array_split.split.pad_with_object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.split.pad_with_none.html">array_split.split.pad_with_none</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/array_split_split_test.html">The <code class="docutils literal"><span class="pre">array_split.split_test</span></code> Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/array_split_split_test.html#classes">Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.split_test.SplitTest.html">array_split.split_test.SplitTest</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.__init__.html">array_split.split_test.SplitTest.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.addCleanup.html">array_split.split_test.SplitTest.addCleanup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.addTypeEqualityFunc.html">array_split.split_test.SplitTest.addTypeEqualityFunc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.assertArraySplitEqual.html">array_split.split_test.SplitTest.assertArraySplitEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.countTestCases.html">array_split.split_test.SplitTest.countTestCases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.debug.html">array_split.split_test.SplitTest.debug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.defaultTestResult.html">array_split.split_test.SplitTest.defaultTestResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.doCleanups.html">array_split.split_test.SplitTest.doCleanups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.id.html">array_split.split_test.SplitTest.id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.run.html">array_split.split_test.SplitTest.run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.setUp.html">array_split.split_test.SplitTest.setUp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.setUpClass.html">array_split.split_test.SplitTest.setUpClass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.shortDescription.html">array_split.split_test.SplitTest.shortDescription</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.skipTest.html">array_split.split_test.SplitTest.skipTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.subTest.html">array_split.split_test.SplitTest.subTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.tearDown.html">array_split.split_test.SplitTest.tearDown</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.tearDownClass.html">array_split.split_test.SplitTest.tearDownClass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_array_split.html">array_split.split_test.SplitTest.test_array_split</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_num_slices_per_axis.html">array_split.split_test.SplitTest.test_calculate_num_slices_per_axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_by_tile_max_bytes_1d.html">array_split.split_test.SplitTest.test_calculate_split_by_tile_max_bytes_1d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_by_tile_shape_1d.html">array_split.split_test.SplitTest.test_calculate_split_by_tile_shape_1d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_by_tile_shape_2d.html">array_split.split_test.SplitTest.test_calculate_split_by_tile_shape_2d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_halos_from_extents.html">array_split.split_test.SplitTest.test_calculate_split_halos_from_extents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_array_start_1d.html">array_split.split_test.SplitTest.test_calculate_split_with_array_start_1d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_array_start_2d.html">array_split.split_test.SplitTest.test_calculate_split_with_array_start_2d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_halo_1d.html">array_split.split_test.SplitTest.test_calculate_split_with_halo_1d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_halo_2d.html">array_split.split_test.SplitTest.test_calculate_split_with_halo_2d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_split_with_halo_for_empty_tiles.html">array_split.split_test.SplitTest.test_calculate_split_with_halo_for_empty_tiles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_tile_shape_for_max_bytes_1d.html">array_split.split_test.SplitTest.test_calculate_tile_shape_for_max_bytes_1d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_calculate_tile_shape_for_max_bytes_2d.html">array_split.split_test.SplitTest.test_calculate_tile_shape_for_max_bytes_2d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_convert_halo_to_array_form.html">array_split.split_test.SplitTest.test_convert_halo_to_array_form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_multiple_parameter_groups_error.html">array_split.split_test.SplitTest.test_multiple_parameter_groups_error</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_pad_with_object.html">array_split.split_test.SplitTest.test_pad_with_object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_properties.html">array_split.split_test.SplitTest.test_properties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_shape_factors.html">array_split.split_test.SplitTest.test_shape_factors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_split_by_num_slices_1d.html">array_split.split_test.SplitTest.test_split_by_num_slices_1d</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_split_by_num_slices_2d_0_axis_elems.html">array_split.split_test.SplitTest.test_split_by_num_slices_2d_0_axis_elems</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_split_by_num_slices_2d_non_0_axis_elems.html">array_split.split_test.SplitTest.test_split_by_num_slices_2d_non_0_axis_elems</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.split_test.SplitTest.test_split_by_per_axis_indices.html">array_split.split_test.SplitTest.test_split_by_per_axis_indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split_test.SplitTest.logger.html">array_split.split_test.SplitTest.logger</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split_test.SplitTest.longMessage.html">array_split.split_test.SplitTest.longMessage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.split_test.SplitTest.maxDiff.html">array_split.split_test.SplitTest.maxDiff</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/array_split_tests.html">The <code class="docutils literal"><span class="pre">array_split.tests</span></code> Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/array_split_tests.html#classes-and-functions">Classes and Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.tests.MultiPlatformAnd23Checker.html">array_split.tests.MultiPlatformAnd23Checker</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.tests.MultiPlatformAnd23Checker.check_output.html">array_split.tests.MultiPlatformAnd23Checker.check_output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.tests.MultiPlatformAnd23Checker.output_difference.html">array_split.tests.MultiPlatformAnd23Checker.output_difference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.tests.DocTestTestSuite.html">array_split.tests.DocTestTestSuite</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.tests.DocTestTestSuite.__init__.html">array_split.tests.DocTestTestSuite.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.tests.DocTestTestSuite.addTest.html">array_split.tests.DocTestTestSuite.addTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.tests.DocTestTestSuite.addTests.html">array_split.tests.DocTestTestSuite.addTests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.tests.DocTestTestSuite.countTestCases.html">array_split.tests.DocTestTestSuite.countTestCases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.tests.DocTestTestSuite.debug.html">array_split.tests.DocTestTestSuite.debug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.tests.DocTestTestSuite.run.html">array_split.tests.DocTestTestSuite.run</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.tests.load_tests.html">array_split.tests.load_tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/array_split_logging.html">The <code class="docutils literal"><span class="pre">array_split.logging</span></code> Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/array_split_logging.html#classes-and-functions">Classes and Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.logging.SplitStreamHandler.html">array_split.logging.SplitStreamHandler</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.__init__.html">array_split.logging.SplitStreamHandler.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.acquire.html">array_split.logging.SplitStreamHandler.acquire</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.addFilter.html">array_split.logging.SplitStreamHandler.addFilter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.close.html">array_split.logging.SplitStreamHandler.close</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.createLock.html">array_split.logging.SplitStreamHandler.createLock</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.emit.html">array_split.logging.SplitStreamHandler.emit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.filter.html">array_split.logging.SplitStreamHandler.filter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.flush.html">array_split.logging.SplitStreamHandler.flush</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.format.html">array_split.logging.SplitStreamHandler.format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.get_name.html">array_split.logging.SplitStreamHandler.get_name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.handle.html">array_split.logging.SplitStreamHandler.handle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.handleError.html">array_split.logging.SplitStreamHandler.handleError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.release.html">array_split.logging.SplitStreamHandler.release</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.removeFilter.html">array_split.logging.SplitStreamHandler.removeFilter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.setFormatter.html">array_split.logging.SplitStreamHandler.setFormatter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.setLevel.html">array_split.logging.SplitStreamHandler.setLevel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.logging.SplitStreamHandler.set_name.html">array_split.logging.SplitStreamHandler.set_name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.logging.SplitStreamHandler.name.html">array_split.logging.SplitStreamHandler.name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.logging.SplitStreamHandler.terminator.html">array_split.logging.SplitStreamHandler.terminator</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.logging.initialise_loggers.html">array_split.logging.initialise_loggers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.logging.get_formatter.html">array_split.logging.get_formatter</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/array_split_unittest.html">The <code class="docutils literal"><span class="pre">array_split.unittest</span></code> Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/array_split_unittest.html#classes-and-functions">Classes and Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.unittest.main.html">array_split.unittest.main</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.unittest.TestCase.html">array_split.unittest.TestCase</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.__init__.html">array_split.unittest.TestCase.__init__</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.addCleanup.html">array_split.unittest.TestCase.addCleanup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.addTypeEqualityFunc.html">array_split.unittest.TestCase.addTypeEqualityFunc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertAlmostEqual.html">array_split.unittest.TestCase.assertAlmostEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertAlmostEquals.html">array_split.unittest.TestCase.assertAlmostEquals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertArraySplitEqual.html">array_split.unittest.TestCase.assertArraySplitEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertCountEqual.html">array_split.unittest.TestCase.assertCountEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertDictContainsSubset.html">array_split.unittest.TestCase.assertDictContainsSubset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertDictEqual.html">array_split.unittest.TestCase.assertDictEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertEqual.html">array_split.unittest.TestCase.assertEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertEquals.html">array_split.unittest.TestCase.assertEquals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertFalse.html">array_split.unittest.TestCase.assertFalse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertGreater.html">array_split.unittest.TestCase.assertGreater</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertGreaterEqual.html">array_split.unittest.TestCase.assertGreaterEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertIn.html">array_split.unittest.TestCase.assertIn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertIs.html">array_split.unittest.TestCase.assertIs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertIsInstance.html">array_split.unittest.TestCase.assertIsInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertIsNone.html">array_split.unittest.TestCase.assertIsNone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertIsNot.html">array_split.unittest.TestCase.assertIsNot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertIsNotNone.html">array_split.unittest.TestCase.assertIsNotNone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertItemsEqual.html">array_split.unittest.TestCase.assertItemsEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertLess.html">array_split.unittest.TestCase.assertLess</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertLessEqual.html">array_split.unittest.TestCase.assertLessEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertListEqual.html">array_split.unittest.TestCase.assertListEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertLogs.html">array_split.unittest.TestCase.assertLogs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertMultiLineEqual.html">array_split.unittest.TestCase.assertMultiLineEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertNotAlmostEqual.html">array_split.unittest.TestCase.assertNotAlmostEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertNotAlmostEquals.html">array_split.unittest.TestCase.assertNotAlmostEquals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertNotEqual.html">array_split.unittest.TestCase.assertNotEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertNotEquals.html">array_split.unittest.TestCase.assertNotEquals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertNotIn.html">array_split.unittest.TestCase.assertNotIn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertNotIsInstance.html">array_split.unittest.TestCase.assertNotIsInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertNotRegex.html">array_split.unittest.TestCase.assertNotRegex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertNotRegexpMatches.html">array_split.unittest.TestCase.assertNotRegexpMatches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertRaises.html">array_split.unittest.TestCase.assertRaises</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertRaisesRegex.html">array_split.unittest.TestCase.assertRaisesRegex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertRaisesRegexp.html">array_split.unittest.TestCase.assertRaisesRegexp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertRegex.html">array_split.unittest.TestCase.assertRegex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertRegexpMatches.html">array_split.unittest.TestCase.assertRegexpMatches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertSequenceEqual.html">array_split.unittest.TestCase.assertSequenceEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertSetEqual.html">array_split.unittest.TestCase.assertSetEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertTrue.html">array_split.unittest.TestCase.assertTrue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertTupleEqual.html">array_split.unittest.TestCase.assertTupleEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertWarns.html">array_split.unittest.TestCase.assertWarns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assertWarnsRegex.html">array_split.unittest.TestCase.assertWarnsRegex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.assert_.html">array_split.unittest.TestCase.assert_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.countTestCases.html">array_split.unittest.TestCase.countTestCases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.debug.html">array_split.unittest.TestCase.debug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.defaultTestResult.html">array_split.unittest.TestCase.defaultTestResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.doCleanups.html">array_split.unittest.TestCase.doCleanups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.fail.html">array_split.unittest.TestCase.fail</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.failIf.html">array_split.unittest.TestCase.failIf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.failIfAlmostEqual.html">array_split.unittest.TestCase.failIfAlmostEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.failIfEqual.html">array_split.unittest.TestCase.failIfEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.failUnless.html">array_split.unittest.TestCase.failUnless</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.failUnlessAlmostEqual.html">array_split.unittest.TestCase.failUnlessAlmostEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.failUnlessEqual.html">array_split.unittest.TestCase.failUnlessEqual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.failUnlessRaises.html">array_split.unittest.TestCase.failUnlessRaises</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.id.html">array_split.unittest.TestCase.id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.run.html">array_split.unittest.TestCase.run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.setUp.html">array_split.unittest.TestCase.setUp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.setUpClass.html">array_split.unittest.TestCase.setUpClass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.shortDescription.html">array_split.unittest.TestCase.shortDescription</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.skipTest.html">array_split.unittest.TestCase.skipTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.subTest.html">array_split.unittest.TestCase.subTest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.tearDown.html">array_split.unittest.TestCase.tearDown</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/methods/array_split.unittest.TestCase.tearDownClass.html">array_split.unittest.TestCase.tearDownClass</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.unittest.TestCase.longMessage.html">array_split.unittest.TestCase.longMessage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/generated/generated/attribs/array_split.unittest.TestCase.maxDiff.html">array_split.unittest.TestCase.maxDiff</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/array_split_license.html">The <code class="docutils literal"><span class="pre">array_split.license</span></code> Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/array_split_license.html#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/array_split_license.html#copyright">Copyright</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/array_split_license.html#functions">Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.license.license.html">array_split.license.license</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.license.copyright.html">array_split.license.copyright</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../reference/generated/array_split.license.version.html">array_split.license.version</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/index.html">How to contribute</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/index.html#workflow">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/index.html#coding-guidelines">Coding Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/index.html#code-of-conduct">Code of Conduct</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">array_split</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Terminology</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/examples/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="terminology">
+<h1>Terminology<a class="headerlink" href="#terminology" title="Permalink to this headline">¶</a></h1>
+<p>Definitions:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><em>tile</em></dt>
+<dd>A multi-dimensional <em>sub-array</em> of a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.13)"><code class="xref py py-obj docutils literal"><span class="pre">numpy.ndarray</span></code></a>.</dd>
+<dt><em>slice</em></dt>
+<dd>A <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">tuple</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#slice" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">slice</span></code></a> elements defining the extents
+of a tile/sub-array.</dd>
+<dt><em>cut</em></dt>
+<dd>A <em>division</em> along an axis to form tiles or slices.</dd>
+<dt><em>split</em></dt>
+<dd>The sub-division (tiling) of an array (or an array shape) resulting from cuts.</dd>
+<dt><em>halo</em></dt>
+<dd>Per-axis number of elements which specifies the expansion of a tile
+(in the negative and positive axis directions) to form an
+<em>overlap</em> of elements with neighbouring tiles. The <em>overlaps</em> are often
+referred to as <em>ghost cells</em> or <em>ghost elements</em>.</dd>
+<dt><em>sub-tile</em></dt>
+<dd>A sub-array of a tile.</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="parameter-categories">
+<h1>Parameter Categories<a class="headerlink" href="#parameter-categories" title="Permalink to this headline">¶</a></h1>
+<p>There are four categories of parameters for specifying a split:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><strong>Number of tiles</strong></dt>
+<dd>The total number of tiles and/or the number of slices per axis.
+The <code class="samp docutils literal"><em><span class="pre">indices_or_sections</span></em></code> parameter can specify the
+number of tiles in the resulting split (as an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">int</span></code></a>).</dd>
+<dt><strong>Per-axis split indices</strong></dt>
+<dd>The per-axis indices specifying where the array (shape) is to be cut.
+The <code class="samp docutils literal"><em><span class="pre">indices_or_sections</span></em></code> parameter doubles up to indicate
+the indices at which cuts are to occur.</dd>
+<dt><strong>Tile shape</strong></dt>
+<dd>Explicitly specify the shape of the tile in a split.
+The <code class="samp docutils literal"><em><span class="pre">tile_shape</span></em></code> parameter (typically as a lone
+<em>keyword argument</em>) indicates the tile shape.</dd>
+<dt><strong>Tile maximum number of bytes</strong></dt>
+<dd>Given the number of bytes per array element, a tile shape
+is calculated such that all tiles (including halo extension) of the
+resulting split do not exceed a specified (maximum) number of bytes.
+The <code class="samp docutils literal"><em><span class="pre">array_itemsize</span></em></code> parameter gives the number of bytes
+per array element and the <code class="samp docutils literal"><em><span class="pre">max_tile_bytes</span></em></code>
+parameter constrains the maximum number of bytes per tile.</dd>
+</dl>
+</div></blockquote>
+<p>The subsequent sections provides examples from each of these categories.</p>
+</div>
+<div class="section" id="import-statements-for-the-examples">
+<h1>Import statements for the examples<a class="headerlink" href="#import-statements-for-the-examples" title="Permalink to this headline">¶</a></h1>
+<p>In the examples of the following sections, we assume that the following statement
+has been issued to <code class="xref py py-obj docutils literal"><span class="pre">import</span></code> the relevant functions:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">array_split</span> <span class="k">import</span> <span class="n">array_split</span><span class="p">,</span> <span class="n">shape_split</span><span class="p">,</span> <span class="n">ShapeSplitter</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="array-split-shape-split-and-shapesplitter">
+<h1><code class="samp docutils literal"><span class="pre">array_split</span></code>, <code class="samp docutils literal"><span class="pre">shape_split</span></code> and <code class="samp docutils literal"><span class="pre">ShapeSplitter</span></code><a class="headerlink" href="#array-split-shape-split-and-shapesplitter" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="../reference/generated/array_split.array_split.html#array_split.array_split" title="array_split.array_split"><code class="xref py py-func docutils literal"><span class="pre">array_split.array_split()</span></code></a> function is analogous to
+the <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.array_split.html#numpy.array_split" title="(in NumPy v1.13)"><code class="xref py py-func docutils literal"><span class="pre">numpy.array_split()</span></code></a> function. It takes a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.13)"><code class="xref py py-obj docutils literal"><span class="pre">numpy.ndarray</span></code></a>
+object as an argument and returns a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">list</span></code></a> of tile (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.13)"><code class="xref py py-obj docutils literal"><span class="pre">numpy.ndarray</span></code></a> sub-array
+objects) elements:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">numpy</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">[array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">array_split</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># array_split.array_split</span>
+<span class="go">[array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../reference/generated/array_split.shape_split.html#array_split.shape_split" title="array_split.shape_split"><code class="xref py py-func docutils literal"><span class="pre">array_split.shape_split()</span></code></a> function takes an array <em>shape</em> as an
+argument instead of an actual <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.13)"><code class="xref py py-obj docutils literal"><span class="pre">numpy.ndarray</span></code></a> object, and returns
+a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/index.html#module-numpy" title="(in NumPy v1.13)"><code class="xref py py-mod docutils literal"><span class="pre">numpy</span></code></a> <a class="reference external" href="http://docs.scipy.org/doc/numpy/user/basics.rec.html">structured array</a>
+of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">tuple</span></code></a> elements. The tuple elements can then be used to generate
+the tiles from a <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.13)"><code class="xref py py-obj docutils literal"><span class="pre">numpy.ndarray</span></code></a> of an equivalent shape:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ary</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">(</span><span class="n">ary</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># returns array of tuples</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(0, 4, None),), (slice(4, 7, None),), (slice(7, 10, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">ary</span><span class="p">[</span><span class="n">slyce</span><span class="p">]</span> <span class="k">for</span> <span class="n">slyce</span> <span class="ow">in</span> <span class="n">split</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span> <span class="c1"># generates tile views of ary</span>
+<span class="go">[array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]</span>
+</pre></div>
+</div>
+<p>Each <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">tuple</span></code></a> element, of the returned split, has length
+equal to the  dimension of the multi-dimensional shape,
+i.e. <code class="samp docutils literal"><span class="pre">N</span> <span class="pre">=</span> <span class="pre">len(</span><em><span class="pre">array_shape</span></em><span class="pre">)</span></code>. Each <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">tuple</span></code></a>
+indicates the indexing extent of a tile.</p>
+<p>The <a class="reference internal" href="../reference/generated/array_split.ShapeSplitter.html#array_split.ShapeSplitter" title="array_split.ShapeSplitter"><code class="xref py py-obj docutils literal"><span class="pre">array_split.ShapeSplitter</span></code></a> class contains the bulk of the split implementation
+for the <a class="reference internal" href="../reference/generated/array_split.shape_split.html#array_split.shape_split" title="array_split.shape_split"><code class="xref py py-func docutils literal"><span class="pre">array_split.shape_split()</span></code></a>. The <a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.__init__.html#array_split.ShapeSplitter.__init__" title="array_split.ShapeSplitter.__init__"><code class="xref py py-meth docutils literal"><span class="pre">array_split.ShapeSplitter.__init__()</span></code></a>
+constructor takes the same arguments as the <a class="reference internal" href="../reference/generated/array_split.shape_split.html#array_split.shape_split" title="array_split.shape_split"><code class="xref py py-func docutils literal"><span class="pre">array_split.shape_split()</span></code></a> function and
+the <a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.calculate_split.html#array_split.ShapeSplitter.calculate_split" title="array_split.ShapeSplitter.calculate_split"><code class="xref py py-meth docutils literal"><span class="pre">array_split.ShapeSplitter.calculate_split()</span></code></a> method computes the split. After
+the split computation, some state information is preserved in the
+<a class="reference internal" href="../reference/generated/array_split.ShapeSplitter.html#array_split.ShapeSplitter" title="array_split.ShapeSplitter"><code class="xref py py-obj docutils literal"><span class="pre">array_split.ShapeSplitter</span></code></a> data attributes:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ary</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">splitter</span> <span class="o">=</span> <span class="n">ShapeSplitter</span><span class="p">(</span><span class="n">ary</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">splitter</span><span class="o">.</span><span class="n">calculate_split</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(3,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(0, 4, None),), (slice(4, 7, None),), (slice(7, 10, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">ary</span><span class="p">[</span><span class="n">slyce</span><span class="p">]</span> <span class="k">for</span> <span class="n">slyce</span> <span class="ow">in</span> <span class="n">split</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]</span>
+<span class="go">[array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">splitter</span><span class="o">.</span><span class="n">split_shape</span> <span class="c1"># equivalent to split.shape above</span>
+<span class="go">array([3])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">splitter</span><span class="o">.</span><span class="n">split_begs</span>  <span class="c1"># start indices for tile extents</span>
+<span class="go">[array([0, 4, 7])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">splitter</span><span class="o">.</span><span class="n">split_ends</span>  <span class="c1"># stop indices for tile extents</span>
+<span class="go">[array([ 4,  7, 10])]</span>
+</pre></div>
+</div>
+<p>Methods of the <a class="reference internal" href="../reference/generated/array_split.ShapeSplitter.html#array_split.ShapeSplitter" title="array_split.ShapeSplitter"><code class="xref py py-obj docutils literal"><span class="pre">array_split.ShapeSplitter</span></code></a> class can be over-ridden
+in sub-classes in order to customise the splitting behaviour.</p>
+<p>The examples of the following section explicitly illustrate the behaviour for
+the <a class="reference internal" href="../reference/generated/array_split.shape_split.html#array_split.shape_split" title="array_split.shape_split"><code class="xref py py-func docutils literal"><span class="pre">array_split.shape_split()</span></code></a> function, but with minor modifications,
+the examples are also relevant for the <a class="reference internal" href="../reference/generated/array_split.array_split.html#array_split.array_split" title="array_split.array_split"><code class="xref py py-func docutils literal"><span class="pre">array_split.array_split()</span></code></a> function
+and for instances of the <a class="reference internal" href="../reference/generated/array_split.ShapeSplitter.html#array_split.ShapeSplitter" title="array_split.ShapeSplitter"><code class="xref py py-obj docutils literal"><span class="pre">array_split.ShapeSplitter</span></code></a> class.</p>
+</div>
+<div class="section" id="splitting-by-number-of-tiles">
+<span id="splitting-by-number-of-tiles-examples"></span><h1>Splitting by number of tiles<a class="headerlink" href="#splitting-by-number-of-tiles" title="Permalink to this headline">¶</a></h1>
+<p>Splitting an array is performed by specifying:
+<em>total number of tiles</em> in the final split
+and <em>per-axis number of slices</em>.</p>
+<div class="section" id="single-axis-number-of-tiles">
+<h2>Single axis number of tiles<a class="headerlink" href="#single-axis-number-of-tiles" title="Permalink to this headline">¶</a></h2>
+<p>When the <code class="samp docutils literal"><em><span class="pre">indices_or_sections</span></em></code> parameter is specified as an
+integer (scalar), it specifies the number of tiles in the returned split:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">([</span><span class="mi">20</span><span class="p">,],</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># 1D, array_shape=[20,], number of tiles=4, default axis=0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(4,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(0, 5, None),), (slice(5, 10, None),), (slice(10, 15, None),),</span>
+<span class="go">       (slice(15, 20, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+<p>By default, cuts are made along the <code class="samp docutils literal"><em><span class="pre">axis</span></em> <span class="pre">=</span> <span class="pre">0</span></code> axis. In the multi-dimensional
+case, one can over-ride the axis using the <code class="samp docutils literal"><em><span class="pre">axis</span></em></code> parameter, e.g. for a 2D shape:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span> <span class="mi">4</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Split along axis=1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(1, 4)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([[(slice(0, 20, None), slice(0, 3, None)),</span>
+<span class="go">        (slice(0, 20, None), slice(3, 6, None)),</span>
+<span class="go">        (slice(0, 20, None), slice(6, 8, None)),</span>
+<span class="go">        (slice(0, 20, None), slice(8, 10, None))]],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;), (&#39;1&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiple-axes-number-of-tiles">
+<h2>Multiple axes number of tiles<a class="headerlink" href="#multiple-axes-number-of-tiles" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="samp docutils literal"><em><span class="pre">axis</span></em></code> parameter can also be used to specify the number of slices (sections)
+per-axis:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c1"># Cut into 3*2=6 tiles</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(3, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([[(slice(0, 7, None), slice(0, 5, None)),</span>
+<span class="go">        (slice(0, 7, None), slice(5, 10, None))],</span>
+<span class="go">       [(slice(7, 14, None), slice(0, 5, None)),</span>
+<span class="go">        (slice(7, 14, None), slice(5, 10, None))],</span>
+<span class="go">       [(slice(14, 20, None), slice(0, 5, None)),</span>
+<span class="go">        (slice(14, 20, None), slice(5, 10, None))]],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;), (&#39;1&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+<p>The array axis 0 has been cut into three sections and axis 1 has been cut into two
+sections for a total of <code class="samp docutils literal"><span class="pre">3*2</span> <span class="pre">=</span> <span class="pre">6</span></code> tiles. In general, if <code class="samp docutils literal"><em><span class="pre">axis</span></em></code> is an
+integer (scalar) it indicates the single axis which is to be cut to form slices.
+When <code class="samp docutils literal"><em><span class="pre">axis</span></em></code> is a sequence, then <code class="samp docutils literal"><em><span class="pre">axis</span></em><span class="pre">[i]</span></code> indicates the number of
+sections into which axis <code class="samp docutils literal"><span class="pre">i</span></code> is to be cut.</p>
+<p>In addition, one can also specify a total number of tiles and use the <code class="samp docutils literal"><em><span class="pre">axis</span></em></code>
+parameter to limit which axes are to be cut by specifying non-positive values for
+elements of the <code class="samp docutils literal"><em><span class="pre">axis</span></em></code> sequence. For example, in 3D, cut into 8 tiles, but
+only cut the <code class="samp docutils literal"><span class="pre">axis=1</span></code> and <code class="samp docutils literal"><span class="pre">axis=2</span></code> axes:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span> <span class="mi">8</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># Cut into 1*?*?=8 tiles</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(1, 4, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([[[(slice(0, 20, None), slice(0, 3, None), slice(0, 8, None)),</span>
+<span class="go">         (slice(0, 20, None), slice(0, 3, None), slice(8, 15, None))],</span>
+<span class="go">        [(slice(0, 20, None), slice(3, 6, None), slice(0, 8, None)),</span>
+<span class="go">         (slice(0, 20, None), slice(3, 6, None), slice(8, 15, None))],</span>
+<span class="go">        [(slice(0, 20, None), slice(6, 8, None), slice(0, 8, None)),</span>
+<span class="go">         (slice(0, 20, None), slice(6, 8, None), slice(8, 15, None))],</span>
+<span class="go">        [(slice(0, 20, None), slice(8, 10, None), slice(0, 8, None)),</span>
+<span class="go">         (slice(0, 20, None), slice(8, 10, None), slice(8, 15, None))]]],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;), (&#39;1&#39;, &#39;O&#39;), (&#39;2&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+<p>In the above, non-positive elements of <code class="samp docutils literal"><span class="pre">axis</span></code> are replaced
+with positive values such that <code class="samp docutils literal"><span class="pre">numpy.product(axis)</span></code> equals
+the number of requested tiles (<code class="samp docutils literal"><span class="pre">=</span> <span class="pre">8</span></code> above).
+Raises <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">ValueError</span></code></a> if the impossible is attempted:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span> <span class="mi">8</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># Impossible to cut into 1*3*?=8 tiles</span>
+<span class="gp">... </span><span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">e</span>
+<span class="gp">...</span>
+<span class="go">ValueError(&#39;Unable to construct grid of num_slices=8 elements from num_slices_per_axis=[1, 3, 0] (with max_slices_per_axis=[20 10 15])&#39;,)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="splitting-by-per-axis-cut-indices">
+<span id="splitting-by-per-axis-split-indices-examples"></span><h1>Splitting by per-axis cut indices<a class="headerlink" href="#splitting-by-per-axis-cut-indices" title="Permalink to this headline">¶</a></h1>
+<p>Array splitting is performed by explicitly specifying the
+indices at which cuts are performed.</p>
+<div class="section" id="single-axis-cut-indices">
+<h2>Single axis cut indices<a class="headerlink" href="#single-axis-cut-indices" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="samp docutils literal"><em><span class="pre">indices_or_sections</span></em></code> parameter can also be used to
+specify the location (index values) of cuts:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">([</span><span class="mi">20</span><span class="p">,],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>  <span class="c1"># 1D, split into 4 tiles, default cut axis=0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(4,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(0, 5, None),), (slice(5, 7, None),), (slice(7, 9, None),),</span>
+<span class="go">       (slice(9, 20, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+<p>Here, three cuts have been made to form <code class="samp docutils literal"><span class="pre">4</span></code> slices, cuts at index <code class="samp docutils literal"><span class="pre">5</span></code>, index <code class="samp docutils literal"><span class="pre">7</span></code>
+and index <code class="samp docutils literal"><span class="pre">9</span></code>.</p>
+<p>Similarly, in 2D, the <code class="samp docutils literal"><em><span class="pre">indices_or_sections</span></em></code> cut indices can made
+along <code class="samp docutils literal"><em><span class="pre">axis</span></em> <span class="pre">=</span> <span class="pre">1</span></code> only:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 2D, cut into 4 tiles, cut axis=1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(1, 4)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([[(slice(0, 20, None), slice(0, 5, None)),</span>
+<span class="go">        (slice(0, 20, None), slice(5, 7, None)),</span>
+<span class="go">        (slice(0, 20, None), slice(7, 9, None)),</span>
+<span class="go">        (slice(0, 20, None), slice(9, 13, None))]],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;), (&#39;1&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiple-axes-cut-indices">
+<h2>Multiple axes cut indices<a class="headerlink" href="#multiple-axes-cut-indices" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="samp docutils literal"><em><span class="pre">indices_or_sections</span></em></code> parameter can also be used to cut
+along multiple axes. In this case, the <code class="samp docutils literal"><em><span class="pre">indices_or_sections</span></em></code>
+parameter is specified as a <em>sequence of sequence</em>,
+so that <code class="samp docutils literal"><em><span class="pre">indices_or_sections</span></em><span class="pre">[i]</span></code> specifies the cut
+indices along axis <code class="samp docutils literal"><span class="pre">i</span></code>.
+For example, in 3D, cut along <code class="samp docutils literal"><span class="pre">axis=1</span></code> and <code class="samp docutils literal"><span class="pre">axis=2</span></code> only:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span> <span class="p">[[],</span> <span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">45</span><span class="p">]])</span>  <span class="c1"># 3D, split into 8 tiles, no cuts on axis=0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(1, 2, 4)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([[[(slice(0, 20, None), slice(0, 7, None), slice(0, 15, None)),</span>
+<span class="go">         (slice(0, 20, None), slice(0, 7, None), slice(15, 30, None)),</span>
+<span class="go">         (slice(0, 20, None), slice(0, 7, None), slice(30, 45, None)),</span>
+<span class="go">         (slice(0, 20, None), slice(0, 7, None), slice(45, 64, None))],</span>
+<span class="go">        [(slice(0, 20, None), slice(7, 13, None), slice(0, 15, None)),</span>
+<span class="go">         (slice(0, 20, None), slice(7, 13, None), slice(15, 30, None)),</span>
+<span class="go">         (slice(0, 20, None), slice(7, 13, None), slice(30, 45, None)),</span>
+<span class="go">         (slice(0, 20, None), slice(7, 13, None), slice(45, 64, None))]]],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;), (&#39;1&#39;, &#39;O&#39;), (&#39;2&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+<p>The <code class="samp docutils literal"><em><span class="pre">indices_or_sections</span></em><span class="pre">=[[],</span> <span class="pre">[7],</span> <span class="pre">[15,</span> <span class="pre">30,</span> <span class="pre">45]]</span></code> parameter indicates
+that the cut indices for <code class="samp docutils literal"><span class="pre">axis=0</span></code> are <code class="samp docutils literal"><span class="pre">[]</span></code> (i.e. no cuts), the
+cut indices for <code class="samp docutils literal"><span class="pre">axis=1</span></code> are <code class="samp docutils literal"><span class="pre">[7]</span></code> (a single cut at index <code class="samp docutils literal"><span class="pre">7</span></code>)
+and the cut indices for <code class="samp docutils literal"><span class="pre">axis=2</span></code> are <code class="samp docutils literal"><span class="pre">[15,</span> <span class="pre">30,</span> <span class="pre">45]</span></code> (three cuts).</p>
+</div>
+</div>
+<div class="section" id="splitting-by-tile-shape">
+<span id="splitting-by-tile-shape-examples"></span><h1>Splitting by tile shape<a class="headerlink" href="#splitting-by-tile-shape" title="Permalink to this headline">¶</a></h1>
+<p>The tile shape can be explicitly set with the <code class="samp docutils literal"><em><span class="pre">tile_shape</span></em></code> parameter,
+e.g. in 1D:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">([</span><span class="mi">20</span><span class="p">,],</span> <span class="n">tile_shape</span><span class="o">=</span><span class="p">[</span><span class="mi">6</span><span class="p">,])</span>  <span class="c1"># Cut into (6,) shaped tiles</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(4,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(0, 6, None),), (slice(6, 12, None),), (slice(12, 18, None),),</span>
+<span class="go">       (slice(18, 20, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+<p>and 2D:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="n">tile_shape</span><span class="o">=</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">16</span><span class="p">])</span>  <span class="c1"># Cut into (6, 16) shaped tiles</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(4, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([[(slice(0, 6, None), slice(0, 16, None)),</span>
+<span class="go">        (slice(0, 6, None), slice(16, 32, None))],</span>
+<span class="go">       [(slice(6, 12, None), slice(0, 16, None)),</span>
+<span class="go">        (slice(6, 12, None), slice(16, 32, None))],</span>
+<span class="go">       [(slice(12, 18, None), slice(0, 16, None)),</span>
+<span class="go">        (slice(12, 18, None), slice(16, 32, None))],</span>
+<span class="go">       [(slice(18, 20, None), slice(0, 16, None)),</span>
+<span class="go">        (slice(18, 20, None), slice(16, 32, None))]],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;), (&#39;1&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="splitting-by-maximum-bytes-per-tile">
+<span id="splitting-by-maximum-bytes-per-tile-examples"></span><h1>Splitting by maximum bytes per tile<a class="headerlink" href="#splitting-by-maximum-bytes-per-tile" title="Permalink to this headline">¶</a></h1>
+<p>Tile shape can constrained by specifying a maximum number of bytes
+per tile by specifying the <code class="samp docutils literal"><span class="pre">array_itemsize</span></code> and
+the <code class="samp docutils literal"><span class="pre">max_tile_bytes</span></code> parameters. In 1D:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">(</span>
+<span class="gp">... </span>  <span class="n">array_shape</span><span class="o">=</span><span class="p">[</span><span class="mi">512</span><span class="p">,],</span>
+<span class="gp">... </span>  <span class="n">array_itemsize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Default value</span>
+<span class="gp">... </span>  <span class="n">max_tile_bytes</span><span class="o">=</span><span class="mi">512</span> <span class="c1"># Equals number of array bytes</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(1,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(0, 512, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+<p>Double the array per-element number of bytes:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">(</span>
+<span class="gp">... </span>  <span class="n">array_shape</span><span class="o">=</span><span class="p">[</span><span class="mi">512</span><span class="p">,],</span>
+<span class="gp">... </span>  <span class="n">array_itemsize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">max_tile_bytes</span><span class="o">=</span><span class="mi">512</span> <span class="c1"># Equals half the number of array bytes</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(0, 256, None),), (slice(256, 512, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+<p>Decrement <code class="samp docutils literal"><em><span class="pre">max_tile_bytes</span></em></code> to <code class="samp docutils literal"><span class="pre">511</span></code> to split into 3 tiles:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">(</span>
+<span class="gp">... </span>  <span class="n">array_shape</span><span class="o">=</span><span class="p">[</span><span class="mi">512</span><span class="p">,],</span>
+<span class="gp">... </span>  <span class="n">array_itemsize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">max_tile_bytes</span><span class="o">=</span><span class="mi">511</span> <span class="c1"># Less than half the number of array bytes</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(3,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(0, 171, None),), (slice(171, 342, None),),</span>
+<span class="go">       (slice(342, 512, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+<p>Note that the split is calculated so that tiles are approximately equal in size.</p>
+<p>In 2D:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">(</span>
+<span class="gp">... </span>  <span class="n">array_shape</span><span class="o">=</span><span class="p">[</span><span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">],</span>
+<span class="gp">... </span>  <span class="n">array_itemsize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">max_tile_bytes</span><span class="o">=</span><span class="mi">512</span><span class="o">*</span><span class="mi">512</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([[(slice(0, 256, None), slice(0, 1024, None))],</span>
+<span class="go">       [(slice(256, 512, None), slice(0, 1024, None))]],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;), (&#39;1&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+<p>and increasing <code class="samp docutils literal"><em><span class="pre">array_itemsize</span></em></code> to <code class="samp docutils literal"><span class="pre">4</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">(</span>
+<span class="gp">... </span>  <span class="n">array_shape</span><span class="o">=</span><span class="p">[</span><span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">],</span>
+<span class="gp">... </span>  <span class="n">array_itemsize</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">max_tile_bytes</span><span class="o">=</span><span class="mi">512</span><span class="o">*</span><span class="mi">512</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(8, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([[(slice(0, 64, None), slice(0, 1024, None))],</span>
+<span class="go">       [(slice(64, 128, None), slice(0, 1024, None))],</span>
+<span class="go">       [(slice(128, 192, None), slice(0, 1024, None))],</span>
+<span class="go">       [(slice(192, 256, None), slice(0, 1024, None))],</span>
+<span class="go">       [(slice(256, 320, None), slice(0, 1024, None))],</span>
+<span class="go">       [(slice(320, 384, None), slice(0, 1024, None))],</span>
+<span class="go">       [(slice(384, 448, None), slice(0, 1024, None))],</span>
+<span class="go">       [(slice(448, 512, None), slice(0, 1024, None))]],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;), (&#39;1&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+<p>The preference is to cut into (<code class="samp docutils literal"><span class="pre">'C'</span></code> order) contiguous memory tiles.</p>
+<div class="section" id="tile-shape-upper-bound-constraint">
+<h2>Tile shape upper bound constraint<a class="headerlink" href="#tile-shape-upper-bound-constraint" title="Permalink to this headline">¶</a></h2>
+<p>The split can be influenced by specifying the <code class="samp docutils literal"><em><span class="pre">max_tile_shape</span></em></code>
+parameter. For the previous 2D example, cuts can for forced
+along <code class="samp docutils literal"><span class="pre">axis=1</span></code> by constraining the tile shape:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">(</span>
+<span class="gp">... </span>  <span class="n">array_shape</span><span class="o">=</span><span class="p">[</span><span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">],</span>
+<span class="gp">... </span>  <span class="n">array_itemsize</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">max_tile_bytes</span><span class="o">=</span><span class="mi">512</span><span class="o">*</span><span class="mi">512</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">max_tile_shape</span><span class="o">=</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">256</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 4)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([[(slice(0, 256, None), slice(0, 256, None)),</span>
+<span class="go">        (slice(0, 256, None), slice(256, 512, None)),</span>
+<span class="go">        (slice(0, 256, None), slice(512, 768, None)),</span>
+<span class="go">        (slice(0, 256, None), slice(768, 1024, None))],</span>
+<span class="go">       [(slice(256, 512, None), slice(0, 256, None)),</span>
+<span class="go">        (slice(256, 512, None), slice(256, 512, None)),</span>
+<span class="go">        (slice(256, 512, None), slice(512, 768, None)),</span>
+<span class="go">        (slice(256, 512, None), slice(768, 1024, None))]],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;), (&#39;1&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sub-tile-shape-constraint">
+<h2>Sub-tile shape constraint<a class="headerlink" href="#sub-tile-shape-constraint" title="Permalink to this headline">¶</a></h2>
+<p>The split can also be influenced by specifying the <code class="samp docutils literal"><em><span class="pre">sub_tile_shape</span></em></code>
+parameter which forces the tile shape to be an even multiple of
+the <code class="samp docutils literal"><em><span class="pre">sub_tile_shape</span></em></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">(</span>
+<span class="gp">... </span>  <span class="n">array_shape</span><span class="o">=</span><span class="p">[</span><span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">],</span>
+<span class="gp">... </span>  <span class="n">array_itemsize</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">max_tile_bytes</span><span class="o">=</span><span class="mi">512</span><span class="o">*</span><span class="mi">512</span><span class="p">,</span>
+<span class="gp">... </span>  <span class="n">max_tile_shape</span><span class="o">=</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span>
+<span class="gp">... </span>  <span class="n">sub_tile_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(3, 5)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([[(slice(0, 180, None), slice(0, 210, None)),</span>
+<span class="go">        (slice(0, 180, None), slice(210, 420, None)),</span>
+<span class="go">        (slice(0, 180, None), slice(420, 630, None)),</span>
+<span class="go">        (slice(0, 180, None), slice(630, 840, None)),</span>
+<span class="go">        (slice(0, 180, None), slice(840, 1024, None))],</span>
+<span class="go">       [(slice(180, 360, None), slice(0, 210, None)),</span>
+<span class="go">        (slice(180, 360, None), slice(210, 420, None)),</span>
+<span class="go">        (slice(180, 360, None), slice(420, 630, None)),</span>
+<span class="go">        (slice(180, 360, None), slice(630, 840, None)),</span>
+<span class="go">        (slice(180, 360, None), slice(840, 1024, None))],</span>
+<span class="go">       [(slice(360, 512, None), slice(0, 210, None)),</span>
+<span class="go">        (slice(360, 512, None), slice(210, 420, None)),</span>
+<span class="go">        (slice(360, 512, None), slice(420, 630, None)),</span>
+<span class="go">        (slice(360, 512, None), slice(630, 840, None)),</span>
+<span class="go">        (slice(360, 512, None), slice(840, 1024, None))]],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;), (&#39;1&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="the-array-start-parameter">
+<span id="the-array-start-parameter-examples"></span><h1>The <code class="samp docutils literal"><em><span class="pre">array_start</span></em></code> parameter<a class="headerlink" href="#the-array-start-parameter" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="samp docutils literal"><em><span class="pre">array_start</span></em></code> argument to the <a class="reference internal" href="../reference/generated/array_split.shape_split.html#array_split.shape_split" title="array_split.shape_split"><code class="xref py py-func docutils literal"><span class="pre">array_split.shape_split()</span></code></a> function
+and the <a class="reference internal" href="../reference/generated/generated/methods/array_split.ShapeSplitter.__init__.html#array_split.ShapeSplitter.__init__" title="array_split.ShapeSplitter.__init__"><code class="xref py py-meth docutils literal"><span class="pre">array_split.ShapeSplitter.__init__()</span></code></a> constructor specifies
+an index offset for the slices in the returned <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">tuple</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/functions.html#slice" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">slice</span></code></a> objects:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">((</span><span class="mi">15</span><span class="p">,),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(0, 5, None),), (slice(5, 10, None),), (slice(10, 15, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">((</span><span class="mi">15</span><span class="p">,),</span> <span class="mi">3</span><span class="p">,</span> <span class="n">array_start</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(20, 25, None),), (slice(25, 30, None),),</span>
+<span class="go">       (slice(30, 35, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-halo-parameter">
+<span id="the-halo-parameter-examples"></span><h1>The <code class="samp docutils literal"><em><span class="pre">halo</span></em></code> parameter<a class="headerlink" href="#the-halo-parameter" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="samp docutils literal"><em><span class="pre">halo</span></em></code> parameter can be used to generate tiles
+which overlap with neighbouring tiles by a specified number
+of array elements (in each axis direction):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">array_split</span> <span class="k">import</span> <span class="n">ARRAY_BOUNDS</span><span class="p">,</span> <span class="n">NO_BOUNDS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">([</span><span class="mi">16</span><span class="p">,],</span> <span class="mi">4</span><span class="p">)</span> <span class="c1"># No halo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(4,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(0, 4, None),), (slice(4, 8, None),), (slice(8, 12, None),),</span>
+<span class="go">       (slice(12, 16, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">([</span><span class="mi">16</span><span class="p">,],</span> <span class="mi">4</span><span class="p">,</span> <span class="n">halo</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tile_bounds_policy</span><span class="o">=</span><span class="n">ARRAY_BOUNDS</span><span class="p">)</span> <span class="c1"># halo width = 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(4,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(0, 6, None),), (slice(2, 10, None),), (slice(6, 14, None),),</span>
+<span class="go">       (slice(10, 16, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">(</span>
+<span class="gp">... </span><span class="p">[</span><span class="mi">16</span><span class="p">,],</span>
+<span class="gp">... </span><span class="mi">4</span><span class="p">,</span>
+<span class="gp">... </span><span class="n">halo</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span><span class="n">tile_bounds_policy</span><span class="o">=</span><span class="n">NO_BOUNDS</span>  <span class="c1"># halo width = 2 and tile halos extend outside array_shape bounds</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(4,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(-2, 6, None),), (slice(2, 10, None),), (slice(6, 14, None),),</span>
+<span class="go">       (slice(10, 18, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+<p>The <code class="samp docutils literal"><span class="pre">tile_bounds_policy</span></code> parameter specifies whether the <code class="samp docutils literal"><em><span class="pre">halo</span></em></code>
+extended tiles can extend beyond the bounding box defined by the <em>start</em>
+index <code class="samp docutils literal"><em><span class="pre">array_start</span></em></code> and the <em>stop</em> index <code class="samp docutils literal"><em><span class="pre">array_start</span></em> <span class="pre">+</span> <em><span class="pre">array_shape</span></em></code>.</p>
+<p>Asymmetric halo extensions can also be specified:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">(</span>
+<span class="gp">... </span><span class="p">[</span><span class="mi">16</span><span class="p">,],</span>
+<span class="gp">... </span><span class="mi">4</span><span class="p">,</span>
+<span class="gp">... </span><span class="n">halo</span><span class="o">=</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),),</span>
+<span class="gp">... </span><span class="n">tile_bounds_policy</span><span class="o">=</span><span class="n">NO_BOUNDS</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(4,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([(slice(-1, 6, None),), (slice(3, 10, None),), (slice(7, 14, None),),</span>
+<span class="go">       (slice(11, 18, None),)],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+<p>For an <code class="samp docutils literal"><span class="pre">N</span></code> dimensional split (i.e. <code class="samp docutils literal"><span class="pre">N</span> <span class="pre">=</span> <span class="pre">len(array_shape)</span></code>), the <code class="samp docutils literal"><em><span class="pre">halo</span></em></code>
+parameter can be either a</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>scalar</dt>
+<dd>Tiles are extended by <code class="samp docutils literal"><em><span class="pre">halo</span></em></code> elements in the negative and positive
+directions for all axes.</dd>
+<dt>1D sequence</dt>
+<dd>Tiles are extended by <code class="samp docutils literal"><em><span class="pre">halo[a]</span></em></code> elements in the negative and positive
+directions for axis <code class="samp docutils literal"><span class="pre">a</span></code>.</dd>
+<dt>2D sequence</dt>
+<dd>Tiles are extended by <code class="samp docutils literal"><em><span class="pre">halo[a][0]</span></em></code> elements in the negative direction
+and <code class="samp docutils literal"><em><span class="pre">halo[a][1]</span></em></code> in the positive direction for axis <code class="samp docutils literal"><span class="pre">a</span></code>.</dd>
+</dl>
+</div></blockquote>
+<p>For example, in 3D:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">(</span>
+<span class="gp">... </span><span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+<span class="gp">... </span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span><span class="n">halo</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># halo=1 in +ve and -ve directions for all axes</span>
+<span class="gp">... </span><span class="n">tile_bounds_policy</span><span class="o">=</span><span class="n">NO_BOUNDS</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 1, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([[[(slice(-1, 9, None), slice(-1, 9, None), slice(-1, 9, None))]],</span>
+
+<span class="go">       [[(slice(7, 17, None), slice(-1, 9, None), slice(-1, 9, None))]]],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;), (&#39;1&#39;, &#39;O&#39;), (&#39;2&#39;, &#39;O&#39;)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">(</span>
+<span class="gp">... </span><span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+<span class="gp">... </span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span><span class="n">halo</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>  <span class="c1"># halo=1 for axis 0, halo=2 for axis 1, halo=3 for axis=2</span>
+<span class="gp">... </span><span class="n">tile_bounds_policy</span><span class="o">=</span><span class="n">NO_BOUNDS</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 1, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([[[(slice(-1, 9, None), slice(-2, 10, None), slice(-3, 11, None))]],</span>
+
+<span class="go">       [[(slice(7, 17, None), slice(-2, 10, None), slice(-3, 11, None))]]],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;), (&#39;1&#39;, &#39;O&#39;), (&#39;2&#39;, &#39;O&#39;)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span> <span class="o">=</span> <span class="n">shape_split</span><span class="p">(</span>
+<span class="gp">... </span><span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+<span class="gp">... </span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span><span class="n">halo</span><span class="o">=</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)),</span>  <span class="c1"># halo=1 for -ve axis 0, halo=2 for +ve axis 0</span>
+<span class="gp">... </span>                                <span class="c1"># halo=3 for -ve axis 1, halo=4 for +ve axis 1</span>
+<span class="gp">... </span>                                <span class="c1"># halo=5 for -ve axis 2, halo=6 for +ve axis 2</span>
+<span class="gp">... </span><span class="n">tile_bounds_policy</span><span class="o">=</span><span class="n">NO_BOUNDS</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 1, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split</span>
+<span class="go">array([[[(slice(-1, 10, None), slice(-3, 12, None), slice(-5, 14, None))]],</span>
+
+<span class="go">       [[(slice(7, 18, None), slice(-3, 12, None), slice(-5, 14, None))]]],</span>
+<span class="go">      dtype=[(&#39;0&#39;, &#39;O&#39;), (&#39;1&#39;, &#39;O&#39;), (&#39;2&#39;, &#39;O&#39;)])</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../reference/index.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../about/index.html" class="btn btn-neutral" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright  2017 The Australian National University.
+.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.6.xdev2-9-ge07abe3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

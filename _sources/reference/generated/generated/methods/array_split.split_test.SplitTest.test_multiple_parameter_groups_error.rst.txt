@@ -1,0 +1,6 @@
+array\_split\.split\_test\.SplitTest\.test\_multiple\_parameter\_groups\_error
+==============================================================================
+
+.. currentmodule:: array_split.split_test
+
+.. automethod:: SplitTest.test_multiple_parameter_groups_error

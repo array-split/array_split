@@ -1,0 +1,28 @@
+array_split.tests.DocTestTestSuite
+==================================
+
+.. currentmodule:: array_split.tests
+
+.. autoclass:: DocTestTestSuite
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: generated/methods
+
+   
+      ~DocTestTestSuite.__init__
+      ~DocTestTestSuite.addTest
+      ~DocTestTestSuite.addTests
+      ~DocTestTestSuite.countTestCases
+      ~DocTestTestSuite.debug
+      ~DocTestTestSuite.run
+   
+   
+
+   
+   
+   

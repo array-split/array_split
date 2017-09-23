@@ -1,0 +1,6 @@
+array\_split\.split\_test\.SplitTest\.test\_calculate\_split\_by\_tile\_shape\_1d
+=================================================================================
+
+.. currentmodule:: array_split.split_test
+
+.. automethod:: SplitTest.test_calculate_split_by_tile_shape_1d

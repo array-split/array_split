@@ -1,0 +1,6 @@
+array\_split\.split\_test\.SplitTest\.test\_calculate\_num\_slices\_per\_axis
+=============================================================================
+
+.. currentmodule:: array_split.split_test
+
+.. automethod:: SplitTest.test_calculate_num_slices_per_axis

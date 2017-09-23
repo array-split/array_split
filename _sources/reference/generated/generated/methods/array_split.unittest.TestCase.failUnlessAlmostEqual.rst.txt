@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.failUnlessAlmostEqual
+=======================================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.failUnlessAlmostEqual

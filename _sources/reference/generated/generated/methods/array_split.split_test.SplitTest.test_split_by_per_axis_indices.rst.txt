@@ -1,0 +1,6 @@
+array\_split\.split\_test\.SplitTest\.test\_split\_by\_per\_axis\_indices
+=========================================================================
+
+.. currentmodule:: array_split.split_test
+
+.. automethod:: SplitTest.test_split_by_per_axis_indices

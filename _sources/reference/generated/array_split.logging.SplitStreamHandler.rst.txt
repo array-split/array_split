@@ -1,0 +1,47 @@
+array_split.logging.SplitStreamHandler
+======================================
+
+.. currentmodule:: array_split.logging
+
+.. autoclass:: SplitStreamHandler
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :toctree: generated/methods
+
+   
+      ~SplitStreamHandler.__init__
+      ~SplitStreamHandler.acquire
+      ~SplitStreamHandler.addFilter
+      ~SplitStreamHandler.close
+      ~SplitStreamHandler.createLock
+      ~SplitStreamHandler.emit
+      ~SplitStreamHandler.filter
+      ~SplitStreamHandler.flush
+      ~SplitStreamHandler.format
+      ~SplitStreamHandler.get_name
+      ~SplitStreamHandler.handle
+      ~SplitStreamHandler.handleError
+      ~SplitStreamHandler.release
+      ~SplitStreamHandler.removeFilter
+      ~SplitStreamHandler.setFormatter
+      ~SplitStreamHandler.setLevel
+      ~SplitStreamHandler.set_name
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+      :toctree: generated/attribs
+   
+      ~SplitStreamHandler.name
+      ~SplitStreamHandler.terminator
+   
+   

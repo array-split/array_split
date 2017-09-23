@@ -1,0 +1,6 @@
+array\_split\.split\_test\.SplitTest\.test\_convert\_halo\_to\_array\_form
+==========================================================================
+
+.. currentmodule:: array_split.split_test
+
+.. automethod:: SplitTest.test_convert_halo_to_array_form

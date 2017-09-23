@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.setUp
+=======================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.setUp

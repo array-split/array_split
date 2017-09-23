@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.calculate\_split\_halos\_from\_extents
+===================================================================
+
+.. currentmodule:: array_split
+
+.. automethod:: ShapeSplitter.calculate_split_halos_from_extents

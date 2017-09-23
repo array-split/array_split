@@ -1,0 +1,6 @@
+array\_split\.tests\.MultiPlatformAnd23Checker\.output\_difference
+==================================================================
+
+.. currentmodule:: array_split.tests
+
+.. automethod:: MultiPlatformAnd23Checker.output_difference

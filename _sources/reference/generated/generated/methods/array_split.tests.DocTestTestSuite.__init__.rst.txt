@@ -1,0 +1,6 @@
+array\_split\.tests\.DocTestTestSuite\.\_\_init\_\_
+===================================================
+
+.. currentmodule:: array_split.tests
+
+.. automethod:: DocTestTestSuite.__init__

@@ -1,0 +1,6 @@
+array\_split\.split\.convert\_halo\_to\_array\_form
+===================================================
+
+.. currentmodule:: array_split.split
+
+.. autofunction:: convert_halo_to_array_form

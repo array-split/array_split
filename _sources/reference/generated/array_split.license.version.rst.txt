@@ -1,0 +1,6 @@
+array\_split\.license\.version
+==============================
+
+.. currentmodule:: array_split.license
+
+.. autofunction:: version

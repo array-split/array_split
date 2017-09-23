@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.failUnless
+============================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.failUnless

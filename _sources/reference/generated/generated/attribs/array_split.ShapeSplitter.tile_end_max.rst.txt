@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.tile\_end\_max
+===========================================
+
+.. currentmodule:: array_split
+
+.. autoattribute:: ShapeSplitter.tile_end_max

@@ -1,0 +1,6 @@
+array\_split\.split\.ShapeSplitter\.calculate\_split
+====================================================
+
+.. currentmodule:: array_split.split
+
+.. automethod:: ShapeSplitter.calculate_split

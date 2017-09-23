@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.check\_consistent\_parameter\_grouping
+===================================================================
+
+.. currentmodule:: array_split
+
+.. automethod:: ShapeSplitter.check_consistent_parameter_grouping

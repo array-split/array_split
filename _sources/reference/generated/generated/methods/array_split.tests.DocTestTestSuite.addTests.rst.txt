@@ -1,0 +1,6 @@
+array\_split\.tests\.DocTestTestSuite\.addTests
+===============================================
+
+.. currentmodule:: array_split.tests
+
+.. automethod:: DocTestTestSuite.addTests

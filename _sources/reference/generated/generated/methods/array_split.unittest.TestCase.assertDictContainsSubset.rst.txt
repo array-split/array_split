@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.assertDictContainsSubset
+==========================================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.assertDictContainsSubset

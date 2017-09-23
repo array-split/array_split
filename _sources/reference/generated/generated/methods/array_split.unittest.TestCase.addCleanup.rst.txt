@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.addCleanup
+============================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.addCleanup

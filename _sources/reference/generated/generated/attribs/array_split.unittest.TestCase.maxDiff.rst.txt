@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.maxDiff
+=========================================
+
+.. currentmodule:: array_split.unittest
+
+.. autoattribute:: TestCase.maxDiff

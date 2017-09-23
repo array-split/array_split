@@ -1,0 +1,6 @@
+array\_split\.split\.ShapeSplitter\.set\_split\_extents
+=======================================================
+
+.. currentmodule:: array_split.split
+
+.. automethod:: ShapeSplitter.set_split_extents

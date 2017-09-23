@@ -1,0 +1,6 @@
+array\_split\.array\_split
+==========================
+
+.. currentmodule:: array_split
+
+.. autofunction:: array_split

@@ -1,0 +1,6 @@
+array\_split\.logging\.SplitStreamHandler\.terminator
+=====================================================
+
+.. currentmodule:: array_split.logging
+
+.. autoattribute:: SplitStreamHandler.terminator

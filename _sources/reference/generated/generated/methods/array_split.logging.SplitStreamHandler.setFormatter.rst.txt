@@ -1,0 +1,6 @@
+array\_split\.logging\.SplitStreamHandler\.setFormatter
+=======================================================
+
+.. currentmodule:: array_split.logging
+
+.. automethod:: SplitStreamHandler.setFormatter

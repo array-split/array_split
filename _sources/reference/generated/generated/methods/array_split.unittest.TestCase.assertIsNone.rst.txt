@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.assertIsNone
+==============================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.assertIsNone

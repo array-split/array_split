@@ -1,0 +1,6 @@
+array\_split\.logging\.SplitStreamHandler\.removeFilter
+=======================================================
+
+.. currentmodule:: array_split.logging
+
+.. automethod:: SplitStreamHandler.removeFilter

@@ -1,0 +1,6 @@
+array\_split\.split\.ShapeSplitter\.calculate\_split\_by\_tile\_shape
+=====================================================================
+
+.. currentmodule:: array_split.split
+
+.. automethod:: ShapeSplitter.calculate_split_by_tile_shape

@@ -1,0 +1,6 @@
+array\_split\.license\.copyright
+================================
+
+.. currentmodule:: array_split.license
+
+.. autofunction:: copyright

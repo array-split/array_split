@@ -1,0 +1,6 @@
+array\_split\.tests\.DocTestTestSuite\.run
+==========================================
+
+.. currentmodule:: array_split.tests
+
+.. automethod:: DocTestTestSuite.run

@@ -1,0 +1,6 @@
+array\_split\.split\.ShapeSplitter\.update\_tile\_extent\_bounds
+================================================================
+
+.. currentmodule:: array_split.split
+
+.. automethod:: ShapeSplitter.update_tile_extent_bounds

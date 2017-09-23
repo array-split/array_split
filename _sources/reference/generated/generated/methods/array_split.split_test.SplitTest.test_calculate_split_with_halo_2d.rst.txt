@@ -1,0 +1,6 @@
+array\_split\.split\_test\.SplitTest\.test\_calculate\_split\_with\_halo\_2d
+============================================================================
+
+.. currentmodule:: array_split.split_test
+
+.. automethod:: SplitTest.test_calculate_split_with_halo_2d

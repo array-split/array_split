@@ -1,0 +1,6 @@
+array\_split\.split\_test\.SplitTest\.test\_pad\_with\_object
+=============================================================
+
+.. currentmodule:: array_split.split_test
+
+.. automethod:: SplitTest.test_pad_with_object

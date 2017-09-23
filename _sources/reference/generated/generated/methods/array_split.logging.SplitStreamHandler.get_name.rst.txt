@@ -1,0 +1,6 @@
+array\_split\.logging\.SplitStreamHandler\.get\_name
+====================================================
+
+.. currentmodule:: array_split.logging
+
+.. automethod:: SplitStreamHandler.get_name

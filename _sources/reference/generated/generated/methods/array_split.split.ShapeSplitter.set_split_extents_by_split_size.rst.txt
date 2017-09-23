@@ -1,0 +1,6 @@
+array\_split\.split\.ShapeSplitter\.set\_split\_extents\_by\_split\_size
+========================================================================
+
+.. currentmodule:: array_split.split
+
+.. automethod:: ShapeSplitter.set_split_extents_by_split_size

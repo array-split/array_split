@@ -1,0 +1,6 @@
+array\_split\.split\.calculate\_tile\_shape\_for\_max\_bytes
+============================================================
+
+.. currentmodule:: array_split.split
+
+.. autofunction:: calculate_tile_shape_for_max_bytes

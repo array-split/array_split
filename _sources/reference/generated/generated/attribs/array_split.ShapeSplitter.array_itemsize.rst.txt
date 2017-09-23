@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.array\_itemsize
+============================================
+
+.. currentmodule:: array_split
+
+.. autoattribute:: ShapeSplitter.array_itemsize

@@ -1,0 +1,6 @@
+array\_split\.logging\.initialise\_loggers
+==========================================
+
+.. currentmodule:: array_split.logging
+
+.. autofunction:: initialise_loggers

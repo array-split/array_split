@@ -1,0 +1,6 @@
+array\_split\.split\.is\_indices
+================================
+
+.. currentmodule:: array_split.split
+
+.. autofunction:: is_indices

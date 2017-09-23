@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.assertLessEqual
+=================================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.assertLessEqual

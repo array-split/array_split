@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.\_\_init\_\_
+==============================================
+
+.. currentmodule:: array_split.unittest
+
+.. automethod:: TestCase.__init__

@@ -1,0 +1,6 @@
+array\_split\.split\.ShapeSplitter\.split\_begs
+===============================================
+
+.. currentmodule:: array_split.split
+
+.. autoattribute:: ShapeSplitter.split_begs

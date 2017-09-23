@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.logger
+===================================
+
+.. currentmodule:: array_split
+
+.. autoattribute:: ShapeSplitter.logger

@@ -1,0 +1,6 @@
+array\_split\.unittest\.TestCase\.longMessage
+=============================================
+
+.. currentmodule:: array_split.unittest
+
+.. autoattribute:: TestCase.longMessage

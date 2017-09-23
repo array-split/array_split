@@ -1,0 +1,6 @@
+array\_split\.ShapeSplitter\.max\_tile\_bytes
+=============================================
+
+.. currentmodule:: array_split
+
+.. autoattribute:: ShapeSplitter.max_tile_bytes

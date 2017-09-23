@@ -1,0 +1,6 @@
+array\_split\.logging\.get\_formatter
+=====================================
+
+.. currentmodule:: array_split.logging
+
+.. autofunction:: get_formatter
