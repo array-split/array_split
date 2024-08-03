@@ -94,7 +94,7 @@ class _Python2SplitStreamHandler(_builtin_logging.Handler):
             stream.flush()
         except (KeyboardInterrupt, SystemExit):
             raise
-        except:
+        except Exception:
             self.handleError(record)
 
 
@@ -162,7 +162,7 @@ class _Python3SplitStreamHandler(_builtin_logging.Handler):
             self.flush()
         except (KeyboardInterrupt, SystemExit):  # pragma: no cover
             raise
-        except:
+        except Exception:
             self.handleError(record)
 
 
