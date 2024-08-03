@@ -1251,7 +1251,7 @@ class ShapeSplitter(object):
                     _np.array(
                         _np.unravel_index(
                             _np.arange(0, _np.prod(self.split_shape)),
-                            self.split_shape
+                            self.split_shape if self.split_shape is not None else tuple()
                         )
                     ).T
                 ],
@@ -1303,7 +1303,7 @@ class ShapeSplitter(object):
                     _np.array(
                         _np.unravel_index(
                             _np.arange(0, _np.prod(self.split_shape)),
-                            self.split_shape
+                            self.split_shape if self.split_shape is not None else tuple()
                         )
                     ).T
                 ],
