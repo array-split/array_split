@@ -4,6 +4,7 @@ To be replaced.
 # pylint: disable=redefined-builtin
 from __future__ import absolute_import
 import pkg_resources as _pkg_resources
+from . import _version
 
 __copyright__ = _pkg_resources.resource_string("array_split", "copyright.txt").decode()
 __license__ = (
@@ -14,7 +15,7 @@ __license__ = (
     _pkg_resources.resource_string("array_split", "license.txt").decode()
 )
 __author__ = "Shane J. Latham"
-__version__ = _pkg_resources.resource_string("array_split", "version.txt").decode().strip()
+__version__ = _version.get_versions()['version']
 
 
 def version():
