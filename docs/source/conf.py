@@ -15,6 +15,9 @@
 import sys
 import os
 import shlex
+import array_split as _array_split
+
+array_split_version = _array_split.__version__
 
 # on_rtd is whether we are on readthedocs.org, this line of code grabbed from docs.readthedocs.org
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
@@ -80,9 +83,9 @@ author = u'Shane J. Latham'
 # built documents.
 #
 # The short X.Y version.
-version = open(os.path.join(conf_dir, "..", "..", "array_split", "version.txt"), "rt").read()
+version = array_split_version
 # The full version, including alpha/beta/rc tags.
-release = open(os.path.join(conf_dir, "..", "..", "array_split", "git_describe.txt"), "rt").read()
+release = _array_split._version.get_versions()["full-revisionid"]
 
 suppress_warnings = ['image.nonlocal_uri']
 
@@ -91,7 +94,7 @@ suppress_warnings = ['image.nonlocal_uri']
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -407,8 +410,8 @@ epub_exclude_files = ['search.html']
 # Example configuration for intersphinx: refer to the Python standard library.
 #intersphinx_mapping = {'https://docs.python.org/': None}
 intersphinx_mapping = {
-    'python'    : ('http://docs.python.org/3', None),
-    'numpy'     : ('http://docs.scipy.org/doc/numpy/', None),
+    'python'    : ('https://docs.python.org/3', None),
+    'numpy'     : ('https://docs.scipy.org/doc/numpy/', None),
 }
 
 # -----------------------------------------------------------------------------
