@@ -1229,20 +1229,20 @@ class ShapeSplitter(object):
                     tuple(
                         [
                             slice(
-                                max([
+                                int(max([
                                     self.split_begs[d][idx[d]]
                                     + self.array_start[d]
                                     - self.halo[d, 0]
                                     * (self.split_ends[d][idx[d]] > self.split_begs[d][idx[d]]),
                                     self.tile_beg_min[d]
-                                ]),
-                                min([
+                                ])),
+                                int(min([
                                     self.split_ends[d][idx[d]]
                                     + self.array_start[d]
                                     + self.halo[d, 1]
                                     * (self.split_ends[d][idx[d]] > self.split_begs[d][idx[d]]),
                                     self.tile_end_max[d]
-                                ])
+                                ]))
                             )
                             for d in range(len(self.split_shape))
                         ]
