@@ -1,0 +1,22 @@
+[build-system]
+requires = [
+  "setuptools>=42",
+  "versioneer[toml]",
+  "numpy>=1.6"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "array_split"
+dependencies = [
+    "numpy>=1.6",
+]
+dynamic = ["version"]
+
+[tool.versioneer]
+VCS = "git"
+style = "pep440"
+versionfile_source = "array_split/_version.py"
+versionfile_build = "array_split/_version.py"
+tag_prefix = "v"
+parentdir_prefix = "array_split-"

@@ -1455,7 +1455,7 @@ class SplitTest(_unittest.TestCase):
         splt = splitter.calculate_split()
         splt_halos = splitter.calculate_split_halos_from_extents()
         self.assertSequenceEqual(splt.shape, splt_halos.shape)
-        self.assertTrue(_np.all(splt_halos.astype(_np.int64) == 0))
+        self.assertTrue(_np.all(_np.asarray(splt_halos.tolist()) == 0))
 
         # Some tiles narrower than halo width
         splitter = ShapeSplitter((15, 13), axis=[3, 3], halo=5, tile_bounds_policy=ARRAY_BOUNDS)
@@ -1474,7 +1474,7 @@ class SplitTest(_unittest.TestCase):
         splt = splitter.calculate_split()
         splt_halos = splitter.calculate_split_halos_from_extents()
         self.assertSequenceEqual(splt.shape, splt_halos.shape)
-        self.assertTrue(_np.all(splt_halos.astype(_np.int64) == 0))
+        self.assertTrue(_np.all(_np.asarray(splt_halos.tolist()) == 0))
 
         # Tiles narrower than halo width
         splitter = ShapeSplitter((5, 13), axis=[5, 3], halo=5, tile_bounds_policy=ARRAY_BOUNDS)

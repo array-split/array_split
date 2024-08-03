@@ -142,4 +142,6 @@ def load_tests(loader, tests, pattern):  # pylint: disable=unused-argument
 __all__ = [s for s in dir() if not s.startswith('_')]
 
 if __name__ == "__main__":
+    # import logging
+    # logging.basicConfig(level=logging.DEBUG)
     _unittest.main()

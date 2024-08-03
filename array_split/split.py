@@ -179,7 +179,7 @@ def pad_with_none(sequence, new_length):
 def shape_factors(n, dim=2):
     """
     Returns a :obj:`numpy.ndarray` of factors :samp:`f` such
-    that :samp:`(len(f) == {dim}) and (numpy.product(f) == {n})`.
+    that :samp:`(len(f) == {dim}) and (numpy.prod(f) == {n})`.
     The returned factors are as *square* (*cubic*, etc) as possible.
     For example::
 
@@ -225,7 +225,7 @@ def calculate_tile_shape_for_max_bytes(
 ):
     """
     Returns a tile shape :samp:`tile_shape`
-    such that :samp:`numpy.product(tile_shape)*numpy.sum({array_itemsize}) <= {max_tile_bytes}`.
+    such that :samp:`numpy.prod(tile_shape)*numpy.sum({array_itemsize}) <= {max_tile_bytes}`.
     Also, if :samp:`{max_tile_shape} is not None`
     then :samp:`numpy.all(tile_shape <= {max_tile_shape}) is True` and
     if :samp:`{sub_tile_shape} is not None`
@@ -340,7 +340,7 @@ def calculate_tile_shape_for_max_bytes(
         and
         (
             (
-                _np.product(tile_sub_tile_split_shape * sub_tile_shape + _np.sum(halo, axis=1))
+                _np.prod(tile_sub_tile_split_shape * sub_tile_shape + _np.sum(halo, axis=1))
                 *
                 array_itemsize
             )
@@ -355,7 +355,7 @@ def calculate_tile_shape_for_max_bytes(
                     max_tile_bytes
                     //
                     (
-                        _np.product(
+                        _np.prod(
                             tile_sub_tile_split_shape *
                             sub_tile_shape +
                             _np.sum(
@@ -375,10 +375,10 @@ def calculate_tile_shape_for_max_bytes(
                     (
                         (max_tile_bytes / float(array_itemsize))
                         -
-                        _np.sum(halo[current_axis]) * _np.product(sub_tile_shape_h[0:current_axis])
+                        _np.sum(halo[current_axis]) * _np.prod(sub_tile_shape_h[0:current_axis])
                     )
                     /
-                    float(_np.product(sub_tile_shape_h))
+                    float(_np.prod(sub_tile_shape_h))
                 ))
         current_axis += 1
 
@@ -399,7 +399,7 @@ def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_pe
     """
     Returns a :obj:`numpy.ndarray` (:samp:`return_array` say) where non-positive elements of
     the :samp:`{num_slices_per_axis}` sequence have been replaced with
-    positive integer values such that :samp:`numpy.product(return_array) == num_slices`
+    positive integer values such that :samp:`numpy.prod(return_array) == num_slices`
     and::
 
        numpy.all(
@@ -417,13 +417,13 @@ def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_pe
     :type num_slices: integer
     :param num_slices: Indicates the number of slices (rectangular sub-arrays)
        formed by performing sub-divisions per axis. The returned array :samp:`return_array`
-       has elements assigned such that :samp:`numpy.product(return_array) == {num_slices}`.
+       has elements assigned such that :samp:`numpy.prod(return_array) == {num_slices}`.
     :type max_slices_per_axis: sequence of :obj:`int` (or :samp:`None`)
     :param max_slices_per_axis: Constraint specifying maximum number of per-axis sub-divisions.
        If :samp:`None` defaults to :samp:`numpy.array([numpy.inf,]*len({num_slices_per_axis}))`.
     :rtype: :obj:`numpy.ndarray`
     :return: An array :samp:`return_array`
-       such that :samp:`numpy.product(return_array) == num_slices`.
+       such that :samp:`numpy.prod(return_array) == num_slices`.
 
 
     Examples::
@@ -451,7 +451,7 @@ def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_pe
         raise ValueError("Got non-positive value in max_slices_per_axis=%s" % max_slices_per_axis)
 
     while _np.any(ret_array <= 0):
-        prd = _np.product(ret_array[_np.where(ret_array > 0)])  # returns 1 for zero-length array
+        prd = _np.prod(ret_array[_np.where(ret_array > 0)])  # returns 1 for zero-length array
         if (num_slices < prd) or ((num_slices % prd) > 0):
             raise ValueError(
                 (
@@ -470,10 +470,10 @@ def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_pe
             for i in range(ridx[0].shape[0]):
                 if f[i] >= max_slices_per_axis[ridx[0][i]]:
                     ret_array[ridx[0][i]] = max_slices_per_axis[ridx[0][i]]
-                    prd = _np.product(ret_array[_np.where(ret_array > 0)])
+                    prd = _np.prod(ret_array[_np.where(ret_array > 0)])
                     while (num_slices % prd) > 0:
                         ret_array[ridx[0][i]] -= 1
-                        prd = _np.product(ret_array[_np.where(ret_array > 0)])
+                        prd = _np.prod(ret_array[_np.where(ret_array > 0)])
         logger.debug(
             "ridx=%s, f=%s, ret_array=%s, max_slices_per_axis=%s",
             ridx, f, ret_array, max_slices_per_axis
@@ -670,7 +670,7 @@ class ShapeSplitter(object):
        >>> split
        array([(slice(0, 4, None),), (slice(4, 7, None),), (slice(7, 10, None),)],
              dtype=[('0', 'O')])
-       >>> [ary[slyce] for slyce in split.flatten()]
+       >>> [ary[slyce] for slyce in split.flatten().tolist()]
        [array([0, 1, 2, 3]), array([4, 5, 6]), array([7, 8, 9])]
        >>>
        >>> splitter.split_shape # equivalent to split.shape above
@@ -1250,7 +1250,7 @@ class ShapeSplitter(object):
                     for idx in
                     _np.array(
                         _np.unravel_index(
-                            _np.arange(0, _np.product(self.split_shape)),
+                            _np.arange(0, _np.prod(self.split_shape)),
                             self.split_shape
                         )
                     ).T
@@ -1302,7 +1302,7 @@ class ShapeSplitter(object):
                     for idx in
                     _np.array(
                         _np.unravel_index(
-                            _np.arange(0, _np.product(self.split_shape)),
+                            _np.arange(0, _np.prod(self.split_shape)),
                             self.split_shape
                         )
                     ).T
@@ -1373,7 +1373,7 @@ class ShapeSplitter(object):
                 and
                 _np.all([s > 0 for s in self.split_num_slices_per_axis])
             ):
-                self.split_size = _np.product(self.split_num_slices_per_axis)
+                self.split_size = _np.prod(self.split_num_slices_per_axis)
             else:
                 raise ValueError(
                     (
@@ -1517,7 +1517,10 @@ class ShapeSplitter(object):
         """
 
         self.set_split_extents()
-        return self.calculate_split_from_extents()
+        slyces = self.calculate_split_from_extents()
+        self.logger.debug("type(slyces)=%s", type(slyces))
+        self.logger.debug("slyces=%s", slyces)
+        return slyces
 
 
 ShapeSplitter([0, ]).__init__.__func__.__doc__ = \
@@ -1596,7 +1599,7 @@ def array_split(
     halo=None
 ):
     "To be replaced."
-    return [
+    return list(
         ary[slyce]
         for slyce in
         shape_split(
@@ -1611,8 +1614,8 @@ def array_split(
             sub_tile_shape=sub_tile_shape,
             halo=halo,
             tile_bounds_policy=ARRAY_BOUNDS
-        ).flatten()
-    ]
+        ).flatten().tolist()
+    )
 
 
 array_split.__doc__ =\

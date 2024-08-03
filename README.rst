@@ -10,12 +10,9 @@
 .. image:: https://img.shields.io/pypi/v/array_split.svg
    :target: https://pypi.python.org/pypi/array_split/
    :alt: array_split python package
-.. image:: https://travis-ci.org/array-split/array_split.svg?branch=dev
-   :target: https://travis-ci.org/array-split/array_split
-   :alt: TravisCI Status
-.. image:: https://ci.appveyor.com/api/projects/status/oprsw5rfr07m77o0?svg=true
-   :target: https://ci.appveyor.com/project/array-split/array-split
-   :alt: AppVeyor Status
+.. image:: https://github.com/array-split/array_split/actions/workflows/python-test.yml/badge.svg
+   :target: https://github.com/array-split/array_split/actions/workflows/python-test.yml
+   :alt: array_split python package
 .. image:: https://readthedocs.org/projects/array-split/badge/?version=stable
    :target: http://array-split.readthedocs.io/en/stable
    :alt: Documentation Status
