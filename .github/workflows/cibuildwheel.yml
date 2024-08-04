@@ -85,3 +85,26 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: ./release_artifacts/*
+
+  pypi-publish:
+    name: Upload release to PyPI
+    needs: [build_sdist, build_wheels]
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/array-split
+    permissions:
+      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
+    steps:
+    steps:
+      - name: Download python sdist and wheels
+        uses: actions/download-artifact@v4
+        with:
+          pattern: array_split-artifact-*
+          path: ./release_artifacts/
+          merge-multiple: true
+
+    - name: Publish package distributions to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: ./release_artifacts/
