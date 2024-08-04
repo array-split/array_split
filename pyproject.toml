@@ -20,6 +20,11 @@ authors = [
 
 description = "The array_split python package is an enhancement to existing numpy.ndarray functions (such as numpy.array_split) which sub-divide a multi-dimensional array into a number of multi-dimensional sub-arrays (slices)"
 readme = "README.rst"
+keywords = [
+  "multi-dimensional-array", "array", "sub-array", "tile", "tiling",
+  "splitting", "split", "partition", "partitioning", "scipy", "numpy",
+  "ndarray", "domain-decomposition", "array-decomposition"
+]
 license = { file="LICENSE.txt" }
 requires-python = ">=3.8"
 classifiers = [
