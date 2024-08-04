@@ -96,7 +96,6 @@ jobs:
     permissions:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
     steps:
-    steps:
       - name: Download python sdist and wheels
         uses: actions/download-artifact@v4
         with:
