@@ -2,6 +2,8 @@
 .settings
 .pydevproject
 build
+dist
+wheelhouse
 array_split/git_describe.txt
 *.pyc
 */_build/*
