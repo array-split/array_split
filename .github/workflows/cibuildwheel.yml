@@ -59,7 +59,7 @@ jobs:
           python -m pip install "setuptools>=42" "versioneer[toml]" "numpy>=1.6"
 
       - name: Create python sdist
-        run: python setup.py sdist --formats=gztar,zip
+        run: python setup.py sdist --formats=zip
 
       - name: Upload python sdist
         uses: actions/upload-artifact@v4
