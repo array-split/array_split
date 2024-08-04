@@ -1,0 +1,100 @@
+name: Python Wheels
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+
+  build_wheels:
+    name: ${{ github.workflow }} Python build wheel on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+        python-version: ["3.11"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name:  Install OS tools
+        shell: bash
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install cibuildwheel
+        run: python -m pip install cibuildwheel==2.19.2
+
+      - name: Build wheels
+        shell: bash
+        run: |
+          python -m cibuildwheel --output-dir wheelhouse
+        env:
+          CIBW_BUILD: "cp38-* cp39-* cp310-* cp311-* cp312-*"
+          # Don't repair macOS wheels
+          CIBW_REPAIR_WHEEL_COMMAND_MACOS: ""
+          CIBW_BEFORE_ALL_LINUX: "/usr/bin/yum install --assumeyes --verbose zip unzip tar"
+          # Run the package tests using `pytest`
+          CIBW_TEST_COMMAND: "python -m array_split.tests -fv || echo 'Tests failed!'"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          # name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          name: cibw-wheels-${{ matrix.os }}
+          path: ./wheelhouse/*.whl
+          retention-days: 10
+
+  build_sdist:
+    name: Build python sdist
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install sdist build dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "setuptools>=42" "versioneer[toml]" "numpy>=1.6"
+
+      - name: Create python sdist
+        run: python setup.py sdist --formats=gztar,zip
+
+      - name: Upload python sdist
+        uses: actions/upload-artifact@v4
+        with:
+          name: cibw-sdist
+          path: ./dist/*
+
+  release:
+    name: Make a Release
+    needs: [build_sdist, build_wheels]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download python sdist and wheels
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cibw-*
+          path: ./release_artifacts/
+          merge-multiple: true
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./release_artifacts/*
