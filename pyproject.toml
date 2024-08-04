@@ -13,6 +13,27 @@ dependencies = [
 ]
 dynamic = ["version"]
 
+authors = [
+  { name="Shane-J-Latham" },
+  { name="array-split" },
+]
+
+description = "The array_split python package is an enhancement to existing numpy.ndarray functions (such as numpy.array_split) which sub-divide a multi-dimensional array into a number of multi-dimensional sub-arrays (slices)"
+readme = "README.rst"
+license = { file="LICENSE.txt" }
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/array-split/array_split"
+Documentation = "https://array-split.readthedocs.io/en/latest/"
+Repository = "https://github.com/array-split/array_split"
+Issues = "https://github.com/array-split/array_split/issues"
+
 [tool.versioneer]
 VCS = "git"
 style = "pep440"
