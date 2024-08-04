@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10"]
+        python-version: ["3.11"]
     steps:
       - uses: actions/checkout@v4
 
@@ -86,7 +86,8 @@ jobs:
         with:
           files: ./release_artifacts/*
 
-  pypi_publish:
+
+  publish:
     name: Upload release to PyPI
     needs: [build_sdist, build_wheels]
     runs-on: ubuntu-latest
