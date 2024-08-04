@@ -104,7 +104,7 @@ jobs:
           path: ./release_artifacts/
           merge-multiple: true
 
-    - name: Publish package distributions to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          packages-dir: ./release_artifacts/
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+          with:
+            packages-dir: ./release_artifacts/
