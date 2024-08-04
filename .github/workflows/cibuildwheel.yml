@@ -86,7 +86,7 @@ jobs:
         with:
           files: ./release_artifacts/*
 
-  pypi-publish:
+  pypi_publish:
     name: Upload release to PyPI
     needs: [build_sdist, build_wheels]
     runs-on: ubuntu-latest
