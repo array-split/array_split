@@ -26,12 +26,11 @@ Classes and Functions
 # pylint: disable=wildcard-import
 # pylint: disable=invalid-name
 
-from __future__ import absolute_import
-
-import sys
 import logging as _builtin_logging
-from logging import *  # noqa: F401,F403
-from .license import license as _license, copyright as _copyright, version as _version
+import sys
+from logging import *
+
+from .license import copyright as _copyright, license as _license, version as _version
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
@@ -39,66 +38,7 @@ __copyright__ = _copyright()
 __version__ = _version()
 
 
-class _Python2SplitStreamHandler(_builtin_logging.Handler):
-
-    """
-    A python :obj:`logging.handlers` :samp:`Handler` class for
-    splitting logging messages to different streams depending on
-    the logging-level.
-    """
-
-    def __init__(self, outstr=sys.stdout, errstr=sys.stderr, splitlevel=_builtin_logging.WARNING):
-        """
-        Initialise with a pair of streams and a threshold level which determines
-        the stream where the messages are writting.
-
-        :type outstr: file-like
-        :param outstr: Logging messages are written to this stream if
-           the message level is less than :samp:`self.splitLevel`.
-        :type errstr: stream
-        :param errstr: Logging messages are written to this stream if
-           the message level is greater-than-or-equal-to :samp:`self.splitLevel`.
-        :type splitlevel: int
-        :param splitlevel: Logging level threshold determining split streams for log messages.
-        """
-        self.outStream = outstr
-        self.errStream = errstr
-        self.splitLevel = splitlevel
-        _builtin_logging.Handler.__init__(self)
-
-    def emit(self, record):
-        """
-        Mostly copy-paste from :obj:`logging.StreamHandler`.
-        """
-        try:
-            msg = self.format(record)
-            if record.levelno < self.splitLevel:
-                stream = self.outStream
-            else:
-                stream = self.errStream
-            fs = "%s\n"
-
-            try:
-                if (isinstance(msg, unicode) and  # noqa: F405
-                        getattr(stream, 'encoding', None)):
-                    ufs = fs.decode(stream.encoding)
-                    try:
-                        stream.write(ufs % msg)
-                    except UnicodeEncodeError:
-                        stream.write((ufs % msg).encode(stream.encoding))
-                else:
-                    stream.write(fs % msg)
-            except UnicodeError:
-                stream.write(fs % msg.encode("UTF-8"))
-
-            stream.flush()
-        except (KeyboardInterrupt, SystemExit):
-            raise
-        except Exception:
-            self.handleError(record)
-
-
-class _Python3SplitStreamHandler(_builtin_logging.Handler):
+class SplitStreamHandler(_builtin_logging.Handler):
 
     """
     A python :obj:`logging.handlers` :samp:`Handler` class for
@@ -162,26 +102,8 @@ class _Python3SplitStreamHandler(_builtin_logging.Handler):
             self.flush()
         except (KeyboardInterrupt, SystemExit):  # pragma: no cover
             raise
-        except Exception:
+        except Exception:  # noqa: BLE001
             self.handleError(record)
-
-
-if sys.version_info[0] <= 2:
-    class SplitStreamHandler(_Python2SplitStreamHandler):
-
-        """
-        To be replaced.
-        """
-
-        __doc__ = _Python2SplitStreamHandler.__doc__
-else:
-    class SplitStreamHandler(_Python3SplitStreamHandler):
-
-        """
-        To be replaced.
-        """
-
-        __doc__ = _Python3SplitStreamHandler.__doc__
 
 
 def get_formatter(prefix_string="ARRSPLT| "):
