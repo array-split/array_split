@@ -16,9 +16,7 @@ Classes and Functions
 
 """
 
-from __future__ import absolute_import
-
-from .license import license as _license, copyright as _copyright, version as _version
+from .license import copyright as _copyright, license as _license, version as _version
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
@@ -26,15 +24,15 @@ __copyright__ = _copyright()
 __version__ = _version()
 
 
-class SplitPlotter(object):
+class SplitPlotter:
     """
     Plots a split.
     """
 
     def __init__(self):
         """
+        Initialise.
         """
-        pass
 
 
 def plot(split):

@@ -40,10 +40,10 @@ Utilities
    pad_with_none - End pads a sequence with :samp:`None` elements.
 
 """
-from __future__ import absolute_import
 import numpy as _np
-from .license import license as _license, copyright as _copyright, version as _version
+
 from . import logging as _logging
+from .license import copyright as _copyright, license as _license, version as _version
 
 __copyright__ = _copyright()
 __version__ = _version()
@@ -151,9 +151,7 @@ def pad_with_object(sequence, new_length, obj=None):
             list(sequence) + [obj, ] * (new_length - len(sequence))
     elif len(sequence) > new_length:
         raise ValueError(
-            "Got len(sequence)=%s which exceeds new_length=%s"
-            %
-            (len(sequence), new_length)
+            f"Got len(sequence)={len(sequence)} which exceeds new_length={new_length}"
         )
 
     return sequence
@@ -302,12 +300,8 @@ def calculate_tile_shape_for_max_bytes(
 
     if _np.any(array_shape < sub_tile_shape):
         raise ValueError(
-            "Got array_shape=%s element less than corresponding sub_tile_shape=%s element."
-            %
-            (
-                array_shape,
-                sub_tile_shape
-            )
+            f"Got array_shape={array_shape} element less than corresponding"
+            f" sub_tile_shape={sub_tile_shape} element."
         )
 
     logger.debug("max_tile_shape=%s", max_tile_shape)
@@ -448,19 +442,15 @@ def calculate_num_slices_per_axis(num_slices_per_axis, num_slices, max_slices_pe
     max_slices_per_axis = _np.array(max_slices_per_axis)
 
     if _np.any(max_slices_per_axis <= 0):
-        raise ValueError("Got non-positive value in max_slices_per_axis=%s" % max_slices_per_axis)
+        raise ValueError(f"Got non-positive value in max_slices_per_axis={max_slices_per_axis}")
 
     while _np.any(ret_array <= 0):
         prd = _np.prod(ret_array[_np.where(ret_array > 0)])  # returns 1 for zero-length array
         if (num_slices < prd) or ((num_slices % prd) > 0):
             raise ValueError(
-                (
-                    "Unable to construct grid of num_slices=%s elements from "
-                    +
-                    "num_slices_per_axis=%s (with max_slices_per_axis=%s)"
-                )
-                %
-                (num_slices, num_slices_per_axis, max_slices_per_axis)
+                f"Unable to construct grid of num_slices={num_slices} elements from "
+                f"num_slices_per_axis={num_slices_per_axis}"
+                f" (with max_slices_per_axis={max_slices_per_axis})"
             )
         ridx = _np.where(ret_array <= 0)
         f = shape_factors(num_slices // prd, ridx[0].shape[0])[::-1]
@@ -634,15 +624,13 @@ def convert_halo_to_array_form(halo, ndim):
 
     if halo.shape[0] != ndim:
         raise ValueError(
-            "Got halo.shape=%s, expecting halo.shape=(%s, 2)"
-            %
-            (halo.shape, ndim)
+            f"Got halo.shape={halo.shape}, expecting halo.shape=({ndim}, 2)"
         )
 
     return halo
 
 
-class ShapeSplitter(object):
+class ShapeSplitter:
 
     """
     Implements array shape splitting. There are three main (top-level) methods:
@@ -687,7 +675,7 @@ class ShapeSplitter(object):
 
     #: Class attribute indicating list of valid values for :attr:`tile_bound_policy`.
     #: See :data:`ARRAY_BOUNDS` and :data:`NO_BOUNDS`.
-    valid_tile_bounds_policies = [ARRAY_BOUNDS, NO_BOUNDS]
+    valid_tile_bounds_policies = (ARRAY_BOUNDS, NO_BOUNDS)
 
     def __init__(
         self,
@@ -1026,9 +1014,8 @@ class ShapeSplitter(object):
         """
         if self.tile_bounds_policy not in self.valid_tile_bounds_policies:
             raise ValueError(
-                "Got self.tile_bounds_policy=%s, which is not in %s."
-                %
-                (self.tile_bounds_policy, self.valid_tile_bounds_policies)
+                f"Got self.tile_bounds_policy={self.tile_bounds_policy},"
+                f" which is not in {self.valid_tile_bounds_policies}."
             )
 
     def check_consistent_parameter_dimensions(self):
@@ -1038,55 +1025,55 @@ class ShapeSplitter(object):
 
         :raises ValueError: For inconsistent parameter dimensions.
         """
-        if self.indices_per_axis is not None:
-            if len(self.indices_per_axis) > len(self.array_shape):
-                raise ValueError(
-                    "Got len(self.indices_per_axis)=%s > len(self.array_shape)=%s, should be equal."
-                    %
-                    (len(self.indices_per_axis), len(self.array_shape))
-                )
-        if self.split_num_slices_per_axis is not None:
-            if len(self.split_num_slices_per_axis) > len(self.array_shape):
-                raise ValueError(
-                    (
-                        "Got len(self.split_num_slices_per_axis)=%s > len(self.array_shape)=%s,"
-                        +
-                        " should be equal."
-                    )
-                    %
-                    (len(self.split_num_slices_per_axis), len(self.array_shape))
-                )
-        if self.tile_shape is not None:
-            if len(self.tile_shape) != len(self.array_shape):
-                raise ValueError(
-                    "Got len(self.tile_shape)=%s > len(self.array_shape)=%s, should be equal."
-                    %
-                    (len(self.tile_shape), len(self.array_shape))
-                )
+        if (
+            (self.indices_per_axis is not None)
+            and
+            (len(self.indices_per_axis) > len(self.array_shape))
+        ):
+            raise ValueError(
+                f"Got len(self.indices_per_axis)={len(self.indices_per_axis)}"
+                f" > len(self.array_shape)={len(self.array_shape)}, should be equal."
+            )
+        if (
+            (self.split_num_slices_per_axis is not None)
+            and
+            (len(self.split_num_slices_per_axis) > len(self.array_shape))
+        ):
+            raise ValueError(
+                f"Got len(self.split_num_slices_per_axis)={len(self.split_num_slices_per_axis)}"
+                f" > len(self.array_shape)={len(self.array_shape)}, should be equal."
+            )
+        if (self.tile_shape is not None) and (len(self.tile_shape) != len(self.array_shape)):
+            raise ValueError(
+                f"Got len(self.tile_shape)={len(self.tile_shape)}"
+                f" > len(self.array_shape)={len(self.array_shape)}, should be equal."
+            )
 
-        if self.sub_tile_shape is not None:
-            if len(self.sub_tile_shape) != len(self.array_shape):
-                raise ValueError(
-                    "Got len(self.sub_tile_shape)=%s > len(self.array_shape)=%s, should be equal."
-                    %
-                    (len(self.sub_tile_shape), len(self.array_shape))
-                )
+        if (
+            (self.sub_tile_shape is not None)
+            and
+            (len(self.sub_tile_shape) != len(self.array_shape))
+        ):
+            raise ValueError(
+                f"Got len(self.sub_tile_shape)={len(self.sub_tile_shape)}"
+                f" > len(self.array_shape)={len(self.array_shape)}, should be equal."
+            )
 
-        if self.max_tile_shape is not None:
-            if len(self.max_tile_shape) != len(self.array_shape):
-                raise ValueError(
-                    "Got len(self.max_tile_shape)=%s > len(self.array_shape)=%s, should be equal."
-                    %
-                    (len(self.max_tile_shape), len(self.array_shape))
-                )
+        if (
+            (self.max_tile_shape is not None)
+            and
+            (len(self.max_tile_shape) != len(self.array_shape))
+        ):
+            raise ValueError(
+                f"Got len(self.max_tile_shape)={len(self.max_tile_shape)}"
+                f" > len(self.array_shape)={len(self.array_shape)}, should be equal."
+            )
 
-        if self.array_start is not None:
-            if len(self.array_start) != len(self.array_shape):
-                raise ValueError(
-                    "Got len(self.array_start)=%s > len(self.array_shape)=%s, should be equal."
-                    %
-                    (len(self.array_start), len(self.array_shape))
-                )
+        if (self.array_start is not None) and (len(self.array_start) != len(self.array_shape)):
+            raise ValueError(
+                f"Got len(self.array_start)={len(self.array_start)}"
+                f" > len(self.array_shape)={len(self.array_shape)}, should be equal."
+            )
 
     def check_consistent_parameter_grouping(self):
         """
@@ -1111,11 +1098,11 @@ class ShapeSplitter(object):
             parameter_groups["max_tile_bytes"] = \
                 {"self.max_tile_bytes": self.max_tile_bytes}
         if self.max_tile_shape is not None:
-            if "max_tile_bytes" not in parameter_groups.keys():
+            if "max_tile_bytes" not in parameter_groups:
                 parameter_groups["max_tile_bytes"] = {}
             parameter_groups["max_tile_bytes"]["self.max_tile_shape"] = self.max_tile_shape
         if self.sub_tile_shape is not None:
-            if "max_tile_bytes" not in parameter_groups.keys():
+            if "max_tile_bytes" not in parameter_groups:
                 parameter_groups["max_tile_bytes"] = {}
             parameter_groups["max_tile_bytes"]["self.sub_tile_shape"] = self.sub_tile_shape
 
@@ -1132,7 +1119,7 @@ class ShapeSplitter(object):
                     "\n".join(
                         [
                             (
-                                ("Group %18s: " % ("'%s'" % group_key))
+                                f"Group {group_key!r:>18}: "
                                 +
                                 str(parameter_groups[group_key])
                             )
@@ -1251,11 +1238,11 @@ class ShapeSplitter(object):
                     _np.array(
                         _np.unravel_index(
                             _np.arange(0, _np.prod(self.split_shape)),
-                            self.split_shape if self.split_shape is not None else tuple()
+                            self.split_shape if self.split_shape is not None else ()
                         )
                     ).T
                 ],
-                dtype=[("%d" % d, "object") for d in range(len(self.split_shape))]
+                dtype=[(f"{d:d}", "object") for d in range(len(self.split_shape))]
             ).reshape(self.split_shape)
 
         return ret
@@ -1303,11 +1290,11 @@ class ShapeSplitter(object):
                     _np.array(
                         _np.unravel_index(
                             _np.arange(0, _np.prod(self.split_shape)),
-                            self.split_shape if self.split_shape is not None else tuple()
+                            self.split_shape if self.split_shape is not None else ()
                         )
                     ).T
                 ],
-                dtype=[("%d" % d, "2int64") for d in range(len(self.split_shape))]
+                dtype=[(f"{d:d}", "2int64") for d in range(len(self.split_shape))]
             ).reshape(self.split_shape)
 
         return ret
@@ -1533,7 +1520,7 @@ Initialises parameters which define a split.
 
 .. seealso:: :ref:`array_split-examples`
 
-""" % (
+""" % (  # noqa: UP031
     _array_shape_param_doc,
     (
         _ShapeSplitter__init__params_doc
@@ -1573,7 +1560,7 @@ Splits specified :samp:`{array_shape}` in tiles, returns array of :obj:`slice` t
    :ref:`array_split-examples`
 
 
-""" % (
+""" % (  # noqa: UP031
         _array_shape_param_doc,
         (
             _ShapeSplitter__init__params_doc
@@ -1599,7 +1586,7 @@ def array_split(
     halo=None
 ):
     "To be replaced."
-    return list(
+    return [
         ary[slyce]
         for slyce in
         shape_split(
@@ -1615,7 +1602,7 @@ def array_split(
             halo=halo,
             tile_bounds_policy=ARRAY_BOUNDS
         ).flatten().tolist()
-    )
+    ]
 
 
 array_split.__doc__ =\

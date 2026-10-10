@@ -24,17 +24,16 @@ Classes and Functions
 
 """
 # pylint: disable=unused-import
-from __future__ import absolute_import
-import sys as _sys
-import re as _re
-import unittest as _unittest
 import doctest as _doctest
 import os.path
+import re as _re
+import unittest as _unittest
+
 import array_split as _array_split
 from array_split import split as _split
 
-from .license import license as _license, copyright as _copyright, version as _version
-from .split_test import SplitTest  # noqa: F401,F403
+from .license import copyright as _copyright, license as _license, version as _version
+from .split_test import SplitTest  # noqa: F401
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
@@ -53,15 +52,11 @@ class MultiPlatformAnd23Checker(_doctest_OuputChecker):
 
     def check_output(self, want, got, optionflags):
         """
-        For python-2 replaces "124L" with "124". For python 2 and 3,
-        replaces :samp:`", dtype=int64)"` with :samp:`")"`.
+        Replaces :samp:`", dtype=int64)"` with :samp:`")"`.
 
         See :meth:`doctest.OutputChecker.check_output`.
 
         """
-        if _sys.version_info[0] <= 2:
-            got = _re.sub("([0-9]+)L", "\\1", got)
-
         got = _re.sub(", dtype=int64\\)", ")", got)
 
         return _doctest_OuputChecker.check_output(self, want, got, optionflags)

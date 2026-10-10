@@ -2,8 +2,8 @@
 To be replaced.
 """
 # pylint: disable=redefined-builtin
-from __future__ import absolute_import
 from importlib.resources import files
+
 from . import _version
 
 __copyright__ = files("array_split").joinpath("copyright.txt").read_bytes().decode()
@@ -78,6 +78,6 @@ Functions
    copyright - Returns :mod:`array_split` copyright string.
    version - Returns :mod:`array_split` version string.
 
-""" % (license(), copyright())
+""" % (license(), copyright())  # noqa: UP031
 
 __all__ = [s for s in dir() if not s.startswith('_')]

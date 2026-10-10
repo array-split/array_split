@@ -60,11 +60,13 @@ Attributes
 
 
 """
-from __future__ import absolute_import
-from .license import license as _license, copyright as _copyright
-from . import split  # noqa: E402,F401
-from .split import array_split, shape_split, ShapeSplitter  # noqa: E402,F401
-from . import _version
+
+from . import (
+    _version,
+    split,
+)
+from .license import copyright as _copyright, license as _license
+from .split import ShapeSplitter, array_split, shape_split  # noqa: F401
 
 __author__ = "Shane J. Latham"
 __license__ = _license()

@@ -23,18 +23,24 @@ Classes
 
 
 """
-from __future__ import absolute_import
-import array_split as _array_split
 import numpy as _np
 
-from .license import license as _license, copyright as _copyright, version as _version
-from . import unittest as _unittest
-from . import logging as _logging
+import array_split as _array_split
 
-from .split import ShapeSplitter, array_split, shape_split
-from .split import calculate_num_slices_per_axis, shape_factors
-from .split import calculate_tile_shape_for_max_bytes, pad_with_object, convert_halo_to_array_form
-from .split import ARRAY_BOUNDS, NO_BOUNDS
+from . import logging as _logging, unittest as _unittest
+from .license import copyright as _copyright, license as _license, version as _version
+from .split import (
+    ARRAY_BOUNDS,
+    NO_BOUNDS,
+    ShapeSplitter,
+    array_split,
+    calculate_num_slices_per_axis,
+    calculate_tile_shape_for_max_bytes,
+    convert_halo_to_array_form,
+    pad_with_object,
+    shape_factors,
+    shape_split,
+)
 
 __author__ = "Shane J. Latham"
 __license__ = _license()
@@ -1424,7 +1430,7 @@ class SplitTest(_unittest.TestCase):
             split[4, 0].tolist()
         )
         for i in range(5, 8):
-            for j in range(0, 12):
+            for j in range(12):
                 self.assertEqual(
                     slice(5, 5, None),
                     split[i, j].tolist()[0]
@@ -1437,7 +1443,7 @@ class SplitTest(_unittest.TestCase):
                     ),
                     split[i, j].tolist()
                 )
-        for i in range(0, 5):
+        for i in range(5):
             for j in range(12, 15):
                 self.assertEqual(
                     slice(12, 12, None),
